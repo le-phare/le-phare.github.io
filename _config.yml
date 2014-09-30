@@ -1,0 +1,26 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+title:            Faros
+tagline:          'The Faros blog'
+description:      ''
+url:              http://faros.lephare.com
+baseurl:          /
+
+author:
+  name:           'Le Phare'
+  url:            http://www.lephare.com
+
+paginate:         5
+
+# Custom vars
+version:          2.1.0
+
+github:
+  repo:           https://github.com/le-phare/faros
