@@ -11,7 +11,7 @@ title:            Faros
 tagline:          'The Faros blog'
 description:      ''
 url:              http://le-phare.github.io
-baseurl:          /faros
+baseurl:          /faros/
 
 author:
   name:           'Le Phare'
