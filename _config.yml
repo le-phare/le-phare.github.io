@@ -10,7 +10,7 @@ relative_permalinks: true
 title:            Faros
 tagline:          'The Faros blog'
 description:      ''
-url:              http://faros.lephare.com
+url:              http://le-phare.github.io/faros
 baseurl:          /
 
 author:
