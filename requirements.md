@@ -16,7 +16,7 @@ title: Hosting requirements
 ## Software requirements
 
  - PHP >= 5.4.1
- - Apache >= 2.4
+ - Apache >= 2.2
  - MySQL >= 5.5
  - git
  - curl
