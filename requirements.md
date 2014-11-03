@@ -64,6 +64,10 @@ apc.ttl=3600
 apc.user_ttl=3600
 {% endhighlight %}
 
+### PHP/APC configuration
+
+The APC opcode cache is shared between all child process of the master process. So to avoid cache collision we need a **master process per vhost**. 
+
 ### Apache modules
 
    * mod_rewrite On
