@@ -75,6 +75,10 @@ The APC opcode cache is shared between all child process of the master process. 
    * mod_expires On
    * mod_deflate On
 
+### Apache configuration
+
+Options FollowSymLinks
+
 ## System requirements
 
  - SSH :
