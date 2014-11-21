@@ -110,7 +110,7 @@ Options FollowSymLinks
  * github.com (beware of their [ip range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
  * bitbucket.org
  * packagist.org
- * packagist.lephare-systeme.com
+ * toran.lephare-systeme.com
  * getcomposer.org
  * v2.lephare-systeme.com
 
