@@ -15,7 +15,7 @@ title: Hosting requirements
 
 ## Software requirements
 
- - PHP >= 5.4.1
+ - PHP >= 5.4.8
  - Apache >= 2.2
  - MySQL >= 5.5
  - git
@@ -47,16 +47,16 @@ session.autostart = Off
 date.timezone = Europe/Paris
 {% endhighlight %}
 
-### APC settings (system wide)
-
-{% highlight ini %}
-apc.shm_size=512M
-{% endhighlight %}
-
-### APC settings (vhost)
+### APC cli settings
 
 {% highlight ini %}
 apc.enable_cli = 0
+{% endhighlight %}
+
+### APC web settings
+
+{% highlight ini %}
+apc.shm_size=256M
 apc.num_files_hint=7000
 apc.user_entries_hint=4096
 apc.stat=0
