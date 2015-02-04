@@ -79,6 +79,10 @@ The APC opcode cache is shared between all child process of the master process. 
 
 Options FollowSymLinks
 
+### Mysql configuration
+
+Default collation set to utf8_unicode_ci
+
 ## System requirements
 
  - SSH :
@@ -89,6 +93,7 @@ Options FollowSymLinks
  - crontab enabled and managable by the system user
  - access to Apache log
  - user shell set to /bin/bash
+
 
 ## Network requirements
 
