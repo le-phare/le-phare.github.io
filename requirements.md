@@ -15,7 +15,7 @@ title: Hosting requirements
 
 ## Software requirements
 
- - PHP >= 5.4.8
+ - PHP >= 5.4
  - Apache >= 2.2
  - MySQL >= 5.5
  - git
@@ -23,10 +23,10 @@ title: Hosting requirements
 
 ### PHP extensions
 
-   * apc >= 3.0.17
    * ctype
    * curl
    * gd
+   * imagick
    * iconv
    * intl
    * json
@@ -36,7 +36,7 @@ title: Hosting requirements
    * posix
    * tokenizer
    * xml
-
+   
 ### PHP settings
 
 {% highlight ini %}
@@ -47,13 +47,20 @@ session.autostart = Off
 date.timezone = Europe/Paris
 {% endhighlight %}
 
-### APC cli settings
+### PHP OPCode cache
+
+   * PHP <= 5.4 : APC 
+   * PHP >= 5.5 : OPcache
+  
+#### APC Settings
+
+#### cli settings
 
 {% highlight ini %}
 apc.enable_cli = 0
 {% endhighlight %}
 
-### APC web settings
+#### web settings
 
 {% highlight ini %}
 apc.shm_size=256M
@@ -64,9 +71,9 @@ apc.ttl=3600
 apc.user_ttl=3600
 {% endhighlight %}
 
-### PHP/APC configuration
+#### Notes
 
-The APC opcode cache is shared between all child process of the master process. So to avoid cache collision we need a **master process per vhost**.
+Both APC and OPcache share their cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
 
 ### Apache modules
 
@@ -93,7 +100,7 @@ Default collation set to utf8\_unicode\_ci
  - crontab enabled and managable by the system user
  - access to Apache log
  - user shell set to /bin/bash
-
+ - FTP account with specific credentials on shared/app/Resources/exchange
 
 ## Network requirements
 
