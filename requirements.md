@@ -81,7 +81,7 @@ Options FollowSymLinks
 
 ### Mysql configuration
 
-Default collation set to utf8_unicode_ci
+Default collation set to utf8\_unicode\_ci
 
 ## System requirements
 
