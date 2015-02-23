@@ -5,18 +5,18 @@ title: Hosting requirements
 
 ## Hardware requirements
 
- * CPU >= 2 core
- * RAM >= 2GB
- * Project Storage >=20GB
+ * CPU = 4 core
+ * RAM = 4GB
+ * Project Storage = 50GB
 
 ## Recommanded Operating System
 
- * Linux Debian Wheezy (>=7.0)
+ * Linux Debian Wheezy
 
 ## Software requirements
 
- - PHP >= 5.4
- - Apache >= 2.2
+ - PHP = 5.5
+ - Apache = 2.4
  - MySQL >= 5.5
  - git
  - curl
