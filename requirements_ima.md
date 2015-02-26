@@ -21,7 +21,7 @@ title: Hosting requirements
  - git
  - curl
 
-# How to install PHP 5.5 on Wheezy: 
+How to install PHP 5.5 on Wheezy: 
   - Edit : /etc/apt/sources.list
   - Add this lines :
 
