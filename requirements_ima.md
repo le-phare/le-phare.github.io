@@ -16,6 +16,10 @@ title: Hosting requirements
 ## Software requirements
 
  - PHP = 5.5
+ - Apache = 2.2
+ - MySQL = 5.5
+ - git
+ - curl
 
 # How to install PHP 5.5 on Wheezy: 
   - Edit : /etc/apt/sources.list
