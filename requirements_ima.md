@@ -3,7 +3,7 @@ layout: hidden
 title: Hosting requirements
 ---
 
-## Hardware requirements
+## Hardware requirements for Web Server
 
  * CPU = 4 core
  * RAM = 4 GB
