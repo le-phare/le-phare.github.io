@@ -17,7 +17,6 @@ title: Hosting requirements
 
  - PHP = 5.5
  - Apache = 2.2
- - MySQL = 5.5
  - git : Command for installation : sudo apt-get install git
  - curl
 
@@ -87,10 +86,6 @@ OPcache share his cache between all child process of a PHP master process. So to
 ### Apache configuration
 
 Options FollowSymLinks
-
-### Mysql configuration
-
-Default collation set to utf8\_unicode\_ci
 
 ## System requirements
 
