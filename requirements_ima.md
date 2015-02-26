@@ -18,7 +18,7 @@ title: Hosting requirements
  - PHP = 5.5
  - Apache = 2.2
  - MySQL = 5.5
- - git
+ - git : : Command for installation : sudo apt-get install git
  - curl
 
 How to install PHP 5.5 on Wheezy: 
@@ -34,11 +34,6 @@ deb-src http://packages.dotdeb.org wheezy-php55 all
  - Udpate sources : sudo apt-get update
  - Install package : sudo apt-get install php5
  - Verify installation package : php -v (it should return PHP 5.5.X)
-
- - Apache = 2.2
- - MySQL = 5.5
- - Git : Command for installation : sudo apt-get install git
- - Curl
 
 ### PHP extensions
 
