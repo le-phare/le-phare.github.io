@@ -24,10 +24,10 @@ title: Hosting requirements
 # How to install PHP 5.5 on Wheezy: 
   - Edit : /etc/apt/sources.list
   - Add this lines :
- 
-     #php 5.5
-     deb http://packages.dotdeb.org wheezy-php55 all
-     deb-src http://packages.dotdeb.org wheezy-php55 all
+    
+    #php 5.5
+    deb http://packages.dotdeb.org wheezy-php55 all
+    deb-src http://packages.dotdeb.org wheezy-php55 all
   
 - Udpate sources : sudo apt-get update
   - Install package : sudo apt-get install php5
