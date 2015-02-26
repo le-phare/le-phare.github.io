@@ -6,8 +6,8 @@ title: Hosting requirements
 ## Hardware requirements
 
  * CPU = 4 core
- * RAM = 4GB
- * Project Storage = 50GB
+ * RAM = 4 GB
+ * Project Storage = 100 GB
 
 ## Recommanded Operating System
 
@@ -16,28 +16,41 @@ title: Hosting requirements
 ## Software requirements
 
  - PHP = 5.5
- - Apache = 2.4
- - MySQL >= 5.5
- - git
- - curl
+
+# How to install PHP 5.5 on Wheezy: 
+  - Edit : /etc/apt/sources.list
+  - Add this lines : 
+     #php 5.5
+     deb http://packages.dotdeb.org wheezy-php55 all
+     deb-src http://packages.dotdeb.org wheezy-php55 all
+  - Udpate sources : sudo apt-get update
+  - Install package : sudo apt-get install php5
+  - Verify installation package : php -v (it should return PHP 5.5.X)
+
+ - Apache = 2.2
+ - MySQL = 5.5
+ - Git : Command for installation : sudo apt-get install git
+ - Curl
 
 ### PHP extensions
 
    * ctype
-   * curl
-   * gd
-   * imagick
+   * curl : Command for installation : sudo apt-get install curl php5-curl
+   * gd : Command for installation : sudo apt-get install php5-gd
+   * imagick : Command for installation : sudo apt-get install php5-imagick
    * iconv
-   * intl
-   * json
+   * intl : Command for installation : sudo apt-get install php5-intl
+   * json : Command for installation : sudo apt-get install php5-common 
    * mbstring
-   * pdo
+   * pdo : Command for installation : sudo apt-get install php5-mysql
    * pdo-mysql
    * posix
    * tokenizer
    * xml
    
 ### PHP settings
+
+Edit /etc/php5/fpm/php.ini
 
 {% highlight ini %}
 short_open_tag = Off
@@ -49,33 +62,19 @@ date.timezone = Europe/Paris
 
 ### PHP OPCode cache
 
-   * PHP <= 5.4 : APC 
-   * PHP >= 5.5 : OPcache
+   * PHP = 5.5 : OPcache
   
-#### APC Settings
+#### PHP OPCode Settings
 
-#### cli settings
-
-{% highlight ini %}
-apc.enable_cli = 0
-{% endhighlight %}
-
-#### web settings
-
-{% highlight ini %}
-apc.shm_size=256M
-apc.num_files_hint=7000
-apc.user_entries_hint=4096
-apc.stat=0
-apc.ttl=3600
-apc.user_ttl=3600
-{% endhighlight %}
+   * Work in progress
 
 #### Notes
 
-Both APC and OPcache share their cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
+OPcache share his cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
 
 ### Apache modules
+
+   - Edit /etc/apache2/apache2.conf
 
    * mod_rewrite On
    * mod_headers On
