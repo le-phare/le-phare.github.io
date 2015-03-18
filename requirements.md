@@ -20,6 +20,8 @@ title: Hosting requirements
  - MySQL >= 5.5
  - git
  - curl
+ - pngcrush
+ - jpegtran (libjpeg-progs in debian)
 
 ### PHP extensions
 
