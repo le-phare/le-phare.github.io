@@ -17,7 +17,7 @@ title: Hosting requirements for DataBase Server
 
  - PHP = 5.4
  - Apache = 2.2
- - MySQL = 5.5
+ - MySQL = 5.5 OR postgreSQL 9.4
 
 ### Mysql configuration
 
