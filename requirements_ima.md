@@ -46,6 +46,7 @@ deb-src http://packages.dotdeb.org wheezy-php55 all
    * mbstring
    * pdo : Command for installation : sudo apt-get install php5-mysql
    * pdo-mysql
+   * php5-pgsql
    * posix
    * tokenizer
    * xml
@@ -65,6 +66,7 @@ date.timezone = Europe/Paris
 ### PHP OPCode cache
 
    * PHP = 5.5 : OPcache
+   * PHP = 5.5 : APCu
   
 #### PHP OPCode Settings
 
