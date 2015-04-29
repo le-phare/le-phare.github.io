@@ -19,6 +19,7 @@ title: Hosting requirements
  - Apache = 2.2
  - git : Command for installation : sudo apt-get install git
  - curl
+ - vim
 
 How to install PHP 5.5 on Wheezy: 
   - Edit : /etc/apt/sources.list
