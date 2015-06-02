@@ -124,7 +124,7 @@ Options FollowSymLinks
  * packagist.org
  * toran.lephare-systeme.com
  * getcomposer.org
- * v2.lephare-systeme.com
+ * rollbar.com
 
 ### SSH ~/.ssh/authorized_keys
 
