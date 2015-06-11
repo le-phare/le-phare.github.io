@@ -127,7 +127,7 @@ Default collation set to utf8\_unicode\_ci
  * packagist.org
  * toran.lephare-systeme.com
  * getcomposer.org
- * v2.lephare-systeme.com
+ * api.rollbar.com
 
 ### SSH ~/.ssh/authorized_keys
 
