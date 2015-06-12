@@ -20,6 +20,7 @@ title: Hosting requirements
  - git : Command for installation : sudo apt-get install git
  - curl
  - vim
+ - setfacl
 
 How to install PHP 5.5 on Wheezy: 
   - Edit : /etc/apt/sources.list
