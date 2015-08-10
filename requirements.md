@@ -97,7 +97,7 @@ Default collation set to utf8\_unicode\_ci
  - SSH :
    * Allow key authentification
    * Allow agent forwarding
- - logrotate on shared/app/logs/prod.log
+ - logrotate on shared/app/logs/*.log
  - Apache DOCUMENT_ROOT on current/web/
  - crontab enabled and managable by the system user
  - access to Apache log
