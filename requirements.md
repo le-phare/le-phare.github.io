@@ -11,7 +11,7 @@ title: Hosting requirements
 
 ## Recommanded Operating System
 
- * Last stable [Debian](https://www.debian.org) (currently Debian Jessie) with [dotdeb.org](https://www.dotdeb.org/instructions/) repository installed.
+ * Last stable [Debian](https://www.debian.org) (currently Debian Jessie)
 
 ## Software requirements
 
