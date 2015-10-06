@@ -11,13 +11,13 @@ title: Hosting requirements
 
 ## Recommanded Operating System
 
- * Linux Debian Wheezy (>=7.0)
+ * Last stable debian (currently Debian Jessie)
 
 ## Software requirements
 
- - PHP >= 5.4
- - Apache >= 2.2
- - MySQL >= 5.5
+ - PHP = 5.6
+ - Apache = 2.4
+ - MySQL = 5.6
  - git
  - curl
  - pngcrush
@@ -38,6 +38,8 @@ title: Hosting requirements
    * posix
    * tokenizer
    * xml
+   * opcache
+   * apcu
    
 ### PHP settings
 
@@ -48,34 +50,31 @@ register_globals = Off
 session.autostart = Off
 date.timezone = Europe/Paris
 {% endhighlight %}
-
-### PHP OPCode cache
-
-   * PHP <= 5.4 : APC 
-   * PHP >= 5.5 : OPcache
   
-#### APC Settings
-
-#### cli settings
+#### OPcache Settings
 
 {% highlight ini %}
-apc.enable_cli = 0
+opcache.revalidate_freq=0
+opcache.validate_timestamps=0
+opcache.max_accelerated_files=7963
+opcache.memory_consumption=192
+opcache.interned_strings_buffer=16
+opcache.fast_shutdown=1
 {% endhighlight %}
 
-#### web settings
+#### APCu Settings
 
 {% highlight ini %}
 apc.shm_size=256M
-apc.num_files_hint=7000
-apc.user_entries_hint=4096
-apc.stat=0
-apc.ttl=3600
-apc.user_ttl=3600
+apc.ttl=7200
+apc.enable_cli=1
+apc.gc_ttl=3600
+apc.entries_hint=4096
 {% endhighlight %}
 
 #### Notes
 
-Both APC and OPcache share their cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
+Both APCu and OPcache share their cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
 
 ### Apache modules
 
