@@ -49,6 +49,8 @@ magic_quotes_gpc = Off
 register_globals = Off
 session.autostart = Off
 date.timezone = Europe/Paris
+upload_max_filesize = 32M
+post_max_size = 33M
 {% endhighlight %}
   
 #### OPcache Settings
