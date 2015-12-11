@@ -121,8 +121,8 @@ Default collation set to utf8\_unicode\_ci
 
 ### HTTP/HTTPS output
 
- * github.com (beware of their [ip range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
- * bitbucket.org
+ * github.com ([IP range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
+ * bitbucket.org ([IP list](https://blog.bitbucket.org/2015/12/03/making-bitbuckets-network-better-faster-and-ready-to-grow))
  * packagist.org
  * toran.lephare-systeme.com
  * getcomposer.org
