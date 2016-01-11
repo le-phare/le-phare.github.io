@@ -111,7 +111,7 @@ Default collation set to utf8\_unicode\_ci
 
 ### SSH inputs
 
- * 92.88.241.100
+ * 212.198.41.172
  * 109.190.225.66
 
 ### SSH outputs
