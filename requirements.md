@@ -41,7 +41,7 @@ title: Hosting requirements
    
 ### PHP settings
 
-Session stored in memcache
+User sessions stored in **memcached**.
 
 {% highlight ini %}
 short_open_tag = Off
