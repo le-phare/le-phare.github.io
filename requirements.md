@@ -17,18 +17,16 @@ title: Hosting requirements
 
  - PHP = 5.6
  - Apache = 2.4
- - MySQL = 5.5
+ - PostgreSQL = 9.4
+ - Memcached
  - git
  - curl
- - pngcrush
- - jpegtran (libjpeg-progs in debian)
 
 ### PHP extensions
 
    * ctype
    * curl
    * gd
-   * imagick
    * iconv
    * intl
    * json
@@ -39,9 +37,11 @@ title: Hosting requirements
    * tokenizer
    * xml
    * opcache
-   * apcu
+   * memcached
    
 ### PHP settings
+
+Session stored in memcache
 
 {% highlight ini %}
 short_open_tag = Off
@@ -64,19 +64,9 @@ opcache.interned_strings_buffer=16
 opcache.fast_shutdown=1
 {% endhighlight %}
 
-#### APCu Settings
-
-{% highlight ini %}
-apc.shm_size=256M
-apc.ttl=7200
-apc.enable_cli=1
-apc.gc_ttl=3600
-apc.entries_hint=4096
-{% endhighlight %}
-
 #### Notes
 
-Both APCu and OPcache share their cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
+OPcache share the cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
 
 ### Apache modules
 
@@ -89,10 +79,6 @@ Both APCu and OPcache share their cache between all child process of a PHP maste
 
 Options FollowSymLinks
 
-### Mysql configuration
-
-Default collation set to utf8\_unicode\_ci
-
 ## System requirements
 
  - SSH :
@@ -101,7 +87,7 @@ Default collation set to utf8\_unicode\_ci
  - logrotate on shared/app/logs/*.log
  - Apache DOCUMENT_ROOT on current/web/
  - crontab enabled and managable by the system user
- - access to Apache log
+ - access to Apache logs
  - user shell set to /bin/bash
  - FTP account with specific credentials on shared/app/Resources/exchange
 
