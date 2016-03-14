@@ -38,6 +38,7 @@ title: Hosting requirements
    * xml
    * opcache
    * memcached
+   * imagick
    
 ### PHP settings
 
