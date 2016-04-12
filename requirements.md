@@ -32,7 +32,7 @@ title: Hosting requirements
    * json
    * mbstring
    * pdo
-   * pdo-mysql
+   * pdo-pgsql
    * posix
    * tokenizer
    * xml
