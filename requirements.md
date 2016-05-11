@@ -33,12 +33,14 @@ title: Hosting requirements
    * mbstring
    * pdo
    * pdo-pgsql
+   * pgsql
    * posix
    * tokenizer
    * xml
    * opcache
    * memcached
    * imagick
+   * ssh2
    
 ### PHP settings
 
