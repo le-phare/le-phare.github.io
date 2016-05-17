@@ -80,7 +80,16 @@ OPcache share the cache between all child process of a PHP master process. So to
 
 ### Apache configuration
 
+{% highlight %}
 Options FollowSymLinks
+{% endhighlight %}
+
+#### Recommended configuration
+
+{% highlight %}
+ServerSignature Off
+ServerTokens Prod
+{% endhighlight %}
 
 ## System requirements
 
