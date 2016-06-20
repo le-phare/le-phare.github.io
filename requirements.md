@@ -15,7 +15,7 @@ title: Hosting requirements
 
 ## Software requirements
 
- - PHP >= 5.6
+ - PHP >= 7.0 recommended, 5.6 otherwise
  - Apache = 2.4
  - PostgreSQL >= 9.5
  - Memcached
