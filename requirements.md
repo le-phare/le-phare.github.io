@@ -41,7 +41,7 @@ title: Hosting requirements
    * memcached
    * imagick
    * ssh2
-   
+
 ### PHP settings
 
 User sessions stored in **memcached**.
@@ -55,7 +55,7 @@ date.timezone = Europe/Paris
 upload_max_filesize = 32M
 post_max_size = 33M
 {% endhighlight %}
-  
+
 #### OPcache Settings
 
 {% highlight ini %}
@@ -80,13 +80,13 @@ OPcache share the cache between all child process of a PHP master process. So to
 
 ### Apache configuration
 
-{% highlight %}
+{% highlight shell %}
 Options FollowSymLinks
 {% endhighlight %}
 
 #### Recommended configuration
 
-{% highlight %}
+{% highlight shell %}
 ServerSignature Off
 ServerTokens Prod
 {% endhighlight %}
