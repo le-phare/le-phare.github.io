@@ -116,16 +116,22 @@ ServerTokens Prod
 
  * github.com (beware of their [ip range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
  * bitbucket.org
+ * gitlab.com
 
 ### HTTP/HTTPS output
 
  * github.com ([IP range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
  * bitbucket.org ([IP list](https://blog.bitbucket.org/2015/12/03/making-bitbuckets-network-better-faster-and-ready-to-grow))
+ * gitlab.com
  * packagist.org
  * toran.lephare-systeme.com
  * getcomposer.org
  * api.rollbar.com
+ * faros.lephare.com
 
-### SSH ~/.ssh/authorized_keys
+### SSH Keys
 
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjmQLp9ANaDEX0u0awszEKK/ht5Kokyn6NZYqNjXt8hd3Hu91QXbAie9/jHotZIulIdlny30JuUGYzmoQ5UgAwBXIZmCzryyPT9INA32vlgIyvsC+6dj3YDH7WmFkDQyqxhKGgp5BHqb04F4IVJLO38qfCSOmBOJCyKtwEEA+PhICu1nlu7zENMUYzIZtZPL7lwWixSpTQuzFoSRjI5PkaK/SVSvct7BgFLHplcdSSDb769U7m62Lgwzzx5YBJwScECxJsyjXVKdWLGgvBPObxw4eML1K4LEnNQcz+zNkI6Bd+hfqubZcoS1TuGi9W+c8Mv6LYYe0lIA2IQaGwH4Zr dev@lephare.com
+```shell
+curl -sL http://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+```
