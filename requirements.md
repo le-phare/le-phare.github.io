@@ -44,7 +44,7 @@ title: Hosting requirements
 
 ### PHP settings
 
-User sessions stored in **memcached**.
+PHP sessions stored in **memcached**.
 
 {% highlight ini %}
 short_open_tag = Off
@@ -68,8 +68,6 @@ opcache.fast_shutdown=1
 {% endhighlight %}
 
 #### Notes
-
-OPcache share the cache between all child process of a PHP master process. So to avoid cache collision we need a **master process per vhost**.
 
 ### Apache modules
 
