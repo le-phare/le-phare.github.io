@@ -80,6 +80,7 @@ opcache.fast_shutdown=1
 
 {% highlight shell %}
 Options FollowSymLinks
+AllowOverride AuthConfig Limit FileInfo Indexes Options=Indexes,FollowSymLinks
 {% endhighlight %}
 
 #### Recommended configuration
