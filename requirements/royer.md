@@ -74,6 +74,11 @@ opcache.fast_shutdown=1
 
 #### Notes
 
+### SSL Certificate
+
+Valid SSL certificates for production and staging environment. 
+https://letsencrypt.org/
+
 ### Apache modules
 
    * mod_rewrite On
