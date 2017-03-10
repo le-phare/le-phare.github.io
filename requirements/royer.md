@@ -5,9 +5,9 @@ title: Hosting requirements Royer
 
 ## Hardware requirements
 
- * CPU >= 2 core
- * RAM >= 2GB
- * Project Storage >= 50GB
+ * CPU >= 4 cores
+ * RAM >= 4 GB
+ * Project Storage >= 50 GB
 
 ## Recommanded Operating System
 
