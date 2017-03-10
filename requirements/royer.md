@@ -42,6 +42,7 @@ title: Hosting requirements Royer
    * memcached
    * imagick
    * ssh2
+   * exif
 
 ### PHP settings
 
