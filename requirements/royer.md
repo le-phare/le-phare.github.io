@@ -16,7 +16,7 @@ title: Hosting requirements Royer
 ## Software requirements
 
  - PHP >= 7.0 
- - Apache = 2.4
+ - Apache >= 2.4.17
  - PostgreSQL >= 9.6
  - Memcached
  - ElasticSearch >= 5.2
@@ -80,6 +80,7 @@ opcache.fast_shutdown=1
    * mod_headers On
    * mod_expires On
    * mod_deflate On
+   * mod_http2 On
 
 ### Apache configuration
 
