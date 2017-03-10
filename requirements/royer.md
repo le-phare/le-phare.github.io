@@ -1,24 +1,25 @@
 ---
-layout: page
-title: Hosting requirements
+layout: hidden
+title: Hosting requirements Royer
 ---
 
 ## Hardware requirements
 
  * CPU >= 2 core
  * RAM >= 2GB
- * Project Storage >=20GB
+ * Project Storage >= 50GB
 
 ## Recommanded Operating System
 
- * Last stable [Debian](https://www.debian.org) (currently Debian Jessie)
+ * Last stable [Debian](https://www.debian.org) (currently Debian 8)
 
 ## Software requirements
 
- - PHP >= 7.0 recommended, 5.6 otherwise
+ - PHP >= 7.0 
  - Apache = 2.4
- - PostgreSQL >= 9.5
+ - PostgreSQL >= 9.6
  - Memcached
+ - ElasticSearch >= 5.2
  - git
  - curl
 
@@ -54,6 +55,9 @@ session.autostart = Off
 date.timezone = Europe/Paris
 upload_max_filesize = 32M
 post_max_size = 33M
+memcached.sess_lock_wait_min = 150
+memcached.sess_lock_wait_max = 150
+memcached.sess_lock_retries = 800
 {% endhighlight %}
 
 #### OPcache Settings
