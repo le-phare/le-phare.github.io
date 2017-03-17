@@ -1,6 +1,6 @@
 ---
-layout: page
-title: Hosting requirements
+layout: hidden
+title: Hosting requirements Macif-AETS cashback
 ---
 
 ## Hardware requirements
