@@ -15,7 +15,7 @@ title: Hosting requirements
 
 ## Software requirements
 
- - PHP >= 7.0 recommended, 5.6 otherwise
+ - PHP >= 7.1 recommended, 5.6 otherwise
  - Apache = 2.4
  - PostgreSQL >= 9.5
  - Memcached
@@ -41,10 +41,9 @@ title: Hosting requirements
    * memcached
    * imagick
    * ssh2
+   * apcu
 
 ### PHP settings
-
-PHP sessions stored in **memcached**.
 
 {% highlight ini %}
 short_open_tag = Off
@@ -56,6 +55,18 @@ upload_max_filesize = 32M
 post_max_size = 33M
 {% endhighlight %}
 
+#### Memcached Settings
+
+PHP sessions stored in **memcached**.
+
+{% highlight ini %}
+session.save_handler = memcached
+session.save_path = localhost:11211
+memcached.sess_lock_wait_min = 150
+memcached.sess_lock_wait_max = 150
+memcached.sess_lock_retries = 800
+{% endhighlight %}
+
 #### OPcache Settings
 
 {% highlight ini %}
@@ -63,7 +74,7 @@ opcache.revalidate_freq=0
 opcache.validate_timestamps=0
 opcache.max_accelerated_files=7963
 opcache.memory_consumption=192
-opcache.interned_strings_buffer=16
+opcache.interned_strings_buffer=32
 opcache.fast_shutdown=1
 {% endhighlight %}
 
