@@ -42,6 +42,7 @@ title: Hosting requirements
    * imagick
    * ssh2
    * apcu
+   * apcu-bc
 
 ### PHP settings
 
