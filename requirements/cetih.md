@@ -1,12 +1,13 @@
 ---
 layout: hidden
 title: Hosting requirements CETIH
+version: 1.2
 ---
 
 ## Hardware requirements
 
   - CPU >= 2 core
-  - RAM >= 2GB
+  - RAM >= 4GB
   - Project Storage >= 20GB
 
 ## Recommanded Operating System
@@ -22,7 +23,7 @@ title: Hosting requirements CETIH
   - git
   - [git-lfs](https://git-lfs.github.com/)
   - curl
-  - Elasticsearch >= 5.6
+  - Elasticsearch >= 6.2
   - RabbitMQ >= 3.6
   - Supervisor >= 3.3.2
 
@@ -127,7 +128,7 @@ ServerTokens Prod
 
   - 212.198.41.172
   - 109.190.225.66
-  - 
+  - 37.59.114.65
 
 ### SSH outputs
 
@@ -142,7 +143,6 @@ ServerTokens Prod
   - gitlab.com
   - packagist.org
   - packagist.com
-  - toran.lephare-systeme.com
   - getcomposer.org
   - api.rollbar.com
   - faros.lephare.com
