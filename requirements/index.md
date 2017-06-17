@@ -54,6 +54,8 @@ session.autostart = Off
 date.timezone = Europe/Paris
 upload_max_filesize = 32M
 post_max_size = 33M
+sys_temp_dir = /var/tmp
+upload_dir = /var/tmp
 {% endhighlight %}
 
 #### Memcached Settings
