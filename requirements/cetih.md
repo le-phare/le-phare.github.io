@@ -137,6 +137,7 @@ ServerTokens Prod
   - bitbucket.org ([IP list](https://blog.bitbucket.org/2015/12/03/making-bitbuckets-network-better-faster-and-ready-to-grow))
   - gitlab.com
   - packagist.org
+  - packagist.com
   - toran.lephare-systeme.com
   - getcomposer.org
   - api.rollbar.com
