@@ -23,6 +23,7 @@ title: Hosting requirements CETIH
   - curl
   - Elasticsearch >= 5.4
   - RabbitMQ >= 3.6
+  - Supervisor >= 3.3.2
 
 ### PHP extensions
 
