@@ -21,7 +21,7 @@ title: Hosting requirements CETIH
   - Memcached
   - git
   - curl
-  - Elasticsearch >= 5.4
+  - Elasticsearch >= 5.6
   - RabbitMQ >= 3.6
   - Supervisor >= 3.3.2
 
@@ -125,6 +125,7 @@ ServerTokens Prod
 
   - 212.198.41.172
   - 109.190.225.66
+  - 
 
 ### SSH outputs
 
