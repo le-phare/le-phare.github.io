@@ -124,6 +124,7 @@ ServerTokens Prod
 
  * 212.198.41.172
  * 109.190.225.66
+ * 37.59.114.65
 
 ### SSH outputs
 
@@ -138,7 +139,7 @@ ServerTokens Prod
  * gitlab.com
  * packagist.org
  * packagist.com
- * toran.lephare-systeme.com
+ * repo.packagist.com
  * getcomposer.org
  * api.rollbar.com
  * faros.lephare.com
