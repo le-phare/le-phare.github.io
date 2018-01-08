@@ -17,7 +17,7 @@ title: Hosting requirements
 
  - PHP >= 7.2
  - Apache = 2.4
- - PostgreSQL >= 10
+ - PostgreSQL >= 10.0
  - Memcached
  - git
  - curl
