@@ -41,6 +41,7 @@ title: Hosting requirements CETIH
   - tokenizer
   - xml
   - opcache
+  - mbstring
   - memcached
   - imagick
   - ssh2
