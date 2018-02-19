@@ -150,3 +150,12 @@ ServerTokens Prod
 curl -sL http://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
+### AWS Cloudfront (if applicable)
+
+The following headers must be forwarded to the web server : 
+
+ * Authorization
+ * CloudFront-Forwarded-Proto
+ * Host
+ * Accept
+
