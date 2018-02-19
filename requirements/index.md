@@ -159,4 +159,5 @@ The following headers must be forwarded to the web server :
  * CloudFront-Forwarded-Proto
  * Host
  * Accept
+ * Referer
 
