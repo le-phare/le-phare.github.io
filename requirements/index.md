@@ -17,7 +17,7 @@ title: Hosting requirements
 
  - PHP >= 7.2
  - Apache = 2.4
- - PostgreSQL >= 10.0
+ - PostgreSQL >= 9.6
  - Memcached
  - git
  - curl
@@ -43,6 +43,7 @@ title: Hosting requirements
    * ssh2
    * apcu
    * apcu-bc
+   * exif
 
 ### PHP settings
 
