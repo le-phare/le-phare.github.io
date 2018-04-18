@@ -120,7 +120,9 @@ ServerTokens Prod
 ## Network requirements
 
  * Allow smtp output
-
+ * website SHOULD be accessible with two domains (www.site.com and static.site.com)
+ * all domains MUST be accessible through HTTPS
+ 
 ### SSH inputs
 
  * 212.198.41.172
