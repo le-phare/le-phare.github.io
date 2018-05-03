@@ -145,6 +145,7 @@ ServerTokens Prod
  * repo.packagist.com
  * getcomposer.org
  * api.rollbar.com
+ * sentry.io
  * faros.lephare.com
 
 ### SSH Keys
