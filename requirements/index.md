@@ -150,7 +150,7 @@ ServerTokens Prod
 ### SSH Keys
 
 ```shell
-curl -sL http://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
+curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
 ### AWS Cloudfront (if applicable)
