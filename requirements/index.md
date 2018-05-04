@@ -11,7 +11,7 @@ title: Hosting requirements
 
 ## Recommanded Operating System
 
- * Last stable [Debian](https://www.debian.org) (currently Debian Jessie)
+ * Last stable [Debian](https://www.debian.org) (currently Debian Stretch)
 
 ## Software requirements
 
