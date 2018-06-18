@@ -20,6 +20,7 @@ title: Hosting requirements CETIH
   - PostgreSQL >= 9.6
   - Memcached
   - git
+  - [git-lfs](https://git-lfs.github.com/)
   - curl
   - Elasticsearch >= 5.6
   - RabbitMQ >= 3.6
