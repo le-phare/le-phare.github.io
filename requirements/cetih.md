@@ -1,13 +1,14 @@
 ---
 layout: hidden
 title: Hosting requirements CETIH
+version: 1.2
 ---
 
-## Hardware requirements
+## Hardware requirements (per app)
 
   - CPU >= 2 core
-  - RAM >= 2GB
-  - Project Storage >= 20GB
+  - RAM >= 4GB
+  - Project Storage >= 40GB
 
 ## Recommanded Operating System
 
@@ -22,9 +23,12 @@ title: Hosting requirements CETIH
   - git
   - [git-lfs](https://git-lfs.github.com/)
   - curl
-  - Elasticsearch >= 5.6
-  - RabbitMQ >= 3.6
+  - crontab
+  - [Elasticsearch](https://www.elastic.co/fr/products/elasticsearch) >= 6.2
+  - [Kibana](https://www.elastic.co/fr/products/kibana) >= 6.2
+  - [RabbitMQ](https://www.rabbitmq.com/) >= 3.6
   - Supervisor >= 3.3.2
+  - [adminer](https://www.adminer.org/)
 
 ### PHP extensions
 
@@ -112,12 +116,11 @@ ServerTokens Prod
   - SSH :
     - Allow key authentification
     - Allow agent forwarding
-    - logrotate on `shared/var/logs/*.log`
-    - Apache `DOCUMENT_ROOT` on `current/web/`
-    - crontab enabled and managable by the system user
-    - access to Apache logs
-    - user shell set to `/bin/bash`
-    - FTP account with specific credentials on `shared/var/Resources/exchange`
+  - logrotate on `shared/var/logs/*.log`
+  - Apache `DOCUMENT_ROOT` on `current/web/`
+  - access to Apache logs
+  - crontab enabled and managable by the system user
+  - user shell set to `/bin/bash`
 
 ## Network requirements
 
@@ -127,7 +130,7 @@ ServerTokens Prod
 
   - 212.198.41.172
   - 109.190.225.66
-  - 
+  - 37.59.114.65
 
 ### SSH outputs
 
@@ -142,7 +145,6 @@ ServerTokens Prod
   - gitlab.com
   - packagist.org
   - packagist.com
-  - toran.lephare-systeme.com
   - getcomposer.org
   - api.rollbar.com
   - faros.lephare.com
