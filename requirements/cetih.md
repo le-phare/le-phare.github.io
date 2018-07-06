@@ -4,11 +4,11 @@ title: Hosting requirements CETIH
 version: 1.2
 ---
 
-## Hardware requirements
+## Hardware requirements (per app)
 
   - CPU >= 2 core
   - RAM >= 4GB
-  - Project Storage >= 20GB
+  - Project Storage >= 40GB
 
 ## Recommanded Operating System
 
@@ -23,9 +23,12 @@ version: 1.2
   - git
   - [git-lfs](https://git-lfs.github.com/)
   - curl
-  - Elasticsearch >= 6.2
-  - RabbitMQ >= 3.6
+  - crontab
+  - [Elasticsearch](https://www.elastic.co/fr/products/elasticsearch) >= 6.2
+  - [Kibana](https://www.elastic.co/fr/products/kibana) >= 6.2
+  - [RabbitMQ](https://www.rabbitmq.com/) >= 3.6
   - Supervisor >= 3.3.2
+  - [adminer](https://www.adminer.org/)
 
 ### PHP extensions
 
@@ -113,12 +116,11 @@ ServerTokens Prod
   - SSH :
     - Allow key authentification
     - Allow agent forwarding
-    - logrotate on `shared/var/logs/*.log`
-    - Apache `DOCUMENT_ROOT` on `current/web/`
-    - crontab enabled and managable by the system user
-    - access to Apache logs
-    - user shell set to `/bin/bash`
-    - FTP account with specific credentials on `shared/var/Resources/exchange`
+  - logrotate on `shared/var/logs/*.log`
+  - Apache `DOCUMENT_ROOT` on `current/web/`
+  - access to Apache logs
+  - crontab enabled and managable by the system user
+  - user shell set to `/bin/bash`
 
 ## Network requirements
 
