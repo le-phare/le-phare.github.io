@@ -29,6 +29,7 @@ version: 1.2
   - [RabbitMQ](https://www.rabbitmq.com/) >= 3.6
   - Supervisor >= 3.3.2
   - [adminer](https://www.adminer.org/)
+  - [ghostscript](https://www.ghostscript.com/) >= 9.06
 
 ### PHP extensions
 
