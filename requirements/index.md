@@ -138,7 +138,7 @@ ServerTokens Prod
 ### HTTP/HTTPS output
 
  * github.com ([IP range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
- * bitbucket.org ([IP list](https://blog.bitbucket.org/2015/12/03/making-bitbuckets-network-better-faster-and-ready-to-grow))
+ * bitbucket.org ([IP list](https://confluence.atlassian.com/bitbucket/what-are-the-bitbucket-cloud-ip-addresses-i-should-use-to-configure-my-corporate-firewall-343343385.html))
  * gitlab.com
  * packagist.org
  * packagist.com
