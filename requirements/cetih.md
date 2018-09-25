@@ -126,6 +126,8 @@ ServerTokens Prod
 ## Network requirements
 
   - Allow smtp output
+  - all domains MUST be accessible through HTTPS
+  - HTTP/2 SHOULD be enabled
 
 ### SSH inputs
 
