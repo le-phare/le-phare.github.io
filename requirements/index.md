@@ -122,6 +122,7 @@ ServerTokens Prod
  * Allow smtp output
  * website SHOULD be accessible with two domains (www.site.com and static.site.com)
  * all domains MUST be accessible through HTTPS
+ * HTTP/2 SHOULD be enabled 
  
 ### SSH inputs
 
