@@ -44,6 +44,7 @@ title: Hosting requirements
    * apcu
    * apcu-bc
    * exif
+   * zip
 
 ### PHP settings
 
