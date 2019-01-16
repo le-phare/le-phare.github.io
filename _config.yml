@@ -10,7 +10,7 @@ baseurl:          /
 
 author:
   name:           'Le Phare'
-  url:            http://www.lephare.com
+  url:            https://www.lephare.com
 
 paginate:         5
 
