@@ -11,7 +11,7 @@ title: Hosting requirements Proxi-Bleu
 
 ## Recommanded Operating System
 
- * Last stable [Debian](https://www.debian.org) (currently Debian 8)
+ * Last stable [Debian](https://www.debian.org) (currently Debian 9)
 
 ## Software requirements
 
