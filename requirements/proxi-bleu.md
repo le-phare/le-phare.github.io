@@ -9,7 +9,7 @@ title: Hosting requirements Proxi-Bleu
  * RAM >= 4 GB
  * Project Storage >= 50 GB
 
-## Recommanded Operating System
+## Recommended Operating System
 
  * Last stable [Debian](https://www.debian.org) (currently Debian 9)
 
@@ -17,7 +17,7 @@ title: Hosting requirements Proxi-Bleu
 
  - PHP >= 7.1
  - Apache >= 2.4.17
- - PostgreSQL >= 9.6
+ - PostgreSQL >= 9.6 (1 database)
  - Memcached
  - git
  - curl
@@ -72,6 +72,9 @@ opcache.fast_shutdown=1
 {% endhighlight %}
 
 #### Notes
+
+### Domain name
+proxi-bleus.com
 
 ### SSL Certificate
 
