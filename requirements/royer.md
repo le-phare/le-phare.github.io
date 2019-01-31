@@ -9,13 +9,13 @@ title: Hosting requirements Royer
  * RAM >= 4 GB
  * Project Storage >= 50 GB
 
-## Recommanded Operating System
+## Recommended Operating System
 
  * Last stable [Debian](https://www.debian.org) (currently Debian 8)
 
 ## Software requirements
 
- - PHP >= 7.0 
+ - PHP >= 7.0
  - Apache >= 2.4.17
  - PostgreSQL >= 9.6
  - Memcached
@@ -76,7 +76,7 @@ opcache.fast_shutdown=1
 
 ### SSL Certificate
 
-Valid SSL certificates for production and staging environment. 
+Valid SSL certificates for production and staging environment.
 https://letsencrypt.org/
 
 ### Apache modules

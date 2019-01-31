@@ -10,7 +10,7 @@ version: 1.2
   - RAM >= 4GB
   - Project Storage >= 40GB
 
-## Recommanded Operating System
+## Recommended Operating System
 
   - Last stable [Debian](https://www.debian.org) (currently Debian Stretch)
 

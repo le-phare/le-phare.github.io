@@ -9,7 +9,7 @@ title: Hosting requirements
  * RAM >= 2GB
  * Project Storage >=20GB
 
-## Recommanded Operating System
+## Recommended Operating System
 
  * Last stable [Debian](https://www.debian.org) (currently Debian 9)
 
@@ -123,8 +123,8 @@ ServerTokens Prod
  * Allow smtp output
  * website SHOULD be accessible with two domains (www.site.com and static.site.com)
  * all domains MUST be accessible through HTTPS
- * HTTP/2 SHOULD be enabled 
- 
+ * HTTP/2 SHOULD be enabled
+
 ### SSH inputs
 
  * 212.198.41.172
@@ -158,7 +158,7 @@ chmod 0600 ~/.ssh/authorized_keys
 ```
 ### AWS Cloudfront (if applicable)
 
-The following headers must be forwarded to the web server : 
+The following headers must be forwarded to the web server :
 
  * Authorization
  * CloudFront-Forwarded-Proto

@@ -9,7 +9,7 @@ title: Hosting requirements Macif-AETS cashback
  * RAM >= 2GB
  * Project Storage >=20GB
 
-## Recommanded Operating System
+## Recommended Operating System
 
  * Last stable [Debian](https://www.debian.org) (currently Debian Jessie)
 
