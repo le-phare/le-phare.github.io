@@ -1,6 +1,7 @@
 ---
+layout: hidden
 layout: page
-title: Hosting requirements
+title: Hosting requirements E-carte YR
 ---
 
 ## Hardware requirements
