@@ -1,6 +1,5 @@
 ---
 layout: hidden
-layout: page
 title: Hosting requirements E-carte YR
 ---
 
