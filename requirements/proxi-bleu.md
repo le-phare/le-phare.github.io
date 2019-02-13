@@ -109,7 +109,7 @@ ServerTokens Prod
    * Allow key authentification
    * Allow agent forwarding
  - logrotate on shared/app/logs/*.log
- - Apache DOCUMENT_ROOT on current/web/
+ - Apache DOCUMENT_ROOT on current/public/
  - crontab enabled and managable by the system user
  - access to Apache logs
  - user shell set to /bin/bash
