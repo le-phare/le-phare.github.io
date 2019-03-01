@@ -32,8 +32,7 @@ title: Hosting requirements E-carte YR
    * json
    * mbstring
    * pdo
-   * pdo-pgsql
-   * pgsql
+   * pdo_mysql
    * posix
    * tokenizer
    * xml
