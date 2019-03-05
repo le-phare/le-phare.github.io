@@ -44,6 +44,7 @@ title: Hosting requirements E-carte YR
    * apcu-bc
    * exif
    * zip
+   * soap
 
 ### PHP settings
 
