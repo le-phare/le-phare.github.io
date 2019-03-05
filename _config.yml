@@ -19,3 +19,9 @@ version:          2.1.0
 
 github:
   repo:           https://github.com/le-phare/le-phare.github.io
+
+defaults:
+  - scope:
+      path: "public/img"
+    values:
+      image: true
