@@ -15,7 +15,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 {: .fs-6 .fw-300 }
 
 
-[Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/versions/9.0.html){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/docs/versions/9.0){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
