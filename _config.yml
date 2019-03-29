@@ -24,7 +24,7 @@ twitter_username: lephareweb
 
 # Build settings
 markdown: kramdown
-theme: just-the-docs
+remote_theme: pmarsceill/just-the-docs
 
 search_enabled: true
 
