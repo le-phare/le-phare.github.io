@@ -17,10 +17,12 @@ parent: Configuration
 ## HTTP/HTTPS output
 
  * github.com ([IP range](https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist))
+ * api.github.com
  * bitbucket.org ([IP list](https://confluence.atlassian.com/bitbucket/what-are-the-bitbucket-cloud-ip-addresses-i-should-use-to-configure-my-corporate-firewall-343343385.html))
  * gitlab.com
  * gitlab.lephare.io
  * packagist.org
+ * repo.packagist.org
  * packagist.com
  * repo.packagist.com
  * getcomposer.org
