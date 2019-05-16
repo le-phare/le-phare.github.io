@@ -14,12 +14,15 @@ redirect_from: /requirements/
 Ce site présente les configurations nécessaires à l'hébergement des projets réalisés au Phare. 
 {: .fs-6 .fw-300 }
 
-
 [Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/docs/versions/9.0){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
 ## Changements
+
+### 2019-05-16
+
+ * Suppression extension php ssh2 non compatible avec php 7.3
 
 ### 2019-03-28
 

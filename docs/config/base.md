@@ -49,7 +49,6 @@ La liste des adresses ips à autoriser :
  * opcache
  * memcached
  * imagick
- * ssh2
  * apcu
  * apcu-bc
  * exif
