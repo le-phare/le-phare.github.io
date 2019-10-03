@@ -33,18 +33,26 @@ La liste des adresses ips à autoriser :
 
 ### Extensions
 
- * ctype
+Pré-requis pour Symfony 4.x
+
+ * Ctype
+ * iconv
+ * JSON
+ * PCRE
+ * Session
+ * SimpleXML
+ * Tokenizer
+
+Extensions supplémentaire pour nos applications
+
  * curl
  * gd
- * iconv
  * intl
- * json
  * mbstring
  * pdo
  * pdo-pgsql
  * pgsql
  * posix
- * tokenizer
  * xml
  * opcache
  * memcached
