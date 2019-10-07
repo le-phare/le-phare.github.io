@@ -43,7 +43,7 @@ Pré-requis pour Symfony 4.x
  * SimpleXML
  * Tokenizer
 
-Extensions supplémentaire pour nos applications
+Extensions supplémentaires pour nos applications
 
  * curl
  * gd
