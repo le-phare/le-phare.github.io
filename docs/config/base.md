@@ -35,13 +35,13 @@ La liste des adresses ips à autoriser :
 
 Pré-requis pour Symfony 4.x
 
- * Ctype
+ * ctype
  * iconv
- * JSON
- * PCRE
- * Session
+ * json
+ * pcre
+ * session
  * SimpleXML
- * Tokenizer
+ * tokenizer
 
 Extensions supplémentaires pour nos applications
 
