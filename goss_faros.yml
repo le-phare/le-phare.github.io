@@ -1,0 +1,74 @@
+# Binaries
+package:
+  git:
+    installed: true
+  curl:
+    installed: true
+  apache2:
+    installed: true
+
+http:
+    # Apache PHP configuration
+  {{ .Vars.web_url }}:
+    status: 200
+    timeout: 5000
+    username: {{ .Vars.lephare_http_basic_user }}
+    password: {{ .Vars.lephare_http_basic_password }}
+    skip: false
+    body:
+      - DocumentRoot:OK
+      # Pré-requis Symfony
+      - ctype
+      - iconv
+      - json
+      - pcre
+      - session
+      - SimpleXML
+      - tokenizer
+       # Extensions supplémentaires pour nos applications
+      - curl
+      - gd
+      - intl
+      - mbstring
+      - pdo
+      - pdo-pgsql
+      - pgsql
+      - posix
+      - xml
+      - opcache
+      - memcached
+      - imagick
+      - apcu
+      - apcu-bc
+      - exif
+      - zip
+      - soap
+      - short_open_tag=off
+      - magic_quotes_gpc=off
+      - register_globals=off
+      - session.autostart=off
+      - date.timezone=Europe/Paris
+      - upload_max_filesize=32M
+      - post_max_size=33M
+      - sys_temp_dir=/var/tmp
+      - upload_dir=/var/tmp
+      - session.save_handler=memcached
+      - session.save_path=localhost:11211
+      - memcached.sess_lock_wait_min=150
+      - memcached.sess_lock_wait_max=150
+      - memcached.sess_lock_retries=800
+      - opcache.revalidate_freq=0
+      - opcache.validate_timestamps=0
+      - opcache.max_accelerated_files=7963
+      - opcache.memory_consumption=192
+      - opcache.interned_strings_buffer=16
+      - opcache.fast_shutdown=1
+
+file:
+  # Authentification SSH
+  # TODO: comparer directement avec curl https://faros.lephare.com/lephare.keys
+  ~/.ssh/authorized_keys:
+    exists: true
+    mode: "0600"
+    contains:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApgU4AVX7w0DphqWhOS2/NZtDlfgjvfwdHH0K+Rr2MjSVLFrTot6xn7ww5Q4AmXGp5Q78ddirPxM1MQK8Uyd6REAawLEKLu1g4ItRo4rEer2lj5eo+UTc8IaYGiYvON/vrB1tV/gBv5zCwrQmDpEZ8aIDa7bh3d/tBlfe2MhoNomlcwrUBrnxRg6B46P8CsNTOWI0gXAmcdTeuRVV0wjxCgotV5dCIJfIa00bHVzCm0nzdJIZijdezdfMB/cLSExoIn0lxJL4014EciadsGYbksENwdvL5u4rC0jXrM9rZri97fYofX4ZiaSndPUjvqhQdVjFKGaDzjx7k03H/dNuqw== nicolas.laurent@lephare.com"
