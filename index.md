@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2019-10-18
+
+ * Ajout dimensionnement minimum de machine : 2 vCPU et 4G RAM 
+
 ### 2019-10-03
 
  * Ajout version Debian 10

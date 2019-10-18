@@ -12,6 +12,12 @@ has_children: true
 1. TOC
 {:toc}
 
+## Dimensionnement machine
+
+Nous exigeons au minimum : 
+ * 2 vCPU 
+ * 4Go RAM 
+
 ## Authentification SSH 
 
 La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : https://faros.lephare.com/lephare.keys.
