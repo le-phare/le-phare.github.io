@@ -104,7 +104,7 @@ Chaque vhost doit être accessible en HTTPS et HTTP/2.
 
 ### Configuration vhost
 
-	DocumentRoot <deploy_dir>/current/web/
+	DocumentRoot <deploy_dir>/current/public/
 	Options FollowSymLinks
 	Protocols h2 http/1.1
 
