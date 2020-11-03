@@ -26,6 +26,7 @@ La liste des clés publiques des utilisateurs du Phare est disponible à l'adres
 	chmod 0600 ~/.ssh/authorized_keys
 
 La liste des adresses ips à autoriser : 
+ * 193.39.2.4
  * 212.198.41.172
  * 109.190.225.66
  * 37.59.114.65
