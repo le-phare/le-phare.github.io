@@ -49,6 +49,7 @@ Pré-requis pour Symfony 4.x
  * session
  * SimpleXML
  * tokenizer
+ * sodium
 
 Extensions supplémentaires pour nos applications
 
