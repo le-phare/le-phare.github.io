@@ -25,12 +25,12 @@ La liste des clés publiques des utilisateurs du Phare est disponible à l'adres
 	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 	chmod 0600 ~/.ssh/authorized_keys
 
-La liste des adresses ips à autoriser : 
+La liste des adresses ips à autoriser :
+ * 37.59.114.65
+ * 109.190.225.66 
  * 193.39.2.4
  * 212.198.41.172
- * 109.190.225.66
- * 37.59.114.65
- * 193.39.2.4
+
 
 ## Binaires 
 
