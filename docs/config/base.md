@@ -59,7 +59,7 @@ Extensions supplémentaires pour nos applications
  * intl
  * mbstring
  * pdo
- * pdo-pgsql
+ * pdo_pgsql
  * pgsql
  * posix
  * xml
@@ -75,14 +75,12 @@ Extensions supplémentaires pour nos applications
 ### php.ini
 
 	short_open_tag = Off
-	magic_quotes_gpc = Off
-	register_globals = Off
-	session.autostart = Off
+	session.auto_start = Off
 	date.timezone = Europe/Paris
 	upload_max_filesize = 32M
 	post_max_size = 33M
 	sys_temp_dir = /var/tmp
-	upload_dir = /var/tmp
+	upload_tmp_dir = /var/tmp
 
 	# Les sessions sont stockées dans memcached
 	session.save_handler = memcached
