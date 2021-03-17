@@ -133,7 +133,7 @@ function get_lephare_keys_check(): array
 
 function get_php_version_check(string $PHP_VERSION): array
 {
-    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt');
+    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && PHP_VERSION_ID < 80000;
 
     return [
         'prerequis' => 'PHP_VERSION',
