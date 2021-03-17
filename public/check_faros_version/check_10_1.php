@@ -8,7 +8,6 @@ $URL = 'https://acme.fr';
 // htaccess
 $USERNAME = 'EDIT_ME';
 $PASSWORD = 'EDIT_ME';
-//$URL = 'https://konect.pbo.lph';
 
 // FIN DE ZONE A EDITER *******************************************************************************************
 
