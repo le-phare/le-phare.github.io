@@ -119,7 +119,7 @@ function get_lephare_keys_check(): array
     $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
     curl_close($curl);
     if (200 === $httpCode) {
-        $check = $data === file_get_contents('/home/keyor/.ssh/authorized_keys');
+        $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
     }
 
     return [
