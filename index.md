@@ -11,7 +11,7 @@ redirect_from: /requirements/
 # Pré-requis hébergements
 {: .fs-9 }
 
-Ce site présente les configurations nécessaires à l'hébergement des projets réalisés au Phare. 
+Ce site présente les configurations nécessaires à l'hébergement des projets réalisés au Phare.
 {: .fs-6 .fw-300 }
 
 [Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/docs/versions/10.1){: .btn .fs-5 .mb-4 .mb-md-0 }
@@ -27,7 +27,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ### 2019-10-18
 
- * Ajout dimensionnement minimum de machine : 2 vCPU et 4G RAM 
+ * Ajout dimensionnement minimum de machine : 2 vCPU et 4G RAM
 
 ### 2019-10-03
 
