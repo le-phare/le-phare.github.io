@@ -186,7 +186,7 @@ function get_php_configuration_checks(): array
         'opcache.max_accelerated_files' => '7963',
         'opcache.memory_consumption' => '192',
         'opcache.interned_strings_buffer' => '16',
-        'opcache.fast_shutdown' => '1',
+        // 'opcache.fast_shutdown' => '1', // removed in php 7.2
         'memory_limit' => '128M',
         'opcache.enable' => '1',
     ];
