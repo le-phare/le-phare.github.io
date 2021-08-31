@@ -14,11 +14,11 @@ has_children: true
 
 ## Dimensionnement machine
 
-Nous exigeons au minimum : 
- * 2 vCPU 
- * 4Go RAM 
+Nous exigeons au minimum :
+ * 2 vCPU
+ * 4Go RAM
 
-## Authentification SSH 
+## Authentification SSH
 
 La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : https://faros.lephare.com/lephare.keys.
 
@@ -27,15 +27,16 @@ La liste des clés publiques des utilisateurs du Phare est disponible à l'adres
 
 La liste des adresses ips à autoriser :
  * 37.59.114.65
- * 109.190.225.66 
+ * 109.190.225.66
  * 193.39.2.4
  * 212.198.41.172
 
 
-## Binaires 
+## Binaires
 
  - git
  - curl
+ - rsync (utilisé par lephare/ansible-deploy)
 
 ## Configuration PHP
 
