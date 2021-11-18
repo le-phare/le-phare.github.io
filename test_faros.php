@@ -16,6 +16,66 @@ function onOff($setting)
     return "${setting}=".(ini_get($setting) ? 'on' : 'off');
 }
 
+function greaterThan($setting, $min)
+{
+    return $setting.'='.(ini_get($setting) >= $min ? 'ok' : 'ko').' ('.ini_get($setting).'>= '.$min.')'.PHP_EOL;
+}
+function lesserThan($setting, $max)
+{
+    return $setting.'='.(ini_get($setting) <= $max ? 'ok' : 'ko').' ('.ini_get($setting).'<= '.$max.')'.PHP_EOL;
+}
+
+function printStringSizeSettings()
+{
+    $scalarSettings = [
+        'min' => [
+        ],
+        'max' => [
+            'upload_max_filesize' => '32M',
+            'post_max_size' => '33M',
+        ],
+    ];
+    $extractMegabytes = function ($string) {
+        if (preg_match('/.*M/i', $string)) {
+            return (int) str_replace('M', '', $string);
+        }
+        if (preg_match('/.*G/i', $string)) {
+            return (int) str_replace('G', '', $string) / 10;
+        }
+        return 0;
+    };
+    foreach ($scalarSettings['min'] as $setting => $min) {
+        echo greaterThan($setting, $extractMegabytes($min));
+    }
+    foreach ($scalarSettings['max'] as $setting => $max) {
+        echo lesserThan($setting, $extractMegabytes($max));
+    }
+}
+function printScalarSettings()
+{
+    $scalarSettings = [
+        'min' => [
+            'memcached.sess_lock_wait_min' => 150,
+        ],
+        'max' => [
+            'upload_max_filesize' => '32M',
+            'post_max_size' => '33M',
+            'memcached.sess_lock_wait_max' => 150,
+            'memcached.sess_lock_retries' => 800,
+            'opcache.revalidate_freq' => 0,
+            'opcache.max_accelerated_files' => 7963,
+            'opcache.memory_consumption' => 192,
+            'opcache.interned_strings_buffer' => 16,
+        ],
+    ];
+    foreach ($scalarSettings['min'] as $setting => $min) {
+        echo greaterThan($setting, $min);
+    }
+    foreach ($scalarSettings['max'] as $setting => $max) {
+        echo lesserThan($setting, $max);
+    }
+}
+
 function printOnOffSetting($setting)
 {
     echo onOff($setting).PHP_EOL;
@@ -36,20 +96,9 @@ function printPhpConfiguration()
     ];
     $settings = [
         'date.timezone',
-        'upload_max_filesize',
-        'post_max_size',
-        'sys_temp_dir',
-        'upload_dir',
         'session.save_handler',
         'session.save_path',
-        'memcached.sess_lock_wait_min',
-        'memcached.sess_lock_wait_max',
-        'memcached.sess_lock_retries',
-        'opcache.revalidate_freq',
         'opcache.validate_timestamps',
-        'opcache.max_accelerated_files',
-        'opcache.memory_consumption',
-        'opcache.interned_strings_buffer',
         'opcache.fast_shutdown',
     ];
     foreach ($onOffSettings as $setting) {
@@ -58,6 +107,8 @@ function printPhpConfiguration()
     foreach ($settings as $setting) {
         printSetting($setting);
     }
+    printScalarSettings();
+    printStringSizeSettings();
 }
 
 function printLoadedExtensions()

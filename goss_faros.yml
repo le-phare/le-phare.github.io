@@ -48,19 +48,17 @@ http:
       - register_globals=off
       - session.autostart=off
       - date.timezone=Europe/Paris
-      - upload_max_filesize=32M
-      - post_max_size=33M
-      - sys_temp_dir=/var/tmp
-      - upload_dir=/var/tmp
+      - upload_max_filesize=ok
+      - post_max_size=ok
       - session.save_handler=memcached
       - session.save_path=localhost:11211
-      - memcached.sess_lock_wait_min=150
-      - memcached.sess_lock_wait_max=150
-      - memcached.sess_lock_retries=800
+      - memcached.sess_lock_wait_min=ok
+      - memcached.sess_lock_wait_max=ok
+      - memcached.sess_lock_retries=ok
       - opcache.revalidate_freq=0
       - opcache.validate_timestamps=0
-      - opcache.max_accelerated_files=7963
-      - opcache.memory_consumption=192
+      - opcache.max_accelerated_files=ok
+      - opcache.memory_consumption=ok
       - opcache.interned_strings_buffer=16
       - opcache.fast_shutdown=1
 
