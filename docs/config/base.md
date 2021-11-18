@@ -35,6 +35,7 @@ La liste des adresses ips à autoriser :
 ## Binaires
 
  - git
+ - git-lfs
  - curl
  - rsync (utilisé par lephare/ansible-deploy)
 
