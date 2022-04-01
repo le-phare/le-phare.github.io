@@ -14,7 +14,7 @@ redirect_from: /requirements/
 Ce site présente les configurations nécessaires à l'hébergement des projets réalisés au Phare.
 {: .fs-6 .fw-300 }
 
-[Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/docs/versions/10.1){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Configuration commune](/configuration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Dernière version](/docs/versions/2022.01){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
