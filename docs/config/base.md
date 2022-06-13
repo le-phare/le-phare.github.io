@@ -60,6 +60,7 @@ Extensions supplémentaires pour nos applications
  * gd
  * intl
  * mbstring
+ * pcntl
  * pdo
  * pdo_pgsql
  * pgsql
