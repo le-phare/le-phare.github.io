@@ -95,8 +95,8 @@ Extensions supplémentaires pour nos applications
 	# Optimisation Opcache
 	opcache.revalidate_freq=0
 	opcache.validate_timestamps=0
-	opcache.max_accelerated_files=7963
-	opcache.memory_consumption=192
+	opcache.max_accelerated_files=20000
+	opcache.memory_consumption=256
 	opcache.interned_strings_buffer=16
 	opcache.fast_shutdown=1
 
