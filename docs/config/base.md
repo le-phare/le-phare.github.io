@@ -20,7 +20,7 @@ Nous exigeons au minimum :
 
 ## Authentification SSH
 
-La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : https://faros.lephare.com/lephare.keys.
+La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : [https://faros.lephare.com/lephare.keys].
 
 	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 	chmod 0600 ~/.ssh/authorized_keys
@@ -43,7 +43,7 @@ La liste des adresses ips à autoriser :
 
 ### Extensions
 
-Pré-requis pour Symfony 4.x
+Pré-requis pour Symfony 5.x
 
  * ctype
  * iconv
@@ -95,10 +95,13 @@ Extensions supplémentaires pour nos applications
 	# Optimisation Opcache
 	opcache.revalidate_freq=0
 	opcache.validate_timestamps=0
-	opcache.max_accelerated_files=7963
-	opcache.memory_consumption=192
+	opcache.max_accelerated_files=20000
+	opcache.memory_consumption=256
 	opcache.interned_strings_buffer=16
-	opcache.fast_shutdown=1
+
+	# Realpath cache
+	realpath_cache_size=4096K
+	realpath_cache_ttl=600
 
 ## Configuration Apache
 
