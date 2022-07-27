@@ -168,6 +168,8 @@ function get_php_configuration_checks(): array
         // 'short_open_tag' => 'off', PHP_INI_PERDIR https://www.php.net/manual/en/ini.core.php
         // 'magic_quotes_gpc' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
         // 'register_globals' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
+        'display_errors' => 'off',
+        'display_startup_errors' => 'off',
         'session.auto_start' => 'off',
         'date.timezone' => 'Europe/Paris',
         'upload_max_filesize' => '32M',
