@@ -77,6 +77,8 @@ Extensions supplémentaires pour nos applications
 
 ### php.ini
 
+	display_errors = Off
+	display_startup_errors = Off
 	short_open_tag = Off
 	session.auto_start = Off
 	date.timezone = Europe/Paris
