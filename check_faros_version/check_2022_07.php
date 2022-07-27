@@ -11,9 +11,7 @@ $PASSWORD = 'EDIT_ME';
 
 // FIN DE ZONE A EDITER *******************************************************************************************
 
-$PHP_VERSION = '8.1'; // 10.1 requirement but in var to be flex
-
-// TODO: doc, un test par version de faros
+$PHP_VERSION = '8.1';
 
 // TODO: KO
 function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
@@ -133,7 +131,7 @@ function get_lephare_keys_check(): array
 
 function get_php_version_check(string $PHP_VERSION): array
 {
-    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && PHP_VERSION_ID < 80000;
+    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && 0 === strpos(\PHP_VERSION, $PHP_VERSION[0]);
 
     return [
         'prerequis' => 'PHP_VERSION',
