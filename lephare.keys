@@ -26,3 +26,4 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwf9P9uR3QAT6MLmgtv51/ugPZsQPh5wvi1ujlOKVr
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC0+uw6q5UZJBOMMYIfWJjUbaHugOp51D/OvHLJ/6feu github-ci@lephare.com
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILaWObxYC/ENaERXLuPL8oZwERApocnEJnSEusEgx2ZT simon.rethore@lephare.com
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC0+LeWY3btJIy+qdUqxgib8bfpLk8wSrmEhHjs9FxDf philippe.chabbert@lephare.com
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICWO6OttuU6DaQ+zvSpbGeyIolC4ghlL6vKZFst7OICF aurelien.francois@lephare.com
