@@ -189,7 +189,7 @@ function get_php_configuration_checks(): array
         'memory_limit' => '128M',
         'opcache.enable' => '1',
         'realpath_cache_size' => '4096K',
-        'realpath_cache_ttl' => '600',
+        'realpath_cache_ttl' => '60',
     ];
     foreach ($settings as $key => $expected) {
         $check = strtolower($expected) === strtolower(ini_get($key));
