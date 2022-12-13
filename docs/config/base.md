@@ -103,7 +103,7 @@ Extensions supplémentaires pour nos applications
 
 	# Realpath cache
 	realpath_cache_size=4096K
-	realpath_cache_ttl=600
+	realpath_cache_ttl=60
 
 ## Configuration Apache
 
