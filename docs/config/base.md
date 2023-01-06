@@ -47,7 +47,7 @@ Pré-requis pour Symfony 5.x
 
  * ctype
  * iconv
- * json
+ * json if PHP version < 8.0. From php 8.0, JSON extension is always included in PHP
  * pcre
  * session
  * SimpleXML
