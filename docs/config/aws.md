@@ -7,7 +7,7 @@ nav_order: 2
 
 # AWS 
 
-Configurations spécifique en cas d'installatio sur la plateforme Amazon Web Service (AWS).
+Configuration spécifique en cas d'installation sur la plateforme Amazon Web Service (AWS).
 
 ## Cloudfront
 
