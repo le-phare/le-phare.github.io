@@ -47,7 +47,6 @@ Pré-requis pour Symfony 5.x
 
  * ctype
  * iconv
- * json
  * pcre
  * session
  * SimpleXML
