@@ -30,3 +30,4 @@ parent: Configuration
 - getcomposer.org
 - sentry.io
 - faros.lephare.com
+- hc-ping.com
