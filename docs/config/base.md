@@ -27,7 +27,6 @@ La liste des clés publiques des utilisateurs du Phare est disponible à l'adres
 
 La liste des adresses ips à autoriser :
  * 37.59.114.65
- * 109.190.225.66
  * 193.39.2.4
  * 80.15.143.1
 
