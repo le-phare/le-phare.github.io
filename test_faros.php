@@ -134,7 +134,6 @@ function printLoadedExtensions()
         'memcached',
         'imagick',
         'apcu',
-        'apcu-bc',
         'exif',
         'zip',
         'soap',

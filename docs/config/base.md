@@ -42,7 +42,7 @@ La liste des adresses ips à autoriser :
 
 ### Extensions
 
-Pré-requis pour Symfony 5.x
+Pré-requis pour Symfony 6.x
 
  * ctype
  * iconv
@@ -68,7 +68,6 @@ Extensions supplémentaires pour nos applications
  * memcached
  * imagick
  * apcu
- * apcu-bc
  * exif
  * zip
  * soap
