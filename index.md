@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2023-07-05
+
+* Suppression de l'extension php apcu-bc des prérequis (non compatible PHP 8)
+
 ### 2023-06-14
 
 * Ajout de la version 2023.06
