@@ -37,6 +37,7 @@ La liste des adresses ips à autoriser :
  - git-lfs
  - curl
  - rsync (utilisé par lephare/ansible-deploy)
+ - pg_dump (utilisé par lephare/ansible-deploy)
 
 ## Configuration PHP
 
