@@ -43,7 +43,7 @@ La liste des adresses ips à autoriser :
 
 ### Logs
 
-Accès en lecture aux fichiers de logs :
+Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs suivants :
 
 - Apache access.log
 - Apache error.log
