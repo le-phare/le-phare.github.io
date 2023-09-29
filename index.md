@@ -20,6 +20,14 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2023-09-29
+
+* ajouts des sections "Droits" et "Logs"
+
+### 2023-09-22
+
+* ajout binaire pg_dump
+
 ### 2023-07-05
 
 * Suppression de l'extension php apcu-bc des prérequis (non compatible PHP 8)

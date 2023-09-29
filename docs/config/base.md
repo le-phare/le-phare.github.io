@@ -39,6 +39,16 @@ La liste des adresses ips à autoriser :
  - rsync (utilisé par lephare/ansible-deploy)
  - pg_dump (utilisé par lephare/ansible-deploy)
 
+## Droits
+
+### Logs
+
+Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs suivants :
+
+- Apache access.log
+- Apache error.log
+- PHP-FPM log
+
 ## Configuration PHP
 
 ### Extensions
