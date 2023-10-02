@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2023-10-02
+
+* ajouts binaire "python" dans la configuration commune.
+
 ### 2023-09-29
 
 * ajouts des sections "Droits" et "Logs"
