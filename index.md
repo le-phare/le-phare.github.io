@@ -23,6 +23,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 ### 2023-10-02
 
 * ajout binaire "python" dans la configuration commune.
+* correction quant à la mention du binaire "rsync" dans la configuration commune. Il est utilisé par `lephare/ansible-deploy` depuis le control node. En revanche, il reste pertinent de l'installer sur un serveur pour échanger des fichiers.
 
 ### 2023-09-29
 
