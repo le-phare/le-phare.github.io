@@ -22,7 +22,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ### 2023-10-02
 
-* ajouts binaire "python" dans la configuration commune.
+* ajout binaire "python" dans la configuration commune.
 
 ### 2023-09-29
 
