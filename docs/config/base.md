@@ -36,7 +36,7 @@ La liste des adresses ips à autoriser :
  - git
  - git-lfs
  - curl
- - rsync (utilisé par lephare/ansible-deploy)
+ - rsync
  - pg_dump (utilisé par lephare/ansible-deploy)
  - Python 2.7, or Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)
 
