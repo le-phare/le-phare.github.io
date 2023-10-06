@@ -30,3 +30,4 @@ parent: Configuration
 - sentry.io
 - faros.lephare.com
 - hc-ping.com
+- api.pwnedpasswords.com
