@@ -22,7 +22,6 @@ parent: Configuration
 - codeload.github.com
 - bitbucket.org ([IP list](https://confluence.atlassian.com/bitbucket/what-are-the-bitbucket-cloud-ip-addresses-i-should-use-to-configure-my-corporate-firewall-343343385.html))
 - gitlab.com
-- gitlab.lephare.io
 - packagist.org
 - repo.packagist.org
 - packagist.com
