@@ -20,6 +20,11 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2023-10-06
+
+* suppression flux `gitlab.lephare.io` des [flux réseaux](./docs/config/network.md).
+* ajout flux `api.pwnedpasswords.com` des [flux réseaux](./docs/config/network.md).
+
 ### 2023-10-02
 
 * ajout binaire "python" dans la configuration commune.
