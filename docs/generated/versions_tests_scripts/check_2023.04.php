@@ -1,5 +1,5 @@
 <?php
-
+const VERSIONDATA = '{"commonConfigState":"Internally loaded.","version":"2023.04","order_in_list":2,"debian_version":11.6,"php_version":8.2,"apache_version":2.4,"pgsql_version":14}'; //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
 $FAROS_VERSION = '2023.04'; //0.6

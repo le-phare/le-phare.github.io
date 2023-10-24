@@ -1,8 +1,8 @@
 <?php
-
+const VERSIONDATA = '{{jsontoinject}}'; //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
-$FAROS_VERSION = '2023.06';
+$FAROS_VERSION = '2023.04'; //0.6
 $URL = 'https://acme.fr';
 
 // htaccess

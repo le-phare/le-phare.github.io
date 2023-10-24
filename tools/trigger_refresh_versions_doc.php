@@ -4,6 +4,17 @@ $versions_pages_site_folder = '../docs/generated/versions_pages/';
 $versions_scripts_folder = '../docs/generated/versions_tests_scripts/';
 $common_config = get_version_file_json("common.json");
 
+function json_template_manage($template_content, $json) {
+    $search = [];
+    $fill = [];
+
+    foreach ($json as $key => $value) {
+        array_push($search, "{{" . $key . "}}");
+        array_push($fill, $value);
+    }
+    return str_replace($search,$fill,$template_content);
+}
+
 function get_version_file_json($filename) {
     global $folder_versions_path;
     $file_path = $folder_versions_path . $filename;
@@ -21,11 +32,15 @@ function handle_versionfile_json($versionjson) {
 }
 
 function generate_md_file($json, $newfilepath) {
-    
+    $template = file_get_contents("./templates/template.md.lepharetemplate");
+    $filled_content = json_template_manage($template, $json);
+    file_put_contents($newfilepath, $filled_content);
 }
 
 function generate_php_file($json, $newfilepath) {
-
+    $template = file_get_contents("./templates/check_version_script_template.php");
+    $filled_content = json_template_manage($template, array("jsontoinject" => json_encode($json)));
+    file_put_contents($newfilepath, $filled_content);
 }
 
 function generate_version_files($fulljson) { //.md & php

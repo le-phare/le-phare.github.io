@@ -1,8 +1,8 @@
 <?php
-
+const VERSIONDATA = '{"commonConfigState":"Internally loaded.","version":"2023.06","order_in_list":1,"debian_version":12,"php_version":8.2,"apache_version":2.4,"pgsql_version":15}'; //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
-$FAROS_VERSION = '2023.04';
+$FAROS_VERSION = '2023.04'; //0.6
 $URL = 'https://acme.fr';
 
 // htaccess
