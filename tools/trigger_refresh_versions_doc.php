@@ -1,5 +1,7 @@
 <?php 
 $folder_versions_path = '../versions_data/';
+$versions_pages_site_folder = '../docs/generated/versions_pages/';
+$versions_scripts_folder = '../docs/generated/versions_tests_scripts/';
 $common_config = get_version_file_json("common.json");
 
 function get_version_file_json($filename) {
@@ -18,8 +20,20 @@ function handle_versionfile_json($versionjson) {
     generate_version_files($fulljson);
 }
 
-function generate_version_files($fulljson) {
-    //tomake yk .md & .php --> must see how to structure 
+function generate_md_file($json, $newfilepath) {
+    
+}
+
+function generate_php_file($json, $newfilepath) {
+
+}
+
+function generate_version_files($fulljson) { //.md & php
+    global $versions_pages_site_folder, $versions_scripts_folder;
+    $phpscript_filepath = $versions_scripts_folder . "check_" . $fulljson["version"] . ".php";
+    $docfile_mdpath = $versions_pages_site_folder . $fulljson["version"] . ".md";
+    generate_md_file($fulljson, $docfile_mdpath);
+    generate_php_file($fulljson, $phpscript_filepath);
 }
 
 function main() {
