@@ -3,12 +3,25 @@ const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
+
+function arrayToMarkdownList($array) { //arrays are automatically markdown list str in template.
+    $markdownList = "";
+    foreach ($array as $element) {
+        $markdownList .= "* " . $element . "\n";
+    }
+    return $markdownList;
+}
+
 function templateManage($templateContent, $json) {
     $search = [];
     $fill = [];
 
     foreach ($json as $key => $value) {
         array_push($search, "{{" . $key . "}}");
+        if (is_array($value)) {
+            array_push($fill, arrayToMarkdownList($value));
+            continue;
+        }
         array_push($fill, $value);
     }
     return str_replace($search, $fill, $templateContent);

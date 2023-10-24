@@ -1,5 +1,5 @@
 <?php
-const VERSIONDATA = '{{jsontoinject}}'; //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{{jsontoinject}}'); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
 $FAROS_VERSION = '2023.04'; //0.6
@@ -11,7 +11,7 @@ $PASSWORD = 'EDIT_ME';
 
 // FIN DE ZONE A EDITER *******************************************************************************************
 
-$PHP_VERSION = '8.2';
+$PHP_VERSION = $versionData->php_version;
 
 // TODO: KO
 function get_ssl_http2_check(string $url, ?string $username, ?string $password): array

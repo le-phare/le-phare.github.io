@@ -4,5 +4,24 @@
     "debian_version": 11.6,
     "php_version": 8.2,
     "apache_version": 2.4,
-    "pgsql_version" : 14
+    "pgsql_version" : 14,
+    "more_extensions": [
+        "curl",
+        "gd",
+        "intl",
+        "mbstring",
+        "pcntl",
+        "pdo",
+        "pdo_pgsql",
+        "pgsql",
+        "posix",
+        "xml",
+        "opcache",
+        "memcached",
+        "imagick",
+        "apcu",
+        "exif",
+        "zip",
+        "soap"
+    ]    
 }
