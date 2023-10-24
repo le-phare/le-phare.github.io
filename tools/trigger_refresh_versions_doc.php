@@ -1,10 +1,9 @@
 <?php 
-$folder_versions_path = '../versions_data/';
-$versions_pages_site_folder = '../docs/generated/versions_pages/';
-$versions_scripts_folder = '../docs/generated/versions_tests_scripts/';
-$common_config = get_version_file_json("common.json");
+const FOLDER_VERSIONS_PATH = '../versions_data/';
+const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
+const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
-function json_template_manage($template_content, $json) {
+function templateManage($templateContent, $json) {
     $search = [];
     $fill = [];
 
@@ -12,48 +11,47 @@ function json_template_manage($template_content, $json) {
         array_push($search, "{{" . $key . "}}");
         array_push($fill, $value);
     }
-    return str_replace($search,$fill,$template_content);
+    return str_replace($search, $fill, $templateContent);
 }
 
-function get_version_file_json($filename) {
-    global $folder_versions_path;
-    $file_path = $folder_versions_path . $filename;
-    $file_content = file_get_contents($file_path);
-    $jsonData = json_decode($file_content, true);
+function getDataFromVersionfile($filename) {
+    $filePath = FOLDER_VERSIONS_PATH . $filename;
+    $fileContent = file_get_contents($filePath);
+    $jsonData = json_decode($fileContent, true);
 
     return $jsonData;
 }
 
-function handle_versionfile_json($versionjson) {
-    global $common_config;
-    $fulljson = array_merge($common_config, $versionjson);
+function handleVersionfileJson($versionJson) {
+    $fullJson = array_merge(getDataFromVersionfile("common.json"), $versionJson);
 
-    generate_version_files($fulljson);
+    generateNewVersionsFiles($fullJson);
 }
 
-function generate_md_file($json, $newfilepath) {
+function generateMarkdownFile($json, $newfilePath) {
     $template = file_get_contents("./templates/template.md.lepharetemplate");
-    $filled_content = json_template_manage($template, $json);
-    file_put_contents($newfilepath, $filled_content);
+    $filledContent = templateManage($template, $json);
+
+    file_put_contents($newfilePath, $filledContent);
 }
 
-function generate_php_file($json, $newfilepath) {
+function generatePhpcheckFile($json, $newfilePath) {
     $template = file_get_contents("./templates/check_version_script_template.php");
-    $filled_content = json_template_manage($template, array("jsontoinject" => json_encode($json)));
-    file_put_contents($newfilepath, $filled_content);
+    $filledContent = templateManage($template, array("jsontoinject" => json_encode($json)));
+
+    file_put_contents($newfilePath, $filledContent);
 }
 
-function generate_version_files($fulljson) { //.md & php
-    global $versions_pages_site_folder, $versions_scripts_folder;
-    $phpscript_filepath = $versions_scripts_folder . "check_" . $fulljson["version"] . ".php";
-    $docfile_mdpath = $versions_pages_site_folder . $fulljson["version"] . ".md";
-    generate_md_file($fulljson, $docfile_mdpath);
-    generate_php_file($fulljson, $phpscript_filepath);
+function generateNewVersionsFiles($fullJson) { //.md & php
+    $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER . "check_" . $fullJson["version"] . ".php";
+    $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER . $fullJson["version"] . ".md";
+
+    generateMarkdownFile($fullJson, $markdownFilepath);
+    generatePhpcheckFile($fullJson, $phpscriptFilepath);
 }
 
 function main() {
-    global $folder_versions_path;
-    $folder = opendir($folder_versions_path);
+    $folder = opendir(FOLDER_VERSIONS_PATH);
     $entry = "";
     $json = "";
 
@@ -61,8 +59,8 @@ function main() {
         while (false !== ($entry = readdir($folder))) {
             if ($entry != "." && $entry != "..") {
                 if ($entry == "common.json") continue;
-                $json = get_version_file_json($entry);
-                handle_versionfile_json($json);
+                $json = getDataFromVersionfile($entry);
+                handleVersionfileJson($json);
             }
         }
         closedir($folder);
