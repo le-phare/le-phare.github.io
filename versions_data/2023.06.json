@@ -16,12 +16,13 @@
         "pgsql",
         "posix",
         "xml",
-        "opcache",
+        " opcache - not tested by check_script", 
         "memcached",
         "imagick",
         "apcu",
         "exif",
         "zip",
-        "soap"
+        "soap",
+        " pcntl - not tested by check_script"
     ]
 }

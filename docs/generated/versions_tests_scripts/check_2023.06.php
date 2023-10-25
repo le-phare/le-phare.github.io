@@ -1,13 +1,13 @@
 <?php
-$versionData = json_decode('{"commonConfigState":"Internally loaded.","version":"2023.06","order_in_list":1,"debian_version":12,"php_version":8.2,"apache_version":2.4,"pgsql_version":15,"more_extensions":["curl","gd","intl","mbstring","pcntl","pdo","pdo_pgsql","pgsql","posix","xml","opcache","memcached","imagick","apcu","exif","zip","soap"]}'); //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{"commonConfigState":"Internally loaded.","version":"2023.06","order_in_list":1,"debian_version":12,"php_version":8.2,"apache_version":2.4,"pgsql_version":15,"more_extensions":["curl","gd","intl","mbstring","pcntl","pdo","pdo_pgsql","pgsql","posix","xml"," opcache - not tested by check_script","memcached","imagick","apcu","exif","zip","soap"," pcntl - not tested by check_script"]}'); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
-$FAROS_VERSION = '2023.04'; //0.6
-$URL = 'https://acme.fr';
+$FAROS_VERSION = $versionData->version; //0.6
+$URL = $versionData->URL;
 
 // htaccess
-$USERNAME = 'EDIT_ME';
-$PASSWORD = 'EDIT_ME';
+$USERNAME = $versionData->ht_access_username;
+$PASSWORD = $versionData->ht_access_password;
 
 // FIN DE ZONE A EDITER *******************************************************************************************
 
@@ -90,8 +90,9 @@ function get_bs_class(bool $check): string
 
 function get_binaries_check(): array
 {
+    global $versionData;
     $checks = [];
-    $binaries = ['/usr/bin/git', '/usr/bin/curl'];
+    $binaries = $versionData->binaries;
     foreach ($binaries as $binary) {
         $check = is_executable($binary);
         $checks[] = [
@@ -163,34 +164,9 @@ function get_document_root_check(): array
 
 function get_php_configuration_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $settings = [
-        // 'short_open_tag' => 'off', PHP_INI_PERDIR https://www.php.net/manual/en/ini.core.php
-        // 'magic_quotes_gpc' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
-        // 'register_globals' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
-        'display_errors' => 'off',
-        'display_startup_errors' => 'off',
-        'session.auto_start' => 'off',
-        'date.timezone' => 'Europe/Paris',
-        'upload_max_filesize' => '32M',
-        'post_max_size' => '33M',
-        'sys_temp_dir' => '/var/tmp',
-        'upload_tmp_dir' => '/var/tmp',
-        'session.save_handler' => 'memcached',
-        'session.save_path' => 'localhost:11211',
-        'memcached.sess_lock_wait_min' => '150',
-        'memcached.sess_lock_wait_max' => '150',
-        'memcached.sess_lock_retries' => '800',
-        'opcache.revalidate_freq' => '0',
-        'opcache.validate_timestamps' => '0',
-        'opcache.max_accelerated_files' => '20000',
-        'opcache.memory_consumption' => '256',
-        'opcache.interned_strings_buffer' => '16',
-        'memory_limit' => '128M',
-        'opcache.enable' => '1',
-        'realpath_cache_size' => '4096K',
-        'realpath_cache_ttl' => '60',
-    ];
+    $settings = $versionData->settings;
     foreach ($settings as $key => $expected) {
         $check = strtolower($expected) === strtolower(ini_get($key));
         $checks[] = [
@@ -207,16 +183,9 @@ function get_php_configuration_checks(): array
 
 function get_loaded_extensions_symfony_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $symfonyRequirements = [
-        'ctype',
-        'iconv',
-        'json',
-        'pcre',
-        'session',
-        'SimpleXML',
-        'tokenizer',
-    ];
+    $symfonyRequirements = $versionData->symfony_requirements;
 
     foreach ($symfonyRequirements as $item) {
         $check = extension_loaded($item);
@@ -233,27 +202,11 @@ function get_loaded_extensions_symfony_checks(): array
 
 function get_loaded_extensions_faros_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $farosRequirements = [
-        'curl',
-        'gd',
-        'intl',
-        'mbstring',
-        'pdo',
-        'pdo_pgsql',
-        'pgsql',
-        'posix',
-        'xml',
-        //'opcache',
-        'memcached',
-        'imagick',
-        'apcu',
-        // TODO: ne marche pas 'apcu_bc',
-        'exif',
-        'zip',
-        'soap',
-    ];
+    $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
+        if (substr($item, 0, 1) === ' ') continue; //if begin by space, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
