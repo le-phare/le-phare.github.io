@@ -168,6 +168,7 @@ function get_php_configuration_checks(): array
     $checks = [];
     $settings = $versionData->settings;
     foreach ($settings as $key => $expected) {
+        if (substr($expected, 0, 1) == '#') continue;
         $check = strtolower($expected) === strtolower(ini_get($key));
         $checks[] = [
             'prerequis' => $key.' = '.$expected,

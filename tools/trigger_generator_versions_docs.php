@@ -1,4 +1,4 @@
- <?php 
+<?php 
 const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
@@ -6,8 +6,14 @@ const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
 function arrayToMarkdownList($array) { //arrays are automatically markdown list str in template.
     $markdownList = "";
-    foreach ($array as $element) {
-        $markdownList .= "* " . $element . "\n";
+    foreach ($array as $key => $value) {
+        if (substr($value,0,1) === '#') {
+            $markdownList .= "\n\t" . $value . "\n"; # comment with newline
+        } else if (is_string($key)) {
+            $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
+        } else {
+            $markdownList .= "* " . $value . "\n"; #normal list
+        }
     }
     return $markdownList;
 }
