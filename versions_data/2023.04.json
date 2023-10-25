@@ -5,6 +5,8 @@
     "php_version": 8.2,
     "apache_version": 2.4,
     "pgsql_version" : 14,
+    "expected_vcpus" : 2,
+    "expect_ram_go": 4,
     "faros_requirements": [
         "curl",
         "gd",

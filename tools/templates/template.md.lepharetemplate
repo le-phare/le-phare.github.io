@@ -26,8 +26,8 @@ Tous les voyants devraient être verts, attention cependant il est possible d'av
 ## Dimensionnement machine
 
 Nous exigeons au minimum :
- * 2 vCPU
- * 4Go RAM
+ * {{expected_vcpus}} vCPU
+ * {{expect_ram_go}}Go RAM
 
 ## Authentification SSH
 
@@ -67,16 +67,10 @@ Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs 
 
 Pré-requis pour Symfony 6.x
 
- * ctype
- * iconv
- * pcre
- * session
- * SimpleXML
- * tokenizer
- * sodium
+ {{symfony_requirements}}
 
 Extensions supplémentaires pour nos applications
-{{more_extensions}}
+ {{faros_requirements}}
 
 ### php.ini
 
