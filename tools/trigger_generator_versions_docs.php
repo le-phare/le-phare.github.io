@@ -6,12 +6,16 @@ const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
 function arrayToMarkdownList($array) { //arrays are automatically markdown list str in template.
     $markdownList = "";
+
     foreach ($array as $key => $value) {
         if (substr($value,0,1) === '#') {
             $markdownList .= "\n\t" . $value . "\n"; # comment with newline
         } else if (is_string($key)) {
             $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
         } else {
+            if (substr($value,0,1) === '_') {
+                $value = substr($value, 1);
+            }
             $markdownList .= "* " . $value . "\n"; #normal list
         }
     }
@@ -23,12 +27,12 @@ function templateManage($templateContent, $json) {
     $fill = [];
 
     foreach ($json as $key => $value) {
-        array_push($search, "{{" . $key . "}}");
+        $search[] = "{{" . $key . "}}";
         if (is_array($value)) {
-            array_push($fill, arrayToMarkdownList($value));
+            $fill[] = arrayToMarkdownList($value);
             continue;
         }
-        array_push($fill, $value);
+        $fill[] = $value;
     }
     return str_replace($search, $fill, $templateContent);
 }
@@ -42,12 +46,13 @@ function getDataFromVersionfile($filename) {
 }
 
 function handleVersionfileJson($versionJson) {
-    $fullJson = array_merge(getDataFromVersionfile("common.json"), $versionJson);
+    $fullJson = array_merge(getDataFromVersionfile("shared.json"), $versionJson);
 
     generateNewVersionsFiles($fullJson);
 }
 
 function generateMarkdownFile($json, $newfilePath) {
+    print(" * Generating markdown file : " . $newfilePath . "\n");
     $template = file_get_contents("./templates/template.md.lepharetemplate");
     $filledContent = templateManage($template, $json);
 
@@ -55,6 +60,7 @@ function generateMarkdownFile($json, $newfilePath) {
 }
 
 function generatePhpcheckFile($json, $newfilePath) {
+    print(" * Generating php check script : " . $newfilePath . "\n");
     $template = file_get_contents("./templates/check_version_script_template.php");
     $filledContent = templateManage($template, array("jsontoinject" => json_encode($json)));
 
@@ -65,8 +71,10 @@ function generateNewVersionsFiles($fullJson) { //.md & php
     $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER . "check_" . $fullJson["version"] . ".php";
     $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER . $fullJson["version"] . ".md";
 
+    print("\033[92mFAROS VERSION " . $fullJson["version"] . " --> Generating files....\033[0m\n");
     generateMarkdownFile($fullJson, $markdownFilepath);
     generatePhpcheckFile($fullJson, $phpscriptFilepath);
+    print("\n");
 }
 
 function main() {
@@ -77,7 +85,7 @@ function main() {
     if ($folder) {
         while (false !== ($entry = readdir($folder))) {
             if ($entry != "." && $entry != "..") {
-                if ($entry == "common.json") continue;
+                if ($entry == "shared.json") continue;
                 $json = getDataFromVersionfile($entry);
                 handleVersionfileJson($json);
             }
@@ -87,4 +95,3 @@ function main() {
 }
 
 main();
-?>

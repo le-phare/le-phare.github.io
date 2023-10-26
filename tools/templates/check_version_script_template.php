@@ -207,7 +207,7 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === ' ') continue; //if begin by space, then we don't want it to be tested.
+        if (substr($item, 0, 1) === '_') continue; //if begin by space, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
