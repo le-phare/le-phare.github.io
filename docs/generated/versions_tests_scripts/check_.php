@@ -1,5 +1,5 @@
 <?php
-$versionData = json_decode('{{jsontoinject}}'); //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{"commonConfigLoaded":true,"expected_vcpus":2,"expect_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"]}'); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
 $FAROS_VERSION = $versionData->version; //0.6
@@ -14,83 +14,74 @@ $PASSWORD = $versionData->ht_access_password;
 $PHP_VERSION = $versionData->php_version;
 
 // TODO: KO
-// function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
-// {
-//     $check = false;
-//     $ch = curl_init();
-//     curl_setopt_array($ch, [
-//         \CURLOPT_URL => $url,
-//         \CURLOPT_RETURNTRANSFER => true,
-//         \CURLOPT_MAXREDIRS => 10,
-//         \CURLOPT_FOLLOWLOCATION => true,
-//         \CURLOPT_CUSTOMREQUEST => 'HEAD',
-//         \CURLOPT_TIMEOUT => 0,
-//         \CURLOPT_HTTPHEADER => [
-//             'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
-//         ],
-//         \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
-//     ]);
-//     //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
-//     $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
-//     //var_dump(curl_getinfo($ch));
-//     curl_close($ch);
-//     if (200 === $httpCode) {
-//         $check = true;
-//     }
+function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
+{
+    $check = false;
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        \CURLOPT_URL => $url,
+        \CURLOPT_RETURNTRANSFER => true,
+        \CURLOPT_MAXREDIRS => 10,
+        \CURLOPT_FOLLOWLOCATION => true,
+        \CURLOPT_CUSTOMREQUEST => 'HEAD',
+        \CURLOPT_TIMEOUT => 0,
+        \CURLOPT_HTTPHEADER => [
+            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
+        ],
+        \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
+    ]);
+    //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
+    $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
+    //var_dump(curl_getinfo($ch));
+    curl_close($ch);
+    if (200 === $httpCode) {
+        $check = true;
+    }
 
-//     return [
-//         'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
-//         'check' => $check,
-//         'bsClass' => get_bs_class($check),
-//         'checkLabel' => true === $check ? 'OK' : 'KO',
-//         'errorMessage' => true === $check ? '' : $httpCode,
-//     ];
-// }
+    return [
+        'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
+        'check' => $check,
+        'bsClass' => get_bs_class($check),
+        'checkLabel' => true === $check ? 'OK' : 'KO',
+        'errorMessage' => true === $check ? '' : $httpCode,
+    ];
+}
 
 // for OpCache
 function get_call_itself_check(string $url, ?string $username, ?string $password): array
 {
     $check = false;
+    $curl = curl_init();
 
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'HEAD',
-            'header' => 'Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)),
+    curl_setopt_array($curl, [
+        \CURLOPT_URL => $url,
+        \CURLOPT_RETURNTRANSFER => true,
+        \CURLOPT_MAXREDIRS => 10,
+        \CURLOPT_FOLLOWLOCATION => true,
+        \CURLOPT_CUSTOMREQUEST => 'HEAD',
+        \CURLOPT_TIMEOUT => 0,
+        \CURLOPT_HTTPHEADER => [
+            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
         ],
     ]);
 
-    $response = @file_get_contents($url, false, $context);
+    $response = curl_exec($curl);
 
-    if ($response !== false) {
-        // Successfully retrieved the resource
-        $http_response_header = $http_response_header ?? [];
-        $httpCode = 0;
-
-        foreach ($http_response_header as $header) {
-            if (strpos($header, 'HTTP/') === 0) {
-                $parts = explode(' ', $header);
-                $httpCode = (int)($parts[1]);
-                break;
-            }
-        }
-
-        if ($httpCode === 200) {
-            $check = true;
-        }
-    } else {
-        // Unable to retrieve the resource
-        $httpCode = 0;
+    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    if (200 === $httpCode) {
+        $check = true;
     }
 
     return [
-        'prerequis' => 'Peut appeler ' . $url,
+        'prerequis' => 'Peut appeler '.$url,
         'check' => $check,
         'bsClass' => get_bs_class($check),
-        'checkLabel' => $check ? 'OK' : 'KO',
-        'errorMessage' => $check ? '' : $httpCode,
+        'checkLabel' => true === $check ? 'OK' : 'KO',
+        'errorMessage' => true === $check ? '' : $httpCode,
     ];
 }
-
 
 function get_bs_class(bool $check): string
 {
@@ -116,28 +107,28 @@ function get_binaries_check(): array
 }
 
 // TODO: KO car le user du script n'a pas les droits de lecture sur le fichier
-// function get_lephare_keys_check(): array
-// {
-//     $check = false;
-//     $curl = curl_init();
-//     curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
-//     curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($curl, \CURLOPT_HEADER, false);
-//     $data = curl_exec($curl);
-//     $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
-//     curl_close($curl);
-//     if (200 === $httpCode) {
-//         $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
-//     }
+function get_lephare_keys_check(): array
+{
+    $check = false;
+    $curl = curl_init();
+    curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
+    curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, \CURLOPT_HEADER, false);
+    $data = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    if (200 === $httpCode) {
+        $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
+    }
 
-//     return [
-//         'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
-//         'check' => $check,
-//         'errorMessage' => true === $check ? '' : 'Contenus différents',
-//         'bsClass' => true === $check ? 'success' : 'danger',
-//         'checkLabel' => true === $check ? 'OK' : 'KO',
-//     ];
-// }
+    return [
+        'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
+        'check' => $check,
+        'errorMessage' => true === $check ? '' : 'Contenus différents',
+        'bsClass' => true === $check ? 'success' : 'danger',
+        'checkLabel' => true === $check ? 'OK' : 'KO',
+    ];
+}
 
 function get_php_version_check(string $PHP_VERSION): array
 {
@@ -216,7 +207,7 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === '_') continue; //if begin by _, then we don't want it to be tested.
+        if (substr($item, 0, 1) === '_') continue; //if begin by space, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
@@ -408,7 +399,7 @@ $html .= <<<HTML
 HTML;
 
 $documentRootCheck = get_document_root_check();
-//$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
 $apacheChecks = <<<HTML
         <table class="table table-bordered table-striped">
             <thead>

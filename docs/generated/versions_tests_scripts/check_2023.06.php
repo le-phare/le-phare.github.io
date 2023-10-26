@@ -1,5 +1,5 @@
 <?php
-$versionData = json_decode('{"commonConfigState":"Internally loaded.","version":"2023.06","order_in_list":1,"debian_version":12,"php_version":8.2,"apache_version":2.4,"pgsql_version":15,"expected_vcpus":2,"expect_ram_go":4,"faros_requirements":["curl","gd","intl","mbstring","pcntl","pdo","pdo_pgsql","pgsql","posix","xml"," opcache - not tested by check_script","memcached","imagick","apcu","exif","zip","soap"," pcntl - not tested by check_script"],"symfony_requirements":["ctype","iconv","json","pcre","session","SimpleXML","tokenizer"],"binaries":["\/usr\/bin\/git","\/usr\/bin\/curl"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","URL":"https:\/\/acme.fr","settings":{"display_errors":"off","display_startup_errors":"off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","0":"# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","1":"# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","2":"# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"]}'); //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{"commonConfigLoaded":true,"expected_vcpus":2,"expect_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"],"version":"2023.06","apache_version":2.4,"binaries":["\/usr\/bin\/curl","\/usr\/bin\/git"],"binaries_to_display":["Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https:\/\/docs.ansible.com\/ansible\/latest\/installation_guide\/intro_installation.html#managed-node-requirements)","curl","git","git-lfs","pg_dump (utilis\u00e9 par lephare\/ansible-deploy)","rsync"],"debian_version":12,"faros_requirements":["_opcache - not tested by check_script","_pcntl - not tested by check_script","apcu","curl","exif","gd","imagick","intl","mbstring","memcached","pcntl","pdo","pdo_pgsql","pgsql","posix","soap","xml","zip"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","order_in_list":1,"pgsql_version":15,"php_version":8.2,"settings":{"display_errors":"off","display_startup_errors":"off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","_comment1":"# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","_comment2":"# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","_comment3":"# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"symfony_requirements":["SimpleXML","ctype","iconv","json","pcre","session","tokenizer"],"URL":"https:\/\/acme.fr"}'); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 
 $FAROS_VERSION = $versionData->version; //0.6
@@ -14,74 +14,83 @@ $PASSWORD = $versionData->ht_access_password;
 $PHP_VERSION = $versionData->php_version;
 
 // TODO: KO
-function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
-{
-    $check = false;
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        \CURLOPT_URL => $url,
-        \CURLOPT_RETURNTRANSFER => true,
-        \CURLOPT_MAXREDIRS => 10,
-        \CURLOPT_FOLLOWLOCATION => true,
-        \CURLOPT_CUSTOMREQUEST => 'HEAD',
-        \CURLOPT_TIMEOUT => 0,
-        \CURLOPT_HTTPHEADER => [
-            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
-        ],
-        \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
-    ]);
-    //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
-    $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
-    //var_dump(curl_getinfo($ch));
-    curl_close($ch);
-    if (200 === $httpCode) {
-        $check = true;
-    }
+// function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
+// {
+//     $check = false;
+//     $ch = curl_init();
+//     curl_setopt_array($ch, [
+//         \CURLOPT_URL => $url,
+//         \CURLOPT_RETURNTRANSFER => true,
+//         \CURLOPT_MAXREDIRS => 10,
+//         \CURLOPT_FOLLOWLOCATION => true,
+//         \CURLOPT_CUSTOMREQUEST => 'HEAD',
+//         \CURLOPT_TIMEOUT => 0,
+//         \CURLOPT_HTTPHEADER => [
+//             'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
+//         ],
+//         \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
+//     ]);
+//     //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
+//     $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
+//     //var_dump(curl_getinfo($ch));
+//     curl_close($ch);
+//     if (200 === $httpCode) {
+//         $check = true;
+//     }
 
-    return [
-        'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
-        'check' => $check,
-        'bsClass' => get_bs_class($check),
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-        'errorMessage' => true === $check ? '' : $httpCode,
-    ];
-}
+//     return [
+//         'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
+//         'check' => $check,
+//         'bsClass' => get_bs_class($check),
+//         'checkLabel' => true === $check ? 'OK' : 'KO',
+//         'errorMessage' => true === $check ? '' : $httpCode,
+//     ];
+// }
 
 // for OpCache
 function get_call_itself_check(string $url, ?string $username, ?string $password): array
 {
     $check = false;
-    $curl = curl_init();
 
-    curl_setopt_array($curl, [
-        \CURLOPT_URL => $url,
-        \CURLOPT_RETURNTRANSFER => true,
-        \CURLOPT_MAXREDIRS => 10,
-        \CURLOPT_FOLLOWLOCATION => true,
-        \CURLOPT_CUSTOMREQUEST => 'HEAD',
-        \CURLOPT_TIMEOUT => 0,
-        \CURLOPT_HTTPHEADER => [
-            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'HEAD',
+            'header' => 'Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)),
         ],
     ]);
 
-    $response = curl_exec($curl);
+    $response = @file_get_contents($url, false, $context);
 
-    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
-    $response = curl_exec($curl);
-    curl_close($curl);
-    if (200 === $httpCode) {
-        $check = true;
+    if ($response !== false) {
+        // Successfully retrieved the resource
+        $http_response_header = $http_response_header ?? [];
+        $httpCode = 0;
+
+        foreach ($http_response_header as $header) {
+            if (strpos($header, 'HTTP/') === 0) {
+                $parts = explode(' ', $header);
+                $httpCode = (int)($parts[1]);
+                break;
+            }
+        }
+
+        if ($httpCode === 200) {
+            $check = true;
+        }
+    } else {
+        // Unable to retrieve the resource
+        $httpCode = 0;
     }
 
     return [
-        'prerequis' => 'Peut appeler '.$url,
+        'prerequis' => 'Peut appeler ' . $url,
         'check' => $check,
         'bsClass' => get_bs_class($check),
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-        'errorMessage' => true === $check ? '' : $httpCode,
+        'checkLabel' => $check ? 'OK' : 'KO',
+        'errorMessage' => $check ? '' : $httpCode,
     ];
 }
+
 
 function get_bs_class(bool $check): string
 {
@@ -107,28 +116,28 @@ function get_binaries_check(): array
 }
 
 // TODO: KO car le user du script n'a pas les droits de lecture sur le fichier
-function get_lephare_keys_check(): array
-{
-    $check = false;
-    $curl = curl_init();
-    curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
-    curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, \CURLOPT_HEADER, false);
-    $data = curl_exec($curl);
-    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
-    curl_close($curl);
-    if (200 === $httpCode) {
-        $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
-    }
+// function get_lephare_keys_check(): array
+// {
+//     $check = false;
+//     $curl = curl_init();
+//     curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
+//     curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($curl, \CURLOPT_HEADER, false);
+//     $data = curl_exec($curl);
+//     $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
+//     curl_close($curl);
+//     if (200 === $httpCode) {
+//         $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
+//     }
 
-    return [
-        'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
-        'check' => $check,
-        'errorMessage' => true === $check ? '' : 'Contenus différents',
-        'bsClass' => true === $check ? 'success' : 'danger',
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-    ];
-}
+//     return [
+//         'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
+//         'check' => $check,
+//         'errorMessage' => true === $check ? '' : 'Contenus différents',
+//         'bsClass' => true === $check ? 'success' : 'danger',
+//         'checkLabel' => true === $check ? 'OK' : 'KO',
+//     ];
+// }
 
 function get_php_version_check(string $PHP_VERSION): array
 {
@@ -207,7 +216,7 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === ' ') continue; //if begin by space, then we don't want it to be tested.
+        if (substr($item, 0, 1) === '_') continue; //if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
@@ -399,7 +408,7 @@ $html .= <<<HTML
 HTML;
 
 $documentRootCheck = get_document_root_check();
-$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+//$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
 $apacheChecks = <<<HTML
         <table class="table table-bordered table-striped">
             <thead>
