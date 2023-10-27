@@ -1,8 +1,13 @@
 <?php
-$versionData = json_decode('{{jsontoinject}}'); //injected by the generator php script, homemade php template manager
-// DEBUT ZONE A EDITER *************************************************************************************************
 
-$FAROS_VERSION = $versionData->version; //0.6
+$jsonString = '{{jsontoinject}}';
+$versionData = json_decode($jsonString); //injected by the generator php script, homemade php template manager
+// DEBUT ZONE A EDITER *************************************************************************************************
+if ($versionData === null) {
+    print("injected json read is null");
+    exit(84); 
+}
+$FAROS_VERSION = $versionData->version; //0.6 // @phpstan-ignore-line
 $URL = $versionData->URL;
 
 // htaccess
@@ -178,7 +183,9 @@ function get_php_configuration_checks(): array
     $settings = $versionData->settings;
 
     foreach ($settings as $key => $expected) {
-        if (substr($expected, 0, 1) == '#') continue;
+        if (substr($expected, 0, 1) == '#') {
+            continue;
+        }
         $check = strtolower($expected) === strtolower(ini_get($key));
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
@@ -217,7 +224,9 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === '_') continue; //if begin by _, then we don't want it to be tested.
+        if (substr($item, 0, 1) === '_') {
+            continue;
+        } //if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
