@@ -1,7 +1,5 @@
 <?php
-
-$jsonString = '{{jsontoinject}}';
-$versionData = json_decode($jsonString); //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{{jsontoinject}}'); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 if ($versionData === null) {
     print("injected json read is null");
@@ -176,6 +174,41 @@ function get_document_root_check(): array
     ];
 }
 
+function check_comparator_int_phpini($keyValue, $expected) : bool {
+    $check = false;
+    $biggerAuthorized = ($expected[0] == ">"); //so if false it authorizes under.
+    $equalAuthorized = ($expected[1] == "=");
+    $integerPartExpected = $equalAuthorized ? substr($expected, 2) : substr($expected, 1);
+    $extractedIntegerExpected = intval($integerPartExpected);
+    $extractedIntegerKeyValue = intval($keyValue);
+
+    if ($biggerAuthorized && $equalAuthorized) {
+        $check = ($extractedIntegerKeyValue >= $extractedIntegerExpected);
+    } else if (!$biggerAuthorized && $equalAuthorized) {
+        $check = ($extractedIntegerKeyValue <= $extractedIntegerExpected);
+    } else if ($biggerAuthorized && !$equalAuthorized) {
+        $check = ($extractedIntegerKeyValue > $extractedIntegerExpected);
+    } else if (!$biggerAuthorized && !$equalAuthorized) {
+        $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
+    }
+    return $check;
+}
+
+function check_value_phpini(string $keyValue, string $expected) : bool {
+    $check = false;
+
+    if (strtolower($expected) == 'off') {
+        $check = ($keyValue == "" or $keyValue == "0" or $keyValue == "off" or $keyValue == "Off");
+    } else if (strtolower($expected) == 'on') {
+        $check = ($keyValue == "1" or $keyValue == "on" or $keyValue == "On");
+    } else if ($expected[0] == "<" or $expected[0] == ">") {
+        $check = check_comparator_int_phpini($keyValue, $expected);
+    } else {
+        $check = strtolower($expected) === strtolower($keyValue);
+    }
+    return $check;
+}
+
 function get_php_configuration_checks(): array
 {
     global $versionData;
@@ -183,16 +216,15 @@ function get_php_configuration_checks(): array
     $settings = $versionData->settings;
 
     foreach ($settings as $key => $expected) {
-        if (substr($expected, 0, 1) == '#') {
-            continue;
-        }
-        $check = strtolower($expected) === strtolower(ini_get($key));
+        $keyValue = ini_get($key);
+        if (substr($expected, 0, 1) == '#') continue;
+        $check = check_value_phpini($keyValue, $expected);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
             'bsClass' => true === $check ? 'success' : 'danger',
             'checkLabel' => true === $check ? 'OK' : 'KO',
-            'errorMessage' => true === $check ? '' : ini_get($key),
+            'errorMessage' => true === $check ? '' : ($keyValue === false ? "Not defined in php.ini" : $keyValue),
         ];
     }
 

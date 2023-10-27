@@ -6,12 +6,12 @@
         "/usr/bin/git"
     ],
     "binaries_to_display": [
-        "<input type='checkbox'/>Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
-        "<input type='checkbox'/>curl",
-        "<input type='checkbox'/>git",
-        "<input type='checkbox'/>git-lfs",
-        "<input type='checkbox'/>pg_dump (utilisé par lephare/ansible-deploy)",
-        "<input type='checkbox'/>rsync"
+        "<input type=\"checkbox\"/>Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
+        "<input type=\"checkbox\"/>curl",
+        "<input type=\"checkbox\"/>git",
+        "<input type=\"checkbox\"/>git-lfs",
+        "<input type=\"checkbox\"/>pg_dump (utilisé par lephare/ansible-deploy)",
+        "<input type=\"checkbox\"/>rsync"
     ],
     "debian_version": 11.6,
     "faros_requirements": [
@@ -58,7 +58,7 @@
         "opcache.revalidate_freq": "0",
         "opcache.validate_timestamps": "0",
         "opcache.max_accelerated_files": "20000",
-        "opcache.memory_consumption": "256",
+        "opcache.memory_consumption": "<=256",
         "opcache.interned_strings_buffer": "16",
             "short_open_tag": "Off",
             "memory_limit": "128M",
