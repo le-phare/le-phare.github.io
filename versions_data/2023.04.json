@@ -40,8 +40,8 @@
     "pgsql_version": 14,
     "php_version": 8.2,
     "settings": {
-        "display_errors": "off",
-        "display_startup_errors": "off",
+        "display_errors": "Off",
+        "display_startup_errors": "Off",
         "session.auto_start": "off",
         "date.timezone": "Europe/Paris",
         "upload_max_filesize": "32M",

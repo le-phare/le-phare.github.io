@@ -176,6 +176,7 @@ function get_php_configuration_checks(): array
     global $versionData;
     $checks = [];
     $settings = $versionData->settings;
+
     foreach ($settings as $key => $expected) {
         if (substr($expected, 0, 1) == '#') continue;
         $check = strtolower($expected) === strtolower(ini_get($key));
@@ -247,6 +248,7 @@ $html = <<<HTML
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
 HTML;
 $mainChecks = <<<HTML
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
