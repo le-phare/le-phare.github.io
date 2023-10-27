@@ -1,11 +1,13 @@
 <?php
-$versionData = json_decode('{"commonConfigLoaded":true,"expected_vcpus":2,"expect_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"],"version":"2023.06","apache_version":2.4,"binaries":["\/usr\/bin\/curl","\/usr\/bin\/git"],"binaries_to_display":["Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https:\/\/docs.ansible.com\/ansible\/latest\/installation_guide\/intro_installation.html#managed-node-requirements)","curl","git","git-lfs","pg_dump (utilis\u00e9 par lephare\/ansible-deploy)","rsync"],"debian_version":12,"faros_requirements":["_opcache - not tested by check_script","_pcntl - not tested by check_script","apcu","curl","exif","gd","imagick","intl","mbstring","memcached","pcntl","pdo","pdo_pgsql","pgsql","posix","soap","xml","zip"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","order_in_list":1,"pgsql_version":15,"php_version":8.2,"settings":{"display_errors":"off","display_startup_errors":"off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","_comment1":"# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","_comment2":"# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","_comment3":"# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"symfony_requirements":["SimpleXML","ctype","iconv","json","pcre","session","tokenizer"],"URL":"https:\/\/acme.fr"}'); //injected by the generator php script, homemade php template manager
+
+$jsonString = '{"commonConfigLoaded":true,"expected_vcpus":2,"expect_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"],"version":"2023.06","apache_version":2.4,"binaries":["\/usr\/bin\/curl","\/usr\/bin\/git"],"binaries_to_display":["<input type='checkbox'\/>Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https:\/\/docs.ansible.com\/ansible\/latest\/installation_guide\/intro_installation.html#managed-node-requirements)","<input type='checkbox'\/>curl","<input type='checkbox'\/>git","<input type='checkbox'\/>git-lfs","<input type='checkbox'\/>pg_dump (utilis\u00e9 par lephare\/ansible-deploy)","<input type='checkbox'\/>rsync"],"debian_version":12,"faros_requirements":["_opcache - not tested by check_script","_pcntl - not tested by check_script","apcu","curl","exif","gd","imagick","intl","mbstring","memcached","pcntl","pdo","pdo_pgsql","pgsql","posix","soap","xml","zip"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","order_in_list":1,"pgsql_version":15,"php_version":8.2,"settings":{"display_errors":"off","display_startup_errors":"off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","_comment1":"# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","_comment2":"# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","_comment3":"# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"symfony_requirements":["SimpleXML","ctype","iconv","json","pcre","session","tokenizer"],"URL":"https:\/\/acme.fr"}';
+$versionData = json_decode($jsonString); //injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 if ($versionData === null) {
     print("injected json read is null");
-    die(84);
+    exit(84); 
 }
-$FAROS_VERSION = $versionData->version; //0.6
+$FAROS_VERSION = $versionData->version; //0.6 // @phpstan-ignore-line
 $URL = $versionData->URL;
 
 // htaccess
@@ -181,7 +183,9 @@ function get_php_configuration_checks(): array
     $settings = $versionData->settings;
 
     foreach ($settings as $key => $expected) {
-        if (substr($expected, 0, 1) == '#') continue;
+        if (substr($expected, 0, 1) == '#') {
+            continue;
+        }
         $check = strtolower($expected) === strtolower(ini_get($key));
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
@@ -220,7 +224,9 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === '_') continue; //if begin by _, then we don't want it to be tested.
+        if (substr($item, 0, 1) === '_') {
+            continue;
+        } //if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
