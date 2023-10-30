@@ -20,9 +20,9 @@ function arrayToMarkdownList(mixed $array): string //arrays are automatically ma
                     }
                 }
                 $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
-        } else {
-            $markdownList .= "\t" . $value . "\n";
-        }
+            } else {
+                $markdownList .= "\t" . $value . "\n";
+            }
         } else {
             if (substr($value, 0, 1) === '_') {
                 $value = substr($value, 1);

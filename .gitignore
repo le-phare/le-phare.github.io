@@ -2,3 +2,5 @@ _site
 .sass-cache
 .jekyll-metadata
 /vendor/*
+.php-cs-fixer.cache
+/tmp-phpqa/*
