@@ -6,7 +6,8 @@ const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
 
 function arrayToMarkdownList(mixed $array): string //arrays are automatically markdown list str in template.
-{$markdownList = "";
+{
+    $markdownList = "";
 
     foreach ($array as $key => $value) {
         if (is_string($key) && substr($key, 0, 1) != '_') {
@@ -81,7 +82,8 @@ function generatePhpcheckFile(mixed $json, string $newfilePath): void
 }
 
 function generateNewVersionsFiles(mixed $fullJson): void //.md & php
-{$phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER . "check_" . $fullJson["version"] . ".php";
+{
+    $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER . "check_" . $fullJson["version"] . ".php";
     $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER . $fullJson["version"] . ".md";
 
     print("\033[92mFAROS VERSION " . $fullJson["version"] . " --> Generating files....\033[0m\n");
