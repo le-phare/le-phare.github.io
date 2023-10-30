@@ -4,6 +4,17 @@ const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
+function cleanValue(string $value) {
+    if ($value[0] == '<' or $value[0] == '>') {
+        if ($value[1] == '=') {
+            $value = substr($value, 2);
+        } else {
+            $value = substr($value, 1);
+        }
+    }
+    return $value;
+}
+
 /**
  * @param array<mixed, mixed> $array
 */
@@ -12,16 +23,9 @@ function arrayToMarkdownList(array $array): string //arrays are automatically ma
     $markdownList = "";
 
     foreach ($array as $key => $value) {
-        if (is_string($key)) {
-            if (substr($key, 0, 1) != '_') {
-                if ($value[0] == '<' or $value[0] == '>') {
-                    if ($value[1] == '=') {
-                        $value = substr($value, 2);
-                    } else {
-                        $value = substr($value, 1);
-                    }
-                }
-                $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
+        if (is_string($key)) { #mostly php.ini
+            if (substr($key, 0, 1) != '_') { #not a array comment _comment1 like.
+                $markdownList .= "\t" . $key . " = " . cleanValue($value) . "\n"; 
             } else {
                 $markdownList .= "\t" . $value . "\n";
             }
@@ -90,7 +94,6 @@ function generateMarkdownFile(array $json, string $newfilePath): void
         return;
     }
     $filledContent = templateManage($template, $json);
-
     file_put_contents($newfilePath, $filledContent);
 }
 
