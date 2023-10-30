@@ -4,8 +4,10 @@ const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
-
-function arrayToMarkdownList(mixed $array): string //arrays are automatically markdown list str in template.
+/**
+ * @param array<mixed, mixed> $array
+*/
+function arrayToMarkdownList(array $array): string //arrays are automatically markdown list str in template.
 {
     $markdownList = "";
 
@@ -33,7 +35,10 @@ function arrayToMarkdownList(mixed $array): string //arrays are automatically ma
     return $markdownList;
 }
 
-function templateManage(string $templateContent, mixed $json): string
+/**
+ * @param array<mixed, mixed> $json
+*/
+function templateManage(string $templateContent, array $json): string
 {
     $search = [];
     $fill = [];
@@ -49,26 +54,35 @@ function templateManage(string $templateContent, mixed $json): string
     return str_replace($search, $fill, $templateContent);
 }
 
-function getDataFromVersionfile(string $filename): mixed
+/**
+ * @return array<mixed, mixed>
+*/
+function getDataFromVersionfile(string $filename): array
 {
     $filePath = FOLDER_VERSIONS_PATH . $filename;
     $fileContent = file_get_contents($filePath);
     if ($fileContent === false) {
-        return null;
+        return array();
     }
     $jsonData = json_decode($fileContent, true);
 
     return $jsonData;
 }
 
-function handleVersionfileJson(mixed $versionJson): void
+/**
+ * @param array<mixed, mixed> $versionJson
+*/
+function handleVersionfileJson(array $versionJson): void
 {
     $fullJson = array_merge_recursive(getDataFromVersionfile("shared.json"), $versionJson);
 
     generateNewVersionsFiles($fullJson);
 }
 
-function generateMarkdownFile(mixed $json, string $newfilePath): void
+/**
+ * @param array<mixed, mixed> $json
+*/
+function generateMarkdownFile(array $json, string $newfilePath): void
 {
     print(" * Generating markdown file : " . $newfilePath . "\n");
     $template = file_get_contents("./templates/template.md");
@@ -80,7 +94,10 @@ function generateMarkdownFile(mixed $json, string $newfilePath): void
     file_put_contents($newfilePath, $filledContent);
 }
 
-function generatePhpcheckFile(mixed $json, string $newfilePath): void
+/**
+ * @param array<mixed, mixed> $json
+*/
+function generatePhpcheckFile(array $json, string $newfilePath): void
 {
     print(" * Generating php check script : " . $newfilePath . "\n");
     $template = file_get_contents("./templates/check_version_script_template.php");
@@ -92,6 +109,9 @@ function generatePhpcheckFile(mixed $json, string $newfilePath): void
     file_put_contents($newfilePath, $filledContent);
 }
 
+/**
+ * @param array<mixed, mixed> $fullJson
+*/
 function generateNewVersionsFiles(mixed $fullJson): void //.md & php
 {
     $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER . "check_" . $fullJson["version"] . ".php";
