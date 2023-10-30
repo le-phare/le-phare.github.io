@@ -9,9 +9,7 @@ function arrayToMarkdownList(mixed $array): string //arrays are automatically ma
 {$markdownList = "";
 
     foreach ($array as $key => $value) {
-        if (substr($value, 0, 1) === '#') {
-            $markdownList .= "\n\t" . $value . "\n"; # comment with newline
-        } elseif (is_string($key)) {
+        if (is_string($key) && substr($key, 0, 1) != '_') {
             $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
         } else {
             if (substr($value, 0, 1) === '_') {

@@ -217,7 +217,7 @@ function get_php_configuration_checks(): array
 
     foreach ($settings as $key => $expected) {
         $keyValue = ini_get($key);
-        if (substr($expected, 0, 1) == '#') continue;
+        if (substr($key, 0, 1) == '_') continue;
         $check = check_value_phpini($keyValue, $expected);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
