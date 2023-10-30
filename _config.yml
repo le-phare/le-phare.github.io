@@ -42,3 +42,4 @@ exclude:
   - Gemfile.lock
   - docker-compose.yml
   - vendor/bundle/
+  - tools/

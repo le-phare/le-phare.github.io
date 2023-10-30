@@ -52,7 +52,7 @@ function getDataFromVersionfile(string $filename): mixed
 
 function handleVersionfileJson(mixed $versionJson): void
 {
-    $fullJson = array_merge(getDataFromVersionfile("shared.json"), $versionJson);
+    $fullJson = array_merge_recursive(getDataFromVersionfile("shared.json"), $versionJson);
 
     generateNewVersionsFiles($fullJson);
 }
@@ -60,7 +60,7 @@ function handleVersionfileJson(mixed $versionJson): void
 function generateMarkdownFile(mixed $json, string $newfilePath): void
 {
     print(" * Generating markdown file : " . $newfilePath . "\n");
-    $template = file_get_contents("./templates/template.md.lepharetemplate");
+    $template = file_get_contents("./templates/template.md");
     if ($template === false) {
         return;
     }
