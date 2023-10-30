@@ -10,8 +10,19 @@ function arrayToMarkdownList(mixed $array): string //arrays are automatically ma
     $markdownList = "";
 
     foreach ($array as $key => $value) {
-        if (is_string($key) && substr($key, 0, 1) != '_') {
-            $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
+        if (is_string($key)) {
+            if (substr($key, 0, 1) != '_') {
+                if ($value[0] == '<' or $value[0] == '>') {
+                    if ($value[1] == '=') {
+                        $value = substr($value, 2);
+                    } else {
+                        $value = substr($value, 1);
+                    }
+                }
+                $markdownList .= "\t" . $key . " = " . $value . "\n"; #mostly php.ini
+        } else {
+            $markdownList .= "\t" . $value . "\n";
+        }
         } else {
             if (substr($value, 0, 1) === '_') {
                 $value = substr($value, 1);
@@ -95,8 +106,6 @@ function generateNewVersionsFiles(mixed $fullJson): void //.md & php
 function main(): void
 {
     $folder = opendir(FOLDER_VERSIONS_PATH);
-    $entry = "";
-    $json = "";
 
     if ($folder) {
         while (false !== ($entry = readdir($folder))) {

@@ -6,5 +6,17 @@
             "37.59.114.65",
             "193.39.2.4",
             "80.15.143.1"
+        ],
+        "binaries": [
+            "/usr/bin/curl",
+            "/usr/bin/git"
+        ],
+        "binaries_to_display": [
+            "<input type=\"checkbox\"/> Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
+            "<input type=\"checkbox\"/> curl",
+            "<input type=\"checkbox\"/> git",
+            "<input type=\"checkbox\"/> git-lfs",
+            "<input type=\"checkbox\"/> pg_dump (utilisé par lephare/ansible-deploy)",
+            "<input type=\"checkbox\"/> rsync"
         ]
 }

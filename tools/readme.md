@@ -14,5 +14,12 @@ ce dossier et ses sous-dossiers **docs/generated/** --> tous les fichiers géné
 	* **Pour les {}**, comme php.ini, si l'on souhaite faire un commentaire, une ligne simple à afficher textuelle sur le markdown, et non testé dans la vérification des settings php , donner une clé style : "_stringunique".
 	* **Pour les settings** (php.ini), possibilité d'ajouter des opérateurs : <= < > >= pour les valeurs chiffrées attendues. 
 
+### Ajouter une nouvelle version
+* Créer un nouveau fichier json, la version de faros est stockée dans la clée "version", n'hésitez pas à vous baser sur les json existants.
+
+### Modifier une version
+* Ouvrez le json et modifiez comme vous le souhaitez les informations. Pour ajouter de nouvelles valeurs et les utiliser voir ci-dessus. En fonction de la complexité des changements il est possible qu'il soit nécessaire de toucher aux templates markdown, php voire même le générateur. Une fois des modifications apportées lancer le générateur (Voir ci-dessous) pour actualiser la documentation. 
+
+
 ### Execution
 `php trigger_generator_versions_docs.php`
