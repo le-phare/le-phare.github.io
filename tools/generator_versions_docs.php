@@ -4,7 +4,8 @@ const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
 
-function cleanValue(string $value) {
+function cleanOperatorValue(string $value) : string
+{
     if ($value[0] == '<' or $value[0] == '>') {
         if ($value[1] == '=') {
             $value = substr($value, 2);
@@ -25,7 +26,7 @@ function arrayToMarkdownList(array $array): string //arrays are automatically ma
     foreach ($array as $key => $value) {
         if (is_string($key)) { #mostly php.ini
             if (substr($key, 0, 1) != '_') { #not a array comment _comment1 like.
-                $markdownList .= "\t" . $key . " = " . cleanValue($value) . "\n"; 
+                $markdownList .= "\t" . $key . " = " . cleanOperatorValue($value) . "\n";
             } else {
                 $markdownList .= "\t" . $value . "\n";
             }
@@ -63,11 +64,13 @@ function templateManage(string $templateContent, array $json): string
 */
 function getDataFromVersionfile(string $filePath, bool $directPath): array
 {
-    if (!$directPath)
+    if (!$directPath) {
         $filePath = FOLDER_VERSIONS_PATH . $filePath;
+    }
     $fileContent = file_get_contents($filePath);
-    if (!$fileContent)
+    if (!$fileContent) {
         exit(84);
+    }
     $jsonData = json_decode($fileContent, true);
 
     return $jsonData;
@@ -126,7 +129,8 @@ function generateNewVersionsFiles(mixed $fullJson): void //.md & php
     print("\n");
 }
 
-function generateAllVersions() {
+function generateAllVersions() : void
+{
     $folder = opendir(FOLDER_VERSIONS_PATH);
 
     if ($folder) {
@@ -143,7 +147,8 @@ function generateAllVersions() {
     }
 }
 
-function generateOneVersion($filePath) {
+function generateOneVersion(string $filePath) : void
+{
     $json = getDataFromVersionfile($filePath, true);
 
     handleVersionfileJson($json);
