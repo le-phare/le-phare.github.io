@@ -1,5 +1,6 @@
 {
-    "version": "9.0(2019.03)",
+    "version": "9.0",
+    "fullVersionName": "9.0 (2019.03)",
     "apache_version": 2.4,
     "debian_version": 9,
     "faros_requirements": [

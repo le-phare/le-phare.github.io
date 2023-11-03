@@ -1,5 +1,6 @@
 {
-    "version": "10.1(2021.03)",
+    "version": "10.1",
+    "fullVersionName": "10.1 (2021.03)",
     "apache_version": 2.4,
     "debian_version": 10,
     "faros_requirements": [

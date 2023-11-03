@@ -1,8 +1,9 @@
 ---
 layout: default
-title: {{version}}
+title: {{fullVersionName}}
 nav_order: {{order_in_list}}
 parent: Versions
+permalink: docs/versions/{{version}}.html
 ---
 <div class="callout callout-info" markdown="span">
 Pour être sur que la machine est bien configurée --> tout en vert sur le script PHP, toutes les checkbox sur ce document cochées.

@@ -1,7 +1,7 @@
 # Générateur de documentation & scripts FAROS VERSION help
 
 ### Les fichiers
-* **tools/trigger_generator_versions_docs.php** --> le script php à déclencher, qui se base sur les fichiers json basé dans le dossier /versions_data et les templates /templates  
+* **tools/generator_versions_docs.php** --> le script php à déclencher, qui se base sur les fichiers json basé dans le dossier /versions_data et les templates /templates  
 * **tools/templates/check_version_script_template.php** --> le template du script PHP offert aux hébergeurs afin de tester leur machine, celui-ci se base sur un json injecté au début du fichier.
 * **tools/templates/template.md** --> template d'une page de documentation pour une version Faros en markdown, sera complété par le générateur, {{variableVenantduJson}}.
 * **versions_datas/x.json** --> shared.json stock toutes les informations communes à toutes les versions de faros, chaque fichier *version*.json représente une version individuelle. Voir JSON.
@@ -22,4 +22,4 @@ ce dossier et ses sous-dossiers **docs/generated/** --> tous les fichiers géné
 
 
 ### Execution
-`php trigger_generator_versions_docs.php`
+`php generator_versions_docs.php [?lienFichierjsonSpécifique]`

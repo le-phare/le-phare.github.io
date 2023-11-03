@@ -3,6 +3,7 @@ layout: default
 title: Flux réseaux
 nav_order: 5
 parent: Configuration
+permalink: /docs/config/network.html
 ---
 
 # Flux réseaux

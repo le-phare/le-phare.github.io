@@ -3,6 +3,7 @@ layout: default
 title: AWS
 parent: Configuration
 nav_order: 2
+permalink: /docs/config/aws.html
 ---
 
 # AWS 

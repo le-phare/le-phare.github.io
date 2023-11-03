@@ -1,5 +1,6 @@
 {
     "version": "2023.06",
+    "fullVersionName": "2023.06",
     "apache_version": 2.4,
     "debian_version": 12,
     "faros_requirements": [

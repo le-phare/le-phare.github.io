@@ -61,13 +61,13 @@ function templateManage(string $templateContent, array $json): string
 /**
  * @return array<mixed, mixed>
 */
-function getDataFromVersionfile(string $filename): array
+function getDataFromVersionfile(string $filePath, bool $directPath): array
 {
-    $filePath = FOLDER_VERSIONS_PATH . $filename;
+    if (!$directPath)
+        $filePath = FOLDER_VERSIONS_PATH . $filePath;
     $fileContent = file_get_contents($filePath);
-    if ($fileContent === false) {
-        return array();
-    }
+    if (!$fileContent)
+        exit(84);
     $jsonData = json_decode($fileContent, true);
 
     return $jsonData;
@@ -78,7 +78,7 @@ function getDataFromVersionfile(string $filename): array
 */
 function handleVersionfileJson(array $versionJson): void
 {
-    $fullJson = array_merge_recursive(getDataFromVersionfile("shared.json"), $versionJson);
+    $fullJson = array_merge_recursive(getDataFromVersionfile("shared.json", false), $versionJson);
 
     generateNewVersionsFiles($fullJson);
 }
@@ -126,8 +126,7 @@ function generateNewVersionsFiles(mixed $fullJson): void //.md & php
     print("\n");
 }
 
-function main(): void
-{
+function generateAllVersions() {
     $folder = opendir(FOLDER_VERSIONS_PATH);
 
     if ($folder) {
@@ -136,11 +135,28 @@ function main(): void
                 if ($entry == "shared.json") {
                     continue;
                 }
-                $json = getDataFromVersionfile($entry);
+                $json = getDataFromVersionfile($entry, false);
                 handleVersionfileJson($json);
             }
         }
         closedir($folder);
+    }
+}
+
+function generateOneVersion($filePath) {
+    $json = getDataFromVersionfile($filePath, true);
+
+    handleVersionfileJson($json);
+}
+
+function main(): void
+{
+    global $argv;
+
+    if (count($argv) == 2) {
+        generateOneVersion($argv[1]);
+    } else {
+        generateAllVersions();
     }
 }
 
