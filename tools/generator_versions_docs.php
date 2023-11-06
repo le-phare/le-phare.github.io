@@ -111,7 +111,6 @@ function generatePhpcheckFile(array $json, string $newfilePath): void
         return;
     }
     $filledContent = templateManage($template, array("jsontoinject" => json_encode($json)));
-
     file_put_contents($newfilePath, $filledContent);
 }
 
