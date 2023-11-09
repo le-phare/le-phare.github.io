@@ -29,6 +29,7 @@ La liste des adresses ips à autoriser :
  * 37.59.114.65
  * 193.39.2.4
  * 80.15.143.1
+ * 2a01:cb05:9459:6300:57f4:901f:2336:e4a4
 
 
 ## Binaires
