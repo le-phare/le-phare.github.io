@@ -6,7 +6,7 @@ parent: Versions
 permalink: docs/versions/{{version}}.html
 ---
 <div class="callout callout-info" markdown="span">
-Pour être sur que la machine est bien configurée --> tout en vert sur le script PHP, toutes les checkbox sur ce document cochées.
+Pour être sûr que la machine est bien configurée --> tout doit être en vert sur le script PHP, toutes les checkbox sur ce document cochées.
 </div>
 
 # {{version}}

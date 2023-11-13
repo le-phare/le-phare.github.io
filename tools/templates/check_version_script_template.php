@@ -64,11 +64,10 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     ]);
 
     $response = @file_get_contents($url, false, $context);
-
+    $httpCode = 0;
     if (false !== $response) {
         // Successfully retrieved the resource
         $http_response_header = $http_response_header ?? [];
-        $httpCode = 0;
 
         foreach ($http_response_header as $header) {
             if (0 === strpos($header, 'HTTP/')) {
@@ -81,9 +80,6 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
         if (200 === $httpCode) {
             $check = true;
         }
-    } else {
-        // Unable to retrieve the resource
-        $httpCode = 0;
     }
 
     return [
