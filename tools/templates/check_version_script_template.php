@@ -1,12 +1,12 @@
 <?php
 
-$versionData = json_decode('{{jsontoinject}}'); //injected by the generator php script, homemade php template manager
+$versionData = json_decode('{{jsontoinject}}'); // injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
-if ($versionData === null) {
-    print("injected json read is null");
+if (null === $versionData) {
+    echo 'injected json read is null';
     exit(84);
 }
-$FAROS_VERSION = $versionData->version; //0.6 // @phpstan-ignore-line
+$FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 $URL = $versionData->URL;
 
 // htaccess
@@ -59,26 +59,26 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     $context = stream_context_create([
         'http' => [
             'method' => 'HEAD',
-            'header' => 'Authorization: Basic ' . base64_encode(sprintf('%s:%s', $username, $password)),
+            'header' => 'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
         ],
     ]);
 
     $response = @file_get_contents($url, false, $context);
 
-    if ($response !== false) {
+    if (false !== $response) {
         // Successfully retrieved the resource
         $http_response_header = $http_response_header ?? [];
         $httpCode = 0;
 
         foreach ($http_response_header as $header) {
-            if (strpos($header, 'HTTP/') === 0) {
+            if (0 === strpos($header, 'HTTP/')) {
                 $parts = explode(' ', $header);
-                $httpCode = (int)($parts[1]);
+                $httpCode = (int) $parts[1];
                 break;
             }
         }
 
-        if ($httpCode === 200) {
+        if (200 === $httpCode) {
             $check = true;
         }
     } else {
@@ -87,14 +87,13 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     }
 
     return [
-        'prerequis' => 'Peut appeler ' . $url,
+        'prerequis' => 'Peut appeler '.$url,
         'check' => $check,
         'bsClass' => get_bs_class($check),
         'checkLabel' => $check ? 'OK' : 'KO',
         'errorMessage' => $check ? '' : $httpCode,
     ];
 }
-
 
 function get_bs_class(bool $check): string
 {
@@ -178,8 +177,8 @@ function get_document_root_check(): array
 function check_comparator_int_phpini($keyValue, $expected): bool
 {
     $check = false;
-    $biggerAuthorized = ($expected[0] == ">"); //so if false it authorizes under.
-    $equalAuthorized = ($expected[1] == "=");
+    $biggerAuthorized = ('>' == $expected[0]); // so if false it authorizes under.
+    $equalAuthorized = ('=' == $expected[1]);
     $integerPartExpected = $equalAuthorized ? substr($expected, 2) : substr($expected, 1);
     $extractedIntegerExpected = intval($integerPartExpected);
     $extractedIntegerKeyValue = intval($keyValue);
@@ -193,6 +192,7 @@ function check_comparator_int_phpini($keyValue, $expected): bool
     } elseif (!$biggerAuthorized && !$equalAuthorized) {
         $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
     }
+
     return $check;
 }
 
@@ -200,15 +200,16 @@ function check_value_phpini(string $keyValue, string $expected): bool
 {
     $check = false;
 
-    if (strtolower($expected) == 'off') {
-        $check = ($keyValue == "" or $keyValue == "0" or $keyValue == "off" or $keyValue == "Off");
-    } elseif (strtolower($expected) == 'on') {
-        $check = ($keyValue == "1" or $keyValue == "on" or $keyValue == "On");
-    } elseif ($expected[0] == "<" or $expected[0] == ">") {
+    if ('off' == strtolower($expected)) {
+        $check = ('' == $keyValue or '0' == $keyValue or 'off' == $keyValue or 'Off' == $keyValue);
+    } elseif ('on' == strtolower($expected)) {
+        $check = ('1' == $keyValue or 'on' == $keyValue or 'On' == $keyValue);
+    } elseif ('<' == $expected[0] or '>' == $expected[0]) {
         $check = check_comparator_int_phpini($keyValue, $expected);
     } else {
         $check = strtolower($expected) === strtolower($keyValue);
     }
+
     return $check;
 }
 
@@ -220,16 +221,19 @@ function get_php_configuration_checks(): array
 
     foreach ($settings as $key => $expected) {
         $keyValue = ini_get($key);
-        if (substr($key, 0, 1) == '_') {
+        if ('_' == substr($key, 0, 1)) {
             continue;
         }
         $check = check_value_phpini($keyValue, $expected);
+        $errMessage = $keyValue;
+        if ($keyValue == "") {$errMessage = 'Value is null.';}
+        if ($keyValue === false) {$errMessage = 'Option do not exist.';}
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
             'bsClass' => true === $check ? 'success' : 'danger',
             'checkLabel' => true === $check ? 'OK' : 'KO',
-            'errorMessage' => true === $check ? '' : ($keyValue === false ? "Not defined in php.ini" : $keyValue),
+            'errorMessage' => true === $check ? '' : $errMessage,
         ];
     }
 
@@ -261,9 +265,9 @@ function get_loaded_extensions_faros_checks(): array
     $checks = [];
     $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
-        if (substr($item, 0, 1) === '_') {
+        if ('_' === substr($item, 0, 1)) {
             continue;
-        } //if begin by _, then we don't want it to be tested.
+        } // if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
@@ -293,7 +297,7 @@ $html = <<<HTML
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
 HTML;
-$mainChecks = <<<HTML
+$mainChecks = <<<'HTML'
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -331,14 +335,14 @@ $mainChecks .= <<<HTML
 </tr>
 HTML;
 
-$mainChecks .= <<<HTML
+$mainChecks .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $mainChecks;
 
-$binariesChecksTable = <<<HTML
+$binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -357,19 +361,19 @@ foreach ($binariesChecks as $binaryCheck) {
 </tr>
 HTML;
 }
-$binariesChecksTable .= <<<HTML
+$binariesChecksTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $binariesChecksTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration PHP</h2>
 <h3>Extensions <a href="https://faros.lephare.com/configuration#extensions" target="_blank">#</a></h3>
 HTML;
 
-$symfonyExtensionsTable = <<<HTML
+$symfonyExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -388,14 +392,14 @@ foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
 </tr>
 HTML;
 }
-$symfonyExtensionsTable .= <<<HTML
+$symfonyExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $symfonyExtensionsTable;
 
-$farosExtensionsTable = <<<HTML
+$farosExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -414,18 +418,18 @@ foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
 </tr>
 HTML;
 }
-$farosExtensionsTable .= <<<HTML
+$farosExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $farosExtensionsTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h3 style="margin-top: 24px">php.ini <a href="https://faros.lephare.com/configuration#phpini" target="_blank">#</a></h3>
 HTML;
 
-$phpConfigurationCheckTable = <<<HTML
+$phpConfigurationCheckTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -444,20 +448,20 @@ foreach ($phpConfigurationChecks as $check) {
 </tr>
 HTML;
 }
-$phpConfigurationCheckTable .= <<<HTML
+$phpConfigurationCheckTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $phpConfigurationCheckTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration Apache <a href="https://faros.lephare.com/configuration#configuration-apache" target="_blank">#</a></h2>
 HTML;
 
 $documentRootCheck = get_document_root_check();
-//$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
-$apacheChecks = <<<HTML
+// $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+$apacheChecks = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -483,13 +487,13 @@ HTML;
 </tr>
 */
 
-$apacheChecks .= <<<HTML
+$apacheChecks .= <<<'HTML'
 
 HTML;
 
 $html .= $apacheChecks;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
                 </div>
             </div>
         </div>
