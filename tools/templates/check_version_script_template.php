@@ -226,8 +226,12 @@ function get_php_configuration_checks(): array
         }
         $check = check_value_phpini($keyValue, $expected);
         $errMessage = $keyValue;
-        if ($keyValue == "") {$errMessage = 'Value is null.';}
-        if ($keyValue === false) {$errMessage = 'Option do not exist.';}
+        if ('' == $keyValue) {
+            $errMessage = 'Value is null.';
+        }
+        if (false === $keyValue) {
+            $errMessage = 'Option do not exist.';
+        }
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
