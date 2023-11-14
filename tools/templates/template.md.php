@@ -1,3 +1,4 @@
+<?php if (!$versionData) die(84); // 0.6 // @phpstan-ignore-line ?> 
 ---
 layout: default
 title: <?php echo $versionData->fullVersionName; ?>
@@ -101,13 +102,13 @@ Extensions supplémentaires pour nos applications
 <?php
   foreach ($versionData->settings as $key => $value) {
       if ('_' != substr($key, 0, 1)) {
-        if ('<' == $value[0] or '>' == $value[0]) {
-          if ('=' == $value[1]) {
-              $value = substr($value, 2);
-          } else {
-              $value = substr($value, 1);
+          if ('<' == $value[0] or '>' == $value[0]) {
+              if ('=' == $value[1]) {
+                  $value = substr($value, 2);
+              } else {
+                  $value = substr($value, 1);
+              }
           }
-      }
           echo "\t".$key.' = '.$value."\n";
       } else {
           echo "\t".$value."\n";
