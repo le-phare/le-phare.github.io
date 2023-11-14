@@ -1,4 +1,4 @@
-<?php if (!$versionData) die(84); // 0.6 // @phpstan-ignore-line ?> 
+<?php if (!$versionData) die(84); // 0.6 // @phpstan-ignore-line ?>
 ---
 layout: default
 title: <?php echo $versionData->fullVersionName; ?>
