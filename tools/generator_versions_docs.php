@@ -40,17 +40,17 @@ function getDataFromVersionfile(string $filePath, bool $directPath): array
 /**
  * @param array<mixed, mixed> $versionJson
  */
-function handleVersionfileJson(array $versionJson, string $entry): void
+function handleVersionfileJson(array $versionJson): void
 {
     $fullJson = array_merge_recursive(getDataFromVersionfile('shared.json', false), $versionJson);
 
-    generateNewVersionsFiles($fullJson, $entry);
+    generateNewVersionsFiles($fullJson);
 }
 
 /**
  * @param array<mixed, mixed> $json
  */
-function generateMarkdownFile(array $json, string $newfilePath, string $entry): void
+function generateMarkdownFile(array $json, string $newfilePath): void
 {
     echo ' * Generating markdown file : '.$newfilePath."\n";
     $versionData = (object) $json;
@@ -77,13 +77,13 @@ function generatePhpcheckFile(array $json, string $newfilePath): void
 /**
  * @param array<mixed, mixed> $fullJson
  */
-function generateNewVersionsFiles(mixed $fullJson, string $entry): void // .md & php
+function generateNewVersionsFiles(mixed $fullJson): void // .md & php
 {
     $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER.'check_'.$fullJson['version'].'.php';
     $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER.$fullJson['version'].'.md';
 
     echo "\033[92mFAROS VERSION ".$fullJson['version']." --> Generating files....\033[0m\n";
-    generateMarkdownFile($fullJson, $markdownFilepath, $entry);
+    generateMarkdownFile($fullJson, $markdownFilepath);
     generatePhpcheckFile($fullJson, $phpscriptFilepath);
     echo "\n";
 }
@@ -99,7 +99,7 @@ function generateAllVersions(): void
                     continue;
                 }
                 $json = getDataFromVersionfile($entry, false);
-                handleVersionfileJson($json, $entry);
+                handleVersionfileJson($json);
             }
         }
         closedir($folder);
@@ -109,7 +109,7 @@ function generateAllVersions(): void
 function generateOneVersion(string $filePath): void
 {
     $json = getDataFromVersionfile($filePath, true);
-    handleVersionfileJson($json, basename($filePath));
+    handleVersionfileJson($json);
 }
 
 function main(): void
