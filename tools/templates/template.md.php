@@ -1,15 +1,3 @@
-<?php
-    if (2 != $argc) {
-        exit("Usage: php template.md.php chemin_vers_json\n");
-    }
-    $jsonPath = $argv[1];
-    $versionDataAlone = json_decode((string) file_get_contents($jsonPath), true);
-    $sharedJson = json_decode((string) file_get_contents('../versions_data/shared.json'), true);
-    if (!$sharedJson || !$versionDataAlone) {
-        exit("Failed reading or decoding a json file (version/shared) in template.md.php\n");
-    }
-    $versionData = (object) array_merge_recursive($versionDataAlone, $sharedJson);
-?>
 ---
 layout: default
 title: <?php echo $versionData->fullVersionName; ?>
@@ -111,21 +99,16 @@ Extensions supplémentaires pour nos applications
 
 ### php.ini
 <?php
-  function cleanOperatorValue(string $value): string
-  {
-      if ('<' == $value[0] or '>' == $value[0]) {
+  foreach ($versionData->settings as $key => $value) {
+      if ('_' != substr($key, 0, 1)) {
+        if ('<' == $value[0] or '>' == $value[0]) {
           if ('=' == $value[1]) {
               $value = substr($value, 2);
           } else {
               $value = substr($value, 1);
           }
       }
-
-      return $value;
-  }
-  foreach ($versionData->settings as $key => $value) {
-      if ('_' != substr($key, 0, 1)) {
-          echo "\t".$key.' = '.cleanOperatorValue($value)."\n";
+          echo "\t".$key.' = '.$value."\n";
       } else {
           echo "\t".$value."\n";
       }

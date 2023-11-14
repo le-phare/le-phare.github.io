@@ -53,10 +53,11 @@ function handleVersionfileJson(array $versionJson, string $entry): void
 function generateMarkdownFile(array $json, string $newfilePath, string $entry): void
 {
     echo ' * Generating markdown file : '.$newfilePath."\n";
-    $status = exec('php '.TEMPLATES_FOLDER.'template.md.php "'.FOLDER_VERSIONS_PATH.$entry.'" > '.$newfilePath, $output, $return);
-    if ($return) {
-        echo "\033[0;31mGenerating markdown file via exec() failed\033[0m\n";
-    }
+    $versionData = (object) $json;
+    ob_start();
+    require './templates/template.md.php';
+    $content = ob_get_clean();
+    file_put_contents($newfilePath, $content);
 }
 
 /**
