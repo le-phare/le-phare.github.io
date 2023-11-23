@@ -1,35 +1,46 @@
+<?php if (!$versionData) {
+    exit(84);
+} // 0.6 // @phpstan-ignore-line?>
 ---
 layout: default
-title: {{fullVersionName}}
-nav_order: {{order_in_list}}
+title: <?php echo $versionData->fullVersionName; ?>
+
+nav_order: <?php echo $versionData->order_in_list; ?>
+
 parent: Versions
-permalink: docs/versions/{{version}}.html
----
+permalink: docs/versions/<?php echo $versionData->version; ?>.html
+
+--- 
 <div class="callout callout-info" markdown="span">
 Pour être sûr que la machine est bien configurée --> tout doit être en vert sur le script PHP, toutes les checkbox sur ce document cochées.
 </div>
 
-# {{version}}
+# <?php echo $versionData->version; ?>
+
 
 1. TOC
 {:toc}
 
 ## Check
 
-<input type="checkbox"/> Le script [check_{{version}}.php](../versions_tests_scripts/check_{{version}}.php) est à disposition pour check une bonne partie des prérequis.
+<input type="checkbox"/> Le script [check_<?php echo $versionData->version; ?>.php](../versions_tests_scripts/check_<?php echo $versionData->version; ?>.php) est à disposition pour check une bonne partie des prérequis.
 Tous les voyants devraient être verts, attention cependant il est possible d'avoir de faux négatifs (par exemple si la mémoire configurée est supérieure à celle requise).
 
 ## La stack de base
-- <input type="checkbox"/> Debian {{debian_version}}
-- <input type="checkbox"/> PHP {{php_version}}
-- <input type="checkbox"/> Apache {{apache_version}}
-- <input type="checkbox"/> PostgreSQL {{pgsql_version}}
+- <input type="checkbox"/> Debian <?php echo $versionData->debian_version; ?>
+
+- <input type="checkbox"/> PHP <?php echo $versionData->php_version; ?>
+
+- <input type="checkbox"/> Apache <?php echo $versionData->apache_version; ?>
+
+- <input type="checkbox"/> PostgreSQL <?php echo $versionData->pgsql_version; ?>
+
 
 ## Dimensionnement machine
 
 Nous exigeons au minimum :
- * <input type="checkbox"/> {{expected_vcpus}} vCPU
- * <input type="checkbox"/> {{expect_ram_go}}Go RAM
+ * <input type="checkbox"/> <?php echo $versionData->expected_vcpus; ?> vCPU
+ * <input type="checkbox"/> <?php echo $versionData->expect_ram_go; ?> Go RAM
 
 ## Authentification SSH
 
@@ -39,11 +50,19 @@ Nous exigeons au minimum :
 	chmod 0600 ~/.ssh/authorized_keys
 
 <input type="checkbox"/> La liste des adresses ips à autoriser : 
-{{ip_to_authorize}}
+<?php
+  foreach ($versionData->ip_to_authorize as $ip) {
+      echo '* '.$ip." \n";
+  }
+?>
 
 
 ## Binaires
-{{binaries_to_display}}
+<?php
+  foreach ($versionData->binaries_to_display as $bin) {
+      echo '* <input type="checkbox"/> '.$bin." \n";
+  }
+?>
 
 
 ## Droits
@@ -62,13 +81,42 @@ Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs 
 
 Pré-requis pour Symfony 6.x
 
- {{symfony_requirements}}
+<?php
+  foreach ($versionData->symfony_requirements as $requirement) {
+      if ('_' == $requirement[0]) {
+          $requirement = substr($requirement, 1);
+      }
+      echo '* '.$requirement." \n";
+  }
+?>
 
 Extensions supplémentaires pour nos applications
- {{faros_requirements}}
+<?php
+  foreach ($versionData->faros_requirements as $requirement) {
+      if ('_' == $requirement[0]) {
+          $requirement = substr($requirement, 1);
+      }
+      echo '* '.$requirement." \n";
+  }
+?>
 
 ### php.ini
-{{settings}}
+<?php
+  foreach ($versionData->settings as $key => $value) {
+      if ('_' != substr($key, 0, 1)) {
+          if ('<' == $value[0] or '>' == $value[0]) {
+              if ('=' == $value[1]) {
+                  $value = substr($value, 2);
+              } else {
+                  $value = substr($value, 1);
+              }
+          }
+          echo "\t".$key.' = '.$value."\n";
+      } else {
+          echo "\t".$value."\n";
+      }
+  }
+?>
 
 ## Configuration Apache
 

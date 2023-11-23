@@ -3,44 +3,7 @@
 const FOLDER_VERSIONS_PATH = '../versions_data/';
 const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
 const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
-
-function cleanOperatorValue(string $value): string
-{
-    if ('<' == $value[0] or '>' == $value[0]) {
-        if ('=' == $value[1]) {
-            $value = substr($value, 2);
-        } else {
-            $value = substr($value, 1);
-        }
-    }
-
-    return $value;
-}
-
-/**
- * @param array<mixed, mixed> $array
- */
-function arrayToMarkdownList(array $array): string // arrays are automatically markdown list str in template.
-{
-    $markdownList = '';
-
-    foreach ($array as $key => $value) {
-        if (is_string($key)) { // mostly php.ini
-            if ('_' != substr($key, 0, 1)) { // not a array comment _comment1 like.
-                $markdownList .= "\t".$key.' = '.cleanOperatorValue($value)."\n";
-            } else {
-                $markdownList .= "\t".$value."\n";
-            }
-        } else {
-            if ('_' === substr($value, 0, 1)) {
-                $value = substr($value, 1);
-            }
-            $markdownList .= '* '.$value."\n"; // normal list
-        }
-    }
-
-    return $markdownList;
-}
+const TEMPLATES_FOLDER = './templates/';
 
 /**
  * @param array<mixed, mixed> $json
@@ -52,10 +15,6 @@ function templateManage(string $templateContent, array $json): string
 
     foreach ($json as $key => $value) {
         $search[] = '{{'.$key.'}}';
-        if (is_array($value)) {
-            $fill[] = arrayToMarkdownList($value);
-            continue;
-        }
         $fill[] = $value;
     }
 
@@ -94,12 +53,11 @@ function handleVersionfileJson(array $versionJson): void
 function generateMarkdownFile(array $json, string $newfilePath): void
 {
     echo ' * Generating markdown file : '.$newfilePath."\n";
-    $template = file_get_contents('./templates/template.md');
-    if (false === $template) {
-        return;
-    }
-    $filledContent = templateManage($template, $json);
-    file_put_contents($newfilePath, $filledContent);
+    $versionData = (object) $json;
+    ob_start();
+    require './templates/template.md.php';
+    $content = ob_get_clean();
+    file_put_contents($newfilePath, $content);
 }
 
 /**
@@ -108,7 +66,7 @@ function generateMarkdownFile(array $json, string $newfilePath): void
 function generatePhpcheckFile(array $json, string $newfilePath): void
 {
     echo ' * Generating php check script : '.$newfilePath."\n";
-    $template = file_get_contents('./templates/check_version_script_template.php');
+    $template = file_get_contents(TEMPLATES_FOLDER.'check_version_script_template.php');
     if (false === $template) {
         return;
     }
@@ -151,7 +109,6 @@ function generateAllVersions(): void
 function generateOneVersion(string $filePath): void
 {
     $json = getDataFromVersionfile($filePath, true);
-
     handleVersionfileJson($json);
 }
 
