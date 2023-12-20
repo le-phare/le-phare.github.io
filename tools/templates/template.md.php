@@ -40,7 +40,7 @@ Tous les voyants devraient être verts, attention cependant il est possible d'av
 
 Nous exigeons au minimum :
  * <input type="checkbox"/> <?php echo $versionData->expected_vcpus; ?> vCPU
- * <input type="checkbox"/> <?php echo $versionData->expect_ram_go; ?> Go RAM
+ * <input type="checkbox"/> <?php echo $versionData->expected_ram_go; ?> Go RAM
 
 ## Authentification SSH
 

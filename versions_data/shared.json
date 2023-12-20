@@ -1,7 +1,7 @@
 {
     "commonConfigLoaded": true,
     "expected_vcpus" : 2,
-    "expect_ram_go": 4,
+    "expected_ram_go": 4,
     "ip_to_authorize": [
             "37.59.114.65",
             "193.39.2.4",
