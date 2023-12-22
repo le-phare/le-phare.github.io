@@ -11,7 +11,7 @@ ce dossier et ses sous-dossiers **docs/generated/** --> tous les fichiers géné
 * Dans le **template php**, pour accéder à une variable du json, accéder à $versionData.
 * Dans les **JSON**
 	* **pour les requirements**, si l'on souhaite l'afficher mais ne pas le tester, commencer par _. 
-	* **Pour les settings** (php.ini), possibilité d'ajouter des opérateurs : <= < > >= pour les valeurs chiffrées attendues. Si l'on souhaite faire un commentaire, une ligne simple à afficher textuelle sur le markdown, et non testé dans la vérification des settings php , donner une clé style : "_stringunique" (underscore au début de la clé).
+	* **Pour les settings** (php.ini), possibilité d'ajouter des opérateurs : <= < > >= pour les valeurs chiffrées attendues. Si l'on souhaite faire un commentaire, une ligne simple à afficher directement sur le markdown, et non testée dans la vérification des settings php, donner une clé préfixée par un underscore du type : "_stringunique".
 
 ### Ajouter une nouvelle version
 * Créer un nouveau fichier json, la version de faros est stockée dans la clé "version", n'hésitez pas à vous baser sur les json existants.
