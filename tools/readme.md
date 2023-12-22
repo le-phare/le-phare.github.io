@@ -5,7 +5,8 @@
 * **tools/templates/check_version_script_template.php** --> le template du script PHP offert aux hébergeurs afin de tester leur machine, celui-ci se base sur un json injecté au début du fichier par le générateur.
 * **tools/templates/template.md.php** --> template d'une page de documentation pour une version Faros en php (avec du markdown).
 * **versions_datas/x.json** --> shared.json stocke toutes les informations communes à toutes les versions de faros, chaque fichier *version*.json représente une version individuelle. Voir JSON.
-ce dossier et ses sous-dossiers **docs/generated/** --> tous les fichiers générés par le générateur sont situés dans  (documentation Markdown & fichiers de tests scripts php).
+* Le dossier et ses sous-dossiers **docs/generated/** --> contient tous les fichiers générés par le générateur (documentation Markdown & fichiers de tests scripts php).
+
 ### le JSON / templates
 * Dans le **template markdown** : vous pouvez utiliser du php pour accéder à $versionData.
 * Dans le **template php**, pour accéder à une variable du json, accéder à $versionData.
