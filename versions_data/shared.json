@@ -1,0 +1,22 @@
+{
+    "commonConfigLoaded": true,
+    "expected_vcpus" : 2,
+    "expected_ram_go": 4,
+    "ip_to_authorize": [
+            "37.59.114.65",
+            "193.39.2.4",
+            "80.15.143.1"
+        ],
+        "binaries": [
+            "/usr/bin/curl",
+            "/usr/bin/git"
+        ],
+        "binaries_to_display": [
+            "Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
+            "curl",
+            "git",
+            "git-lfs",
+            "pg_dump (utilisé par lephare/ansible-deploy)",
+            "rsync"
+        ]
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+function php-cs-fixer() {
+    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project jakzal/phpqa php-cs-fixer fix -v --no-interaction tools/
+}
+
+function phpstan() {
+    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project jakzal/phpqa phpstan analyse --level=7 tools/
+}
+
+echo php-cs-fixer phpstan php

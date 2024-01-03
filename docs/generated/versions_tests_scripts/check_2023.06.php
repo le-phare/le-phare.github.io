@@ -1,85 +1,93 @@
 <?php
 
+$versionData = json_decode('{"commonConfigLoaded":true,"expected_vcpus":2,"expected_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"],"binaries":["\/usr\/bin\/curl","\/usr\/bin\/git"],"binaries_to_display":["Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https:\/\/docs.ansible.com\/ansible\/latest\/installation_guide\/intro_installation.html#managed-node-requirements)","curl","git","git-lfs","pg_dump (utilis\u00e9 par lephare\/ansible-deploy)","rsync"],"version":"2023.06","fullVersionName":"2023.06","apache_version":2.4,"debian_version":12,"faros_requirements":["_opcache - not tested by check_script","_pcntl - not tested by check_script","apcu","curl","exif","gd","imagick","intl","mbstring","memcached","pdo","pdo_pgsql","pgsql","posix","soap","xml","zip"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","order_in_list":1,"pgsql_version":15,"php_version":8.2,"settings":{"display_errors":"Off","display_startup_errors":"Off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","_comment1":"\n\n\t# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","_comment2":"\n\n\t# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"<=256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","_comment3":"\n\n\t# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"symfony_requirements":["SimpleXML","ctype","iconv","json","pcre","session","tokenizer"],"URL":"https:\/\/acme.fr"}'); // injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
-
-$FAROS_VERSION = '2022.07';
-$URL = 'https://acme.fr';
+if (null === $versionData) {
+    echo 'injected json read is null';
+    exit(84);
+}
+$FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
+$URL = $versionData->URL;
 
 // htaccess
-$USERNAME = 'EDIT_ME';
-$PASSWORD = 'EDIT_ME';
+$USERNAME = $versionData->ht_access_username;
+$PASSWORD = $versionData->ht_access_password;
 
 // FIN DE ZONE A EDITER *******************************************************************************************
 
-$PHP_VERSION = '8.1';
+$PHP_VERSION = $versionData->php_version;
 
 // TODO: KO
-function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
-{
-    $check = false;
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        \CURLOPT_URL => $url,
-        \CURLOPT_RETURNTRANSFER => true,
-        \CURLOPT_MAXREDIRS => 10,
-        \CURLOPT_FOLLOWLOCATION => true,
-        \CURLOPT_CUSTOMREQUEST => 'HEAD',
-        \CURLOPT_TIMEOUT => 0,
-        \CURLOPT_HTTPHEADER => [
-            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
-        ],
-        \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
-    ]);
-    //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
-    $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
-    //var_dump(curl_getinfo($ch));
-    curl_close($ch);
-    if (200 === $httpCode) {
-        $check = true;
-    }
+// function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
+// {
+//     $check = false;
+//     $ch = curl_init();
+//     curl_setopt_array($ch, [
+//         \CURLOPT_URL => $url,
+//         \CURLOPT_RETURNTRANSFER => true,
+//         \CURLOPT_MAXREDIRS => 10,
+//         \CURLOPT_FOLLOWLOCATION => true,
+//         \CURLOPT_CUSTOMREQUEST => 'HEAD',
+//         \CURLOPT_TIMEOUT => 0,
+//         \CURLOPT_HTTPHEADER => [
+//             'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
+//         ],
+//         \CURLOPT_HTTP_VERSION => 3, // https://stackoverflow.com/a/34609756
+//     ]);
+//     //curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_2TLS);
+//     $httpCode = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
+//     //var_dump(curl_getinfo($ch));
+//     curl_close($ch);
+//     if (200 === $httpCode) {
+//         $check = true;
+//     }
 
-    return [
-        'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
-        'check' => $check,
-        'bsClass' => get_bs_class($check),
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-        'errorMessage' => true === $check ? '' : $httpCode,
-    ];
-}
+//     return [
+//         'prerequis' => '<a href="https://faros.lephare.com/configuration#ssl--http2">SSL & HTTP/2</a>',
+//         'check' => $check,
+//         'bsClass' => get_bs_class($check),
+//         'checkLabel' => true === $check ? 'OK' : 'KO',
+//         'errorMessage' => true === $check ? '' : $httpCode,
+//     ];
+// }
 
 // for OpCache
 function get_call_itself_check(string $url, ?string $username, ?string $password): array
 {
     $check = false;
-    $curl = curl_init();
 
-    curl_setopt_array($curl, [
-        \CURLOPT_URL => $url,
-        \CURLOPT_RETURNTRANSFER => true,
-        \CURLOPT_MAXREDIRS => 10,
-        \CURLOPT_FOLLOWLOCATION => true,
-        \CURLOPT_CUSTOMREQUEST => 'HEAD',
-        \CURLOPT_TIMEOUT => 0,
-        \CURLOPT_HTTPHEADER => [
-            'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'HEAD',
+            'header' => 'Authorization: Basic '.base64_encode(sprintf('%s:%s', $username, $password)),
         ],
     ]);
 
-    $response = curl_exec($curl);
+    $response = @file_get_contents($url, false, $context);
+    $httpCode = 0;
+    if (false !== $response) {
+        // Successfully retrieved the resource
+        $http_response_header = $http_response_header ?? [];
 
-    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
-    $response = curl_exec($curl);
-    curl_close($curl);
-    if (200 === $httpCode) {
-        $check = true;
+        foreach ($http_response_header as $header) {
+            if (0 === strpos($header, 'HTTP/')) {
+                $parts = explode(' ', $header);
+                $httpCode = (int) $parts[1];
+                break;
+            }
+        }
+
+        if (200 === $httpCode) {
+            $check = true;
+        }
     }
 
     return [
         'prerequis' => 'Peut appeler '.$url,
         'check' => $check,
         'bsClass' => get_bs_class($check),
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-        'errorMessage' => true === $check ? '' : $httpCode,
+        'checkLabel' => $check ? 'OK' : 'KO',
+        'errorMessage' => $check ? '' : $httpCode,
     ];
 }
 
@@ -90,8 +98,9 @@ function get_bs_class(bool $check): string
 
 function get_binaries_check(): array
 {
+    global $versionData;
     $checks = [];
-    $binaries = ['/usr/bin/git', '/usr/bin/curl'];
+    $binaries = $versionData->binaries;
     foreach ($binaries as $binary) {
         $check = is_executable($binary);
         $checks[] = [
@@ -106,28 +115,28 @@ function get_binaries_check(): array
 }
 
 // TODO: KO car le user du script n'a pas les droits de lecture sur le fichier
-function get_lephare_keys_check(): array
-{
-    $check = false;
-    $curl = curl_init();
-    curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
-    curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, \CURLOPT_HEADER, false);
-    $data = curl_exec($curl);
-    $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
-    curl_close($curl);
-    if (200 === $httpCode) {
-        $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
-    }
+// function get_lephare_keys_check(): array
+// {
+//     $check = false;
+//     $curl = curl_init();
+//     curl_setopt($curl, \CURLOPT_URL, 'https://faros.lephare.com/lephare.keys');
+//     curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($curl, \CURLOPT_HEADER, false);
+//     $data = curl_exec($curl);
+//     $httpCode = curl_getinfo($curl, \CURLINFO_HTTP_CODE);
+//     curl_close($curl);
+//     if (200 === $httpCode) {
+//         $check = $data === file_get_contents('/home/acme/.ssh/authorized_keys');
+//     }
 
-    return [
-        'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
-        'check' => $check,
-        'errorMessage' => true === $check ? '' : 'Contenus différents',
-        'bsClass' => true === $check ? 'success' : 'danger',
-        'checkLabel' => true === $check ? 'OK' : 'KO',
-    ];
-}
+//     return [
+//         'prerequis' => '<a href="https://faros.lephare.com/configuration#authentification-ssh" target="_blank">Authentification SSH</a>',
+//         'check' => $check,
+//         'errorMessage' => true === $check ? '' : 'Contenus différents',
+//         'bsClass' => true === $check ? 'success' : 'danger',
+//         'checkLabel' => true === $check ? 'OK' : 'KO',
+//     ];
+// }
 
 function get_php_version_check(string $PHP_VERSION): array
 {
@@ -161,44 +170,70 @@ function get_document_root_check(): array
     ];
 }
 
+function check_comparator_int_phpini($keyValue, $expected): bool
+{
+    $check = false;
+    $biggerAuthorized = ('>' == $expected[0]); // so if false it authorizes under.
+    $equalAuthorized = ('=' == $expected[1]);
+    $integerPartExpected = $equalAuthorized ? substr($expected, 2) : substr($expected, 1);
+    $extractedIntegerExpected = intval($integerPartExpected);
+    $extractedIntegerKeyValue = intval($keyValue);
+
+    if ($biggerAuthorized && $equalAuthorized) {
+        $check = ($extractedIntegerKeyValue >= $extractedIntegerExpected);
+    } elseif (!$biggerAuthorized && $equalAuthorized) {
+        $check = ($extractedIntegerKeyValue <= $extractedIntegerExpected);
+    } elseif ($biggerAuthorized && !$equalAuthorized) {
+        $check = ($extractedIntegerKeyValue > $extractedIntegerExpected);
+    } elseif (!$biggerAuthorized && !$equalAuthorized) {
+        $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
+    }
+
+    return $check;
+}
+
+function check_value_phpini(string $keyValue, string $expected): bool
+{
+    $check = false;
+
+    if ('off' == strtolower($expected)) {
+        $check = ('' == $keyValue or '0' == $keyValue or 'off' == $keyValue or 'Off' == $keyValue);
+    } elseif ('on' == strtolower($expected)) {
+        $check = ('1' == $keyValue or 'on' == $keyValue or 'On' == $keyValue);
+    } elseif ('<' == $expected[0] or '>' == $expected[0]) {
+        $check = check_comparator_int_phpini($keyValue, $expected);
+    } else {
+        $check = strtolower($expected) === strtolower($keyValue);
+    }
+
+    return $check;
+}
+
 function get_php_configuration_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $settings = [
-        // 'short_open_tag' => 'off', PHP_INI_PERDIR https://www.php.net/manual/en/ini.core.php
-        // 'magic_quotes_gpc' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
-        // 'register_globals' => 'off', removed in PHP 5.4 https://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-runtime
-        'display_errors' => 'off',
-        'display_startup_errors' => 'off',
-        'session.auto_start' => 'off',
-        'date.timezone' => 'Europe/Paris',
-        'upload_max_filesize' => '32M',
-        'post_max_size' => '33M',
-        'sys_temp_dir' => '/var/tmp',
-        'upload_tmp_dir' => '/var/tmp',
-        'session.save_handler' => 'memcached',
-        'session.save_path' => 'localhost:11211',
-        'memcached.sess_lock_wait_min' => '150',
-        'memcached.sess_lock_wait_max' => '150',
-        'memcached.sess_lock_retries' => '800',
-        'opcache.revalidate_freq' => '0',
-        'opcache.validate_timestamps' => '0',
-        'opcache.max_accelerated_files' => '20000',
-        'opcache.memory_consumption' => '256',
-        'opcache.interned_strings_buffer' => '16',
-        'memory_limit' => '128M',
-        'opcache.enable' => '1',
-        'realpath_cache_size' => '4096K',
-        'realpath_cache_ttl' => '60',
-    ];
+    $settings = $versionData->settings;
+
     foreach ($settings as $key => $expected) {
-        $check = strtolower($expected) === strtolower(ini_get($key));
+        $keyValue = ini_get($key);
+        if ('_' == substr($key, 0, 1)) {
+            continue;
+        }
+        $check = check_value_phpini($keyValue, $expected);
+        $errMessage = $keyValue;
+        if ('' == $keyValue) {
+            $errMessage = 'Value is null.';
+        }
+        if (false === $keyValue) {
+            $errMessage = 'Option do not exist.';
+        }
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
             'bsClass' => true === $check ? 'success' : 'danger',
             'checkLabel' => true === $check ? 'OK' : 'KO',
-            'errorMessage' => true === $check ? '' : ini_get($key),
+            'errorMessage' => true === $check ? '' : $errMessage,
         ];
     }
 
@@ -207,16 +242,9 @@ function get_php_configuration_checks(): array
 
 function get_loaded_extensions_symfony_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $symfonyRequirements = [
-        'ctype',
-        'iconv',
-        'json',
-        'pcre',
-        'session',
-        'SimpleXML',
-        'tokenizer',
-    ];
+    $symfonyRequirements = $versionData->symfony_requirements;
 
     foreach ($symfonyRequirements as $item) {
         $check = extension_loaded($item);
@@ -233,27 +261,13 @@ function get_loaded_extensions_symfony_checks(): array
 
 function get_loaded_extensions_faros_checks(): array
 {
+    global $versionData;
     $checks = [];
-    $farosRequirements = [
-        'curl',
-        'gd',
-        'intl',
-        'mbstring',
-        'pdo',
-        'pdo_pgsql',
-        'pgsql',
-        'posix',
-        'xml',
-        //'opcache',
-        'memcached',
-        'imagick',
-        'apcu',
-        // TODO: ne marche pas 'apcu_bc',
-        'exif',
-        'zip',
-        'soap',
-    ];
+    $farosRequirements = $versionData->faros_requirements;
     foreach ($farosRequirements as $item) {
+        if ('_' === substr($item, 0, 1)) {
+            continue;
+        } // if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
         $checks[] = [
             'prerequis' => $item,
@@ -283,7 +297,8 @@ $html = <<<HTML
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
 HTML;
-$mainChecks = <<<HTML
+$mainChecks = <<<'HTML'
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -320,14 +335,14 @@ $mainChecks .= <<<HTML
 </tr>
 HTML;
 
-$mainChecks .= <<<HTML
+$mainChecks .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $mainChecks;
 
-$binariesChecksTable = <<<HTML
+$binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -346,19 +361,19 @@ foreach ($binariesChecks as $binaryCheck) {
 </tr>
 HTML;
 }
-$binariesChecksTable .= <<<HTML
+$binariesChecksTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $binariesChecksTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration PHP</h2>
 <h3>Extensions <a href="https://faros.lephare.com/configuration#extensions" target="_blank">#</a></h3>
 HTML;
 
-$symfonyExtensionsTable = <<<HTML
+$symfonyExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -377,14 +392,14 @@ foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
 </tr>
 HTML;
 }
-$symfonyExtensionsTable .= <<<HTML
+$symfonyExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $symfonyExtensionsTable;
 
-$farosExtensionsTable = <<<HTML
+$farosExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -403,18 +418,18 @@ foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
 </tr>
 HTML;
 }
-$farosExtensionsTable .= <<<HTML
+$farosExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $farosExtensionsTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h3 style="margin-top: 24px">php.ini <a href="https://faros.lephare.com/configuration#phpini" target="_blank">#</a></h3>
 HTML;
 
-$phpConfigurationCheckTable = <<<HTML
+$phpConfigurationCheckTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -433,20 +448,20 @@ foreach ($phpConfigurationChecks as $check) {
 </tr>
 HTML;
 }
-$phpConfigurationCheckTable .= <<<HTML
+$phpConfigurationCheckTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 $html .= $phpConfigurationCheckTable;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration Apache <a href="https://faros.lephare.com/configuration#configuration-apache" target="_blank">#</a></h2>
 HTML;
 
 $documentRootCheck = get_document_root_check();
-$sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
-$apacheChecks = <<<HTML
+// $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+$apacheChecks = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -472,13 +487,13 @@ HTML;
 </tr>
 */
 
-$apacheChecks .= <<<HTML
+$apacheChecks .= <<<'HTML'
 
 HTML;
 
 $html .= $apacheChecks;
 
-$html .= <<<HTML
+$html .= <<<'HTML'
                 </div>
             </div>
         </div>
