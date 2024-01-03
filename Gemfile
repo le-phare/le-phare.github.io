@@ -5,5 +5,6 @@ gem "github-pages", '228', group: :jekyll_plugins
 gem "jekyll-remote-theme", '0.4.3'
 gem "jekyll-redirect-from", '0.16.0'
 gem "just-the-docs"
+gem "json"
 
 gem 'webrick', :group => :development
