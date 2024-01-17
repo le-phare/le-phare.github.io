@@ -9,14 +9,18 @@
         ],
         "binaries": [
             "/usr/bin/curl",
-            "/usr/bin/git"
+            "/usr/bin/getfacl",
+            "/usr/bin/git",
+            "/usr/bin/setfacl"
         ],
         "binaries_to_display": [
             "Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
             "curl",
+            "getfacl",
             "git",
             "git-lfs",
             "pg_dump (utilisé par lephare/ansible-deploy)",
-            "rsync"
+            "rsync",
+            "setfacl"
         ]
 }

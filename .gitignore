@@ -4,3 +4,4 @@ _site
 /vendor/*
 .php-cs-fixer.cache
 /tmp-phpqa/*
+.idea
