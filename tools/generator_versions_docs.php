@@ -70,7 +70,7 @@ function generatePhpcheckFile(array $json, string $newfilePath): void
     if (false === $template) {
         return;
     }
-    $filledContent = templateManage($template, ['jsontoinject' => json_encode($json)]);
+    $filledContent = templateManage($template, ['jsontoinject' => json_encode($json, JSON_UNESCAPED_SLASHES)]);
     file_put_contents($newfilePath, $filledContent);
 }
 
