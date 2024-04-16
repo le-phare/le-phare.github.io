@@ -59,7 +59,6 @@
         "SimpleXML",
         "ctype",
         "iconv",
-        "json",
         "pcre",
         "session",
         "tokenizer"
