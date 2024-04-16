@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2024-04-16
+
+* Ajout de la version 2024.04 (Symfony 7, PHP 8.3)
+
 ### 2023-10-06
 
 * suppression flux `gitlab.lephare.io` des [flux réseaux](/docs/config/network.html).
