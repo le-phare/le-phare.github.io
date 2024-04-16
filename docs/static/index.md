@@ -23,6 +23,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 ### 2024-04-16
 
 * Ajout de la version 2024.04 (Symfony 7, PHP 8.3, timezone UTC)
+* Suppression de bitbucket.org et gitlab.lephare.io des flux réseaux
 
 ### 2023-10-06
 
