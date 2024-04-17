@@ -561,7 +561,7 @@ HTML;
         echo "\n";
     }
 
-    echo "\n\npré-requis symfony :\n\n";
+    echo "\n\npré-requis Symfony :\n\n";
     $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'] . " ";
