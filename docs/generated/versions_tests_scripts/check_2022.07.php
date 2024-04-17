@@ -6,8 +6,20 @@ if (null === $versionData) {
     echo 'injected json read is null';
     exit(84);
 }
+
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
+
+$SAPI = 'fpm';
+if (php_sapi_name() === 'cli'){
+    $SAPI = 'cli';
+}
+
 $URL = $versionData->URL;
+
+// test count
+$total_test = 0;
+$passed_test = 0;
+$failed_test = 0;
 
 // htaccess
 $USERNAME = $versionData->ht_access_username;
@@ -16,6 +28,14 @@ $PASSWORD = $versionData->ht_access_password;
 // FIN DE ZONE A EDITER *******************************************************************************************
 
 $PHP_VERSION = $versionData->php_version;
+
+function passed_failed_count(bool $check):void{
+    global $total_test;
+    global $failed_test;
+    global $passed_test;
+    $total_test += 1;
+    ($check) ? $passed_test += 1 : $failed_test += 1;
+}
 
 // TODO: KO
 // function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
@@ -81,7 +101,7 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
             $check = true;
         }
     }
-
+    passed_failed_count($check);
     return [
         'prerequis' => 'Peut appeler '.$url,
         'check' => $check,
@@ -103,6 +123,7 @@ function get_binaries_check(): array
     $binaries = $versionData->binaries;
     foreach ($binaries as $binary) {
         $check = is_executable($binary);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => 'Binaire '.$binary,
             'check' => $check,
@@ -141,7 +162,7 @@ function get_binaries_check(): array
 function get_php_version_check(string $PHP_VERSION): array
 {
     $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && 0 === strpos(\PHP_VERSION, $PHP_VERSION[0]);
-
+    passed_failed_count($check);
     return [
         'prerequis' => 'PHP_VERSION',
         'check' => $check,
@@ -160,7 +181,7 @@ function get_document_root_check(): array
     } else {
         $check = true;
     }
-
+    passed_failed_count($check);
     return [
         'prerequis' => 'DocumentRoot',
         'check' => $check,
@@ -188,7 +209,7 @@ function check_comparator_int_phpini($keyValue, $expected): bool
     } elseif (!$biggerAuthorized && !$equalAuthorized) {
         $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
     }
-
+    passed_failed_count($check);
     return $check;
 }
 
@@ -228,6 +249,7 @@ function get_php_configuration_checks(): array
         if (false === $keyValue) {
             $errMessage = 'Option do not exist.';
         }
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
@@ -248,6 +270,7 @@ function get_loaded_extensions_symfony_checks(): array
 
     foreach ($symfonyRequirements as $item) {
         $check = extension_loaded($item);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $item,
             'check' => $check,
@@ -269,6 +292,7 @@ function get_loaded_extensions_faros_checks(): array
             continue;
         } // if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $item,
             'check' => $check,
@@ -280,7 +304,8 @@ function get_loaded_extensions_faros_checks(): array
     return $checks;
 }
 
-$html = <<<HTML
+if ($SAPI === 'fpm') {
+    $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -501,5 +526,65 @@ $html .= <<<'HTML'
 </body>
 </html>
 HTML;
+    echo $html;
+}else {
 
-echo $html;
+    echo "CLI version testing\n\n";
+    function ok_ko(string $args):void
+    {
+
+        if ($args === 'OK'){
+            echo "\033[0;32mpassed\033[0m ";
+        }else{
+            echo "\033[0;31mfailed\033[0m ";
+        }
+    }
+    function show_error(string $error):void{
+        if ($error != ''){
+            echo "\n\033[0;31mactual : ".$error . "\033[0m\n\n";
+        }else{
+            echo "\n";
+        }
+    }
+
+    $phpVersionCheck = get_php_version_check($PHP_VERSION);
+    echo "php version check :". "\n\n";
+    echo $phpVersionCheck['prerequis'] . " ";
+    ok_ko($phpVersionCheck['checkLabel']);
+    show_error($phpVersionCheck['errorMessage']);
+
+    $binariesChecks = get_binaries_check();
+    echo "\nbinary check :". "\n\n";
+    foreach ($binariesChecks as $binaryCheck) {
+        echo $binaryCheck['prerequis'] . " ";
+        ok_ko($binaryCheck['checkLabel']);
+        echo "\n";
+    }
+
+    echo "\n\npré-requis symfony :\n\n";
+    $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
+    foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
+        echo $loadedExtensionsCheck['prerequis'] . " ";
+        ok_ko($loadedExtensionsCheck['checkLabel']);
+        echo "\n";
+    }
+
+    echo "\n\nextension supplémentaire :\n". "\n";
+    $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
+    foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
+        echo $loadedExtensionsCheck['prerequis'] . " ";
+        echo ok_ko($loadedExtensionsCheck['checkLabel']). "\n";
+    }
+
+    echo "\n\nsettings :\n\n";
+    $phpConfigurationChecks = get_php_configuration_checks();
+    foreach ($phpConfigurationChecks as $check) {
+        echo $check['prerequis'] . " ";
+        ok_ko($check['checkLabel']) . " ";
+        show_error($check['errorMessage']);
+    }
+
+    echo  "\ntotal test: " . $total_test . "\n";
+    echo "\033[0;32mtotal passed : " . $passed_test . "\033[0m \n";
+    echo "\033[0;31mtotal failed : " . $failed_test . "\033[0m \n";
+}
