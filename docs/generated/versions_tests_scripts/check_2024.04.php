@@ -305,6 +305,16 @@ function get_loaded_extensions_faros_checks(): array
 }
 
 if ('fpm' === $SAPI) {
+
+    //$lephareKeysCheck = getLephareKeysCheck();
+    $callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
+    $phpVersionCheck = get_php_version_check($PHP_VERSION);
+    $binariesChecks = get_binaries_check();
+    $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
+    $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
+    $phpConfigurationChecks = get_php_configuration_checks();
+    $documentRootCheck = get_document_root_check();
+
     $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -321,8 +331,12 @@ if ('fpm' === $SAPI) {
                 <div class="col-sm">
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
+        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests: {$totalTest}</div>
+        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent: {$failedTest}</div>
+        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent: {$passedTest}</div>
+
 HTML;
-$mainChecks = <<<'HTML'
+    $mainChecks = <<<'HTML'
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -334,40 +348,40 @@ $mainChecks = <<<'HTML'
             <tbody>
 HTML;
 
-/*
-$lephareKeysCheck = getLephareKeysCheck();
-$mainChecks .= <<<HTML
-<tr>
-    <td>{$lephareKeysCheck['prerequis']}</td>
-    <td class="table-{$lephareKeysCheck['bsClass']}">{$lephareKeysCheck['checkLabel']} {$lephareKeysCheck['errorMessage']}</td>
-</tr>
-HTML;
- */
 
-$callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
-$mainChecks .= <<<HTML
+
+    /*$mainChecks .= <<<HTML
+    <tr>
+        <td>{$lephareKeysCheck['prerequis']}</td>
+        <td class="table-{$lephareKeysCheck['bsClass']}">{$lephareKeysCheck['checkLabel']} {$lephareKeysCheck['errorMessage']}</td>
+    </tr>
+    HTML;
+     */
+
+
+    $mainChecks .= <<<HTML
 <tr>
     <td>{$callItselfCheck['prerequis']}</td>
     <td class="table-{$callItselfCheck['bsClass']}">{$callItselfCheck['checkLabel']} {$callItselfCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-$phpVersionCheck = get_php_version_check($PHP_VERSION);
-$mainChecks .= <<<HTML
+
+    $mainChecks .= <<<HTML
 <tr>
     <td>{$phpVersionCheck['prerequis']}</td>
     <td class="table-{$phpVersionCheck['bsClass']}">{$phpVersionCheck['checkLabel']} {$phpVersionCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-$mainChecks .= <<<'HTML'
+    $mainChecks .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $mainChecks;
+    $html .= $mainChecks;
 
-$binariesChecksTable = <<<'HTML'
+    $binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -377,28 +391,28 @@ $binariesChecksTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$binariesChecks = get_binaries_check();
-foreach ($binariesChecks as $binaryCheck) {
-    $binariesChecksTable .= <<<HTML
+
+    foreach ($binariesChecks as $binaryCheck) {
+        $binariesChecksTable .= <<<HTML
 <tr>
     <td>{$binaryCheck['prerequis']}</td>
     <td class="table-{$binaryCheck['bsClass']}">{$binaryCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$binariesChecksTable .= <<<'HTML'
+    }
+    $binariesChecksTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $binariesChecksTable;
+    $html .= $binariesChecksTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration PHP</h2>
 <h3>Extensions <a href="https://faros.lephare.com/configuration#extensions" target="_blank">#</a></h3>
 HTML;
 
-$symfonyExtensionsTable = <<<'HTML'
+    $symfonyExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -408,23 +422,24 @@ $symfonyExtensionsTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
-foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
-    $symfonyExtensionsTable .= <<<HTML
+
+
+    foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
+        $symfonyExtensionsTable .= <<<HTML
 <tr>
     <td>{$loadedExtensionsCheck['prerequis']}</td>
     <td class="table-{$loadedExtensionsCheck['bsClass']}">{$loadedExtensionsCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$symfonyExtensionsTable .= <<<'HTML'
+    }
+    $symfonyExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $symfonyExtensionsTable;
+    $html .= $symfonyExtensionsTable;
 
-$farosExtensionsTable = <<<'HTML'
+    $farosExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -434,27 +449,27 @@ $farosExtensionsTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
-foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
-    $farosExtensionsTable .= <<<HTML
+
+    foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
+        $farosExtensionsTable .= <<<HTML
 <tr>
     <td>{$loadedExtensionsCheck['prerequis']}</td>
     <td class="table-{$loadedExtensionsCheck['bsClass']}">{$loadedExtensionsCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$farosExtensionsTable .= <<<'HTML'
+    }
+    $farosExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $farosExtensionsTable;
+    $html .= $farosExtensionsTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h3 style="margin-top: 24px">php.ini <a href="https://faros.lephare.com/configuration#phpini" target="_blank">#</a></h3>
 HTML;
 
-$phpConfigurationCheckTable = <<<'HTML'
+    $phpConfigurationCheckTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -464,29 +479,29 @@ $phpConfigurationCheckTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$phpConfigurationChecks = get_php_configuration_checks();
-foreach ($phpConfigurationChecks as $check) {
-    $phpConfigurationCheckTable .= <<<HTML
+
+    foreach ($phpConfigurationChecks as $check) {
+        $phpConfigurationCheckTable .= <<<HTML
 <tr>
     <td>{$check['prerequis']}</td>
     <td class="table-{$check['bsClass']}">{$check['checkLabel']} {$check['errorMessage']}</td>
 </tr>
 HTML;
-}
-$phpConfigurationCheckTable .= <<<'HTML'
+    }
+    $phpConfigurationCheckTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $phpConfigurationCheckTable;
+    $html .= $phpConfigurationCheckTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration Apache <a href="https://faros.lephare.com/configuration#configuration-apache" target="_blank">#</a></h2>
 HTML;
 
-$documentRootCheck = get_document_root_check();
+
 // $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
-$apacheChecks = <<<'HTML'
+    $apacheChecks = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -498,27 +513,27 @@ $apacheChecks = <<<'HTML'
 
 HTML;
 
-$apacheChecks .= <<<HTML
+    $apacheChecks .= <<<HTML
 <tr>
     <td>{$documentRootCheck['prerequis']}</td>
     <td class="table-{$documentRootCheck['bsClass']}">{$documentRootCheck['checkLabel']} {$documentRootCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-/*
-<tr>
-    <td>{$sslHttp2Check['prerequis']}</td>
-    <td class="table-{$sslHttp2Check['bsClass']}">{$sslHttp2Check['checkLabel']} {$sslHttp2Check['errorMessage']}</td>
-</tr>
-*/
+    /*
+    <tr>
+        <td>{$sslHttp2Check['prerequis']}</td>
+        <td class="table-{$sslHttp2Check['bsClass']}">{$sslHttp2Check['checkLabel']} {$sslHttp2Check['errorMessage']}</td>
+    </tr>
+    */
 
-$apacheChecks .= <<<'HTML'
+    $apacheChecks .= <<<'HTML'
 
 HTML;
 
-$html .= $apacheChecks;
+    $html .= $apacheChecks;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
                 </div>
             </div>
         </div>
