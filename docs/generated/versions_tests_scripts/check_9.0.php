@@ -10,16 +10,16 @@ if (null === $versionData) {
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 
 $SAPI = 'fpm';
-if (php_sapi_name() === 'cli'){
+if ('cli' === php_sapi_name()){
     $SAPI = 'cli';
 }
 
 $URL = $versionData->URL;
 
 // test count
-$total_test = 0;
-$passed_test = 0;
-$failed_test = 0;
+$totalTest = 0;
+$passedTest = 0;
+$failedTest = 0;
 
 // htaccess
 $USERNAME = $versionData->ht_access_username;
@@ -30,11 +30,11 @@ $PASSWORD = $versionData->ht_access_password;
 $PHP_VERSION = $versionData->php_version;
 
 function passed_failed_count(bool $check):void{
-    global $total_test;
-    global $failed_test;
-    global $passed_test;
-    $total_test += 1;
-    ($check) ? $passed_test += 1 : $failed_test += 1;
+    global $totalTest;
+    global $failedTest;
+    global $passedTest;
+    $totalTest += 1;
+    ($check) ? $passedTest += 1 : $failedTest += 1;
 }
 
 // TODO: KO
@@ -304,7 +304,7 @@ function get_loaded_extensions_faros_checks(): array
     return $checks;
 }
 
-if ($SAPI === 'fpm') {
+if ('fpm' === $SAPI) {
     $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -530,17 +530,17 @@ HTML;
 }else {
 
     echo "CLI version testing\n\n";
+
     function ok_ko(string $args):void
     {
-
-        if ($args === 'OK'){
+        if ('OK' === $args){
             echo "\033[0;32mpassed\033[0m ";
         }else{
             echo "\033[0;31mfailed\033[0m ";
         }
     }
     function show_error(string $error):void{
-        if ($error != ''){
+        if ('' !== $error){
             echo "\n\033[0;31mactual : ".$error . "\033[0m\n\n";
         }else{
             echo "\n";
@@ -561,7 +561,7 @@ HTML;
         echo "\n";
     }
 
-    echo "\n\npré-requis symfony :\n\n";
+    echo "\n\npré-requis Symfony :\n\n";
     $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'] . " ";
@@ -584,7 +584,7 @@ HTML;
         show_error($check['errorMessage']);
     }
 
-    echo  "\ntotal test: " . $total_test . "\n";
-    echo "\033[0;32mtotal passed : " . $passed_test . "\033[0m \n";
-    echo "\033[0;31mtotal failed : " . $failed_test . "\033[0m \n";
+    echo  "\ntotal test: " . $totalTest . "\n";
+    echo "\033[0;32mtotal passed : " . $passedTest . "\033[0m \n";
+    echo "\033[0;31mtotal failed : " . $failedTest . "\033[0m \n";
 }
