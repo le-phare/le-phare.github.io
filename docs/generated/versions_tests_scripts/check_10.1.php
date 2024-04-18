@@ -10,7 +10,7 @@ if (null === $versionData) {
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 
 $SAPI = 'fpm';
-if ('cli' === php_sapi_name()){
+if ('cli' === \PHP_SAPI) {
     $SAPI = 'cli';
 }
 
@@ -29,12 +29,13 @@ $PASSWORD = $versionData->ht_access_password;
 
 $PHP_VERSION = $versionData->php_version;
 
-function passed_failed_count(bool $check):void{
+function passed_failed_count(bool $check): void
+{
     global $totalTest;
     global $failedTest;
     global $passedTest;
-    $totalTest += 1;
-    ($check) ? $passedTest += 1 : $failedTest += 1;
+    ++$totalTest;
+    ($check) ? ++$passedTest : ++$failedTest;
 }
 
 // TODO: KO
@@ -90,7 +91,7 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
         $http_response_header = $http_response_header ?? [];
 
         foreach ($http_response_header as $header) {
-            if (0 === strpos($header, 'HTTP/')) {
+            if (str_starts_with($header, 'HTTP/')) {
                 $parts = explode(' ', $header);
                 $httpCode = (int) $parts[1];
                 break;
@@ -102,6 +103,7 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
         }
     }
     passed_failed_count($check);
+
     return [
         'prerequis' => 'Peut appeler '.$url,
         'check' => $check,
@@ -161,8 +163,9 @@ function get_binaries_check(): array
 
 function get_php_version_check(string $PHP_VERSION): array
 {
-    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && 0 === strpos(\PHP_VERSION, $PHP_VERSION[0]);
+    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && str_starts_with(\PHP_VERSION, $PHP_VERSION[0]);
     passed_failed_count($check);
+
     return [
         'prerequis' => 'PHP_VERSION',
         'check' => $check,
@@ -182,6 +185,7 @@ function get_document_root_check(): array
         $check = true;
     }
     passed_failed_count($check);
+
     return [
         'prerequis' => 'DocumentRoot',
         'check' => $check,
@@ -197,8 +201,8 @@ function check_comparator_int_phpini($keyValue, $expected): bool
     $biggerAuthorized = ('>' == $expected[0]); // so if false it authorizes under.
     $equalAuthorized = ('=' == $expected[1]);
     $integerPartExpected = $equalAuthorized ? substr($expected, 2) : substr($expected, 1);
-    $extractedIntegerExpected = intval($integerPartExpected);
-    $extractedIntegerKeyValue = intval($keyValue);
+    $extractedIntegerExpected = (int) $integerPartExpected;
+    $extractedIntegerKeyValue = (int) $keyValue;
 
     if ($biggerAuthorized && $equalAuthorized) {
         $check = ($extractedIntegerKeyValue >= $extractedIntegerExpected);
@@ -210,6 +214,7 @@ function check_comparator_int_phpini($keyValue, $expected): bool
         $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
     }
     passed_failed_count($check);
+
     return $check;
 }
 
@@ -218,10 +223,10 @@ function check_value_phpini(string $keyValue, string $expected): bool
     $check = false;
 
     if ('off' == strtolower($expected)) {
-        $check = ('' == $keyValue or '0' == $keyValue or 'off' == $keyValue or 'Off' == $keyValue);
+        $check = ('' == $keyValue || '0' == $keyValue || 'off' == $keyValue || 'Off' == $keyValue);
     } elseif ('on' == strtolower($expected)) {
-        $check = ('1' == $keyValue or 'on' == $keyValue or 'On' == $keyValue);
-    } elseif ('<' == $expected[0] or '>' == $expected[0]) {
+        $check = ('1' == $keyValue || 'on' == $keyValue || 'On' == $keyValue);
+    } elseif ('<' == $expected[0] || '>' == $expected[0]) {
         $check = check_comparator_int_phpini($keyValue, $expected);
     } else {
         $check = strtolower($expected) === strtolower($keyValue);
@@ -305,8 +310,7 @@ function get_loaded_extensions_faros_checks(): array
 }
 
 if ('fpm' === $SAPI) {
-
-    //$lephareKeysCheck = getLephareKeysCheck();
+    // $lephareKeysCheck = getLephareKeysCheck();
     $callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
     $phpVersionCheck = get_php_version_check($PHP_VERSION);
     $binariesChecks = get_binaries_check();
@@ -348,8 +352,6 @@ HTML;
             <tbody>
 HTML;
 
-
-
     /*$mainChecks .= <<<HTML
     <tr>
         <td>{$lephareKeysCheck['prerequis']}</td>
@@ -358,14 +360,12 @@ HTML;
     HTML;
      */
 
-
     $mainChecks .= <<<HTML
 <tr>
     <td>{$callItselfCheck['prerequis']}</td>
     <td class="table-{$callItselfCheck['bsClass']}">{$callItselfCheck['checkLabel']} {$callItselfCheck['errorMessage']}</td>
 </tr>
 HTML;
-
 
     $mainChecks .= <<<HTML
 <tr>
@@ -422,7 +422,6 @@ HTML;
             </thead>
             <tbody>
 HTML;
-
 
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
         $symfonyExtensionsTable .= <<<HTML
@@ -499,8 +498,7 @@ HTML;
 <h2 style="margin-top: 32px">Configuration Apache <a href="https://faros.lephare.com/configuration#configuration-apache" target="_blank">#</a></h2>
 HTML;
 
-
-// $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+    // $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
     $apacheChecks = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
@@ -542,36 +540,36 @@ HTML;
 </html>
 HTML;
     echo $html;
-}else {
-
+} else {
     echo "CLI version testing\n\n";
 
-    function ok_ko(string $args):void
+    function ok_ko(string $args): void
     {
-        if ('OK' === $args){
+        if ('OK' === $args) {
             echo "\033[0;32mpassed\033[0m ";
-        }else{
+        } else {
             echo "\033[0;31mfailed\033[0m ";
         }
     }
-    function show_error(string $error):void{
-        if ('' !== $error){
-            echo "\n\033[0;31mactual : ".$error . "\033[0m\n\n";
-        }else{
+    function show_error(string $error): void
+    {
+        if ('' !== $error) {
+            echo "\n\033[0;31mactual : ".$error."\033[0m\n\n";
+        } else {
             echo "\n";
         }
     }
 
     $phpVersionCheck = get_php_version_check($PHP_VERSION);
-    echo "php version check :". "\n\n";
-    echo $phpVersionCheck['prerequis'] . " ";
+    echo 'php version check :'."\n\n";
+    echo $phpVersionCheck['prerequis'].' ';
     ok_ko($phpVersionCheck['checkLabel']);
     show_error($phpVersionCheck['errorMessage']);
 
     $binariesChecks = get_binaries_check();
-    echo "\nbinary check :". "\n\n";
+    echo "\nbinary check :\n\n";
     foreach ($binariesChecks as $binaryCheck) {
-        echo $binaryCheck['prerequis'] . " ";
+        echo $binaryCheck['prerequis'].' ';
         ok_ko($binaryCheck['checkLabel']);
         echo "\n";
     }
@@ -579,27 +577,27 @@ HTML;
     echo "\n\npré-requis Symfony :\n\n";
     $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
-        echo $loadedExtensionsCheck['prerequis'] . " ";
+        echo $loadedExtensionsCheck['prerequis'].' ';
         ok_ko($loadedExtensionsCheck['checkLabel']);
         echo "\n";
     }
 
-    echo "\n\nextension supplémentaire :\n". "\n";
+    echo "\n\nextension supplémentaire :\n\n";
     $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
     foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
-        echo $loadedExtensionsCheck['prerequis'] . " ";
-        echo ok_ko($loadedExtensionsCheck['checkLabel']). "\n";
+        echo $loadedExtensionsCheck['prerequis'].' ';
+        echo ok_ko($loadedExtensionsCheck['checkLabel'])."\n";
     }
 
     echo "\n\nsettings :\n\n";
     $phpConfigurationChecks = get_php_configuration_checks();
     foreach ($phpConfigurationChecks as $check) {
-        echo $check['prerequis'] . " ";
-        ok_ko($check['checkLabel']) . " ";
+        echo $check['prerequis'].' ';
+        ok_ko($check['checkLabel']).' ';
         show_error($check['errorMessage']);
     }
 
-    echo  "\ntotal test: " . $totalTest . "\n";
-    echo "\033[0;32mtotal passed : " . $passedTest . "\033[0m \n";
-    echo "\033[0;31mtotal failed : " . $failedTest . "\033[0m \n";
+    echo "\ntotal test: ".$totalTest."\n";
+    echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
+    echo "\033[0;31mtotal failed : ".$failedTest."\033[0m \n";
 }

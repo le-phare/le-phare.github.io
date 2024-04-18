@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function php-cs-fixer() {
-    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project jakzal/phpqa php-cs-fixer fix -v --no-interaction tools/
+    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project ghcr.io/php-cs-fixer/php-cs-fixer:3-php8.3 fix -v   tools/
 }
 
 function phpstan() {
