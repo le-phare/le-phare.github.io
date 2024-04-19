@@ -1,100 +1,25 @@
 <?php
 
-$versionData = json_decode('{
-    "commonConfigLoaded": true,
-    "expected_vcpus": 2,
-    "expected_ram_go": 4,
-    "ip_to_authorize": [
-        "37.59.114.65",
-        "193.39.2.4",
-        "80.15.143.1"
-    ],
-    "binaries": [
-        "/usr/bin/curl",
-        "/usr/bin/git"
-    ],
-    "binaries_to_display": [
-        "Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
-        "curl",
-        "git",
-        "git-lfs",
-        "pg_dump (utilis\u00e9 par lephare/ansible-deploy)",
-        "rsync"
-    ],
-    "version": "10.0",
-    "fullVersionName": "10.0 (2019.10)",
-    "apache_version": 2.4,
-    "debian_version": 10,
-    "faros_requirements": [
-        "_opcache - not tested by check_script",
-        "_pcntl - not tested by check_script",
-        "apcu",
-        "curl",
-        "exif",
-        "gd",
-        "imagick",
-        "intl",
-        "mbstring",
-        "memcached",
-        "pdo",
-        "pdo_pgsql",
-        "pgsql",
-        "posix",
-        "soap",
-        "xml",
-        "zip"
-    ],
-    "ht_access_password": "EDIT_ME",
-    "ht_access_username": "EDIT_ME",
-    "order_in_list": 6,
-    "pgsql_version": 11,
-    "php_version": 7.3,
-    "settings": {
-        "display_errors": "Off",
-        "display_startup_errors": "Off",
-        "session.auto_start": "off",
-        "date.timezone": "Europe/Paris",
-        "upload_max_filesize": "32M",
-        "post_max_size": "33M",
-        "sys_temp_dir": "/var/tmp",
-        "upload_tmp_dir": "/var/tmp",
-        "_comment1": "\n\n\t# Les sessions sont stock\u00e9es dans memcached -->",
-        "session.save_handler": "memcached",
-        "session.save_path": "localhost:11211",
-        "memcached.sess_lock_wait_min": "150",
-        "memcached.sess_lock_wait_max": "150",
-        "memcached.sess_lock_retries": "800",
-        "_comment2": "\n\n\t# Optimisation opcache -->",
-        "opcache.revalidate_freq": "0",
-        "opcache.validate_timestamps": "0",
-        "opcache.max_accelerated_files": "20000",
-        "opcache.memory_consumption": "<=256",
-        "opcache.interned_strings_buffer": "16",
-        "short_open_tag": "Off",
-        "memory_limit": "128M",
-        "opcache.enable": "1",
-        "_comment3": "\n\n\t# Realpath cache -->",
-        "realpath_cache_size": "4096K",
-        "realpath_cache_ttl": "60"
-    },
-    "symfony_requirements": [
-        "SimpleXML",
-        "ctype",
-        "iconv",
-        "json",
-        "pcre",
-        "session",
-        "tokenizer"
-    ],
-    "URL": "https://acme.fr"
-}'); // injected by the generator php script, homemade php template manager
+$versionData = json_decode('{"commonConfigLoaded":true,"expected_vcpus":2,"expected_ram_go":4,"ip_to_authorize":["37.59.114.65","193.39.2.4","80.15.143.1"],"binaries":["\/usr\/bin\/curl","\/usr\/bin\/git"],"binaries_to_display":["Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https:\/\/docs.ansible.com\/ansible\/latest\/installation_guide\/intro_installation.html#managed-node-requirements)","curl","git","git-lfs","pg_dump (utilis\u00e9 par lephare\/ansible-deploy)","rsync"],"version":"10.0","fullVersionName":"10.0 (2019.10)","apache_version":2.4,"debian_version":10,"faros_requirements":["_opcache - not tested by check_script","_pcntl - not tested by check_script","apcu","curl","exif","gd","imagick","intl","mbstring","memcached","pdo","pdo_pgsql","pgsql","posix","soap","xml","zip"],"ht_access_password":"EDIT_ME","ht_access_username":"EDIT_ME","order_in_list":7,"pgsql_version":11,"php_version":7.3,"settings":{"display_errors":"Off","display_startup_errors":"Off","session.auto_start":"off","date.timezone":"Europe\/Paris","upload_max_filesize":"32M","post_max_size":"33M","sys_temp_dir":"\/var\/tmp","upload_tmp_dir":"\/var\/tmp","_comment1":"\n\n\t# Les sessions sont stock\u00e9es dans memcached -->","session.save_handler":"memcached","session.save_path":"localhost:11211","memcached.sess_lock_wait_min":"150","memcached.sess_lock_wait_max":"150","memcached.sess_lock_retries":"800","_comment2":"\n\n\t# Optimisation opcache -->","opcache.revalidate_freq":"0","opcache.validate_timestamps":"0","opcache.max_accelerated_files":"20000","opcache.memory_consumption":"<=256","opcache.interned_strings_buffer":"16","short_open_tag":"Off","memory_limit":"128M","opcache.enable":"1","_comment3":"\n\n\t# Realpath cache -->","realpath_cache_size":"4096K","realpath_cache_ttl":"60"},"symfony_requirements":["SimpleXML","ctype","iconv","json","pcre","session","tokenizer"],"URL":"https:\/\/acme.fr"}'); // injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 if (null === $versionData) {
     echo 'injected json read is null';
     exit(84);
 }
+
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
+
+$SAPI = 'fpm';
+if ('cli' === \PHP_SAPI) {
+    $SAPI = 'cli';
+}
+
 $URL = $versionData->URL;
+
+// test count
+$totalTest = 0;
+$passedTest = 0;
+$failedTest = 0;
 
 // htaccess
 $USERNAME = $versionData->ht_access_username;
@@ -103,6 +28,15 @@ $PASSWORD = $versionData->ht_access_password;
 // FIN DE ZONE A EDITER *******************************************************************************************
 
 $PHP_VERSION = $versionData->php_version;
+
+function passed_failed_count(bool $check): void
+{
+    global $totalTest;
+    global $failedTest;
+    global $passedTest;
+    ++$totalTest;
+    ($check) ? ++$passedTest : ++$failedTest;
+}
 
 // TODO: KO
 // function get_ssl_http2_check(string $url, ?string $username, ?string $password): array
@@ -157,7 +91,7 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
         $http_response_header = $http_response_header ?? [];
 
         foreach ($http_response_header as $header) {
-            if (0 === strpos($header, 'HTTP/')) {
+            if (str_starts_with($header, 'HTTP/')) {
                 $parts = explode(' ', $header);
                 $httpCode = (int) $parts[1];
                 break;
@@ -168,6 +102,7 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
             $check = true;
         }
     }
+    passed_failed_count($check);
 
     return [
         'prerequis' => 'Peut appeler '.$url,
@@ -190,6 +125,7 @@ function get_binaries_check(): array
     $binaries = $versionData->binaries;
     foreach ($binaries as $binary) {
         $check = is_executable($binary);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => 'Binaire '.$binary,
             'check' => $check,
@@ -227,7 +163,8 @@ function get_binaries_check(): array
 
 function get_php_version_check(string $PHP_VERSION): array
 {
-    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && 0 === strpos(\PHP_VERSION, $PHP_VERSION[0]);
+    $check = version_compare(\PHP_VERSION, $PHP_VERSION, 'gt') && str_starts_with(\PHP_VERSION, $PHP_VERSION[0]);
+    passed_failed_count($check);
 
     return [
         'prerequis' => 'PHP_VERSION',
@@ -247,6 +184,7 @@ function get_document_root_check(): array
     } else {
         $check = true;
     }
+    passed_failed_count($check);
 
     return [
         'prerequis' => 'DocumentRoot',
@@ -263,8 +201,8 @@ function check_comparator_int_phpini($keyValue, $expected): bool
     $biggerAuthorized = ('>' == $expected[0]); // so if false it authorizes under.
     $equalAuthorized = ('=' == $expected[1]);
     $integerPartExpected = $equalAuthorized ? substr($expected, 2) : substr($expected, 1);
-    $extractedIntegerExpected = intval($integerPartExpected);
-    $extractedIntegerKeyValue = intval($keyValue);
+    $extractedIntegerExpected = (int) $integerPartExpected;
+    $extractedIntegerKeyValue = (int) $keyValue;
 
     if ($biggerAuthorized && $equalAuthorized) {
         $check = ($extractedIntegerKeyValue >= $extractedIntegerExpected);
@@ -275,6 +213,7 @@ function check_comparator_int_phpini($keyValue, $expected): bool
     } elseif (!$biggerAuthorized && !$equalAuthorized) {
         $check = ($extractedIntegerKeyValue < $extractedIntegerExpected);
     }
+    passed_failed_count($check);
 
     return $check;
 }
@@ -284,10 +223,10 @@ function check_value_phpini(string $keyValue, string $expected): bool
     $check = false;
 
     if ('off' == strtolower($expected)) {
-        $check = ('' == $keyValue or '0' == $keyValue or 'off' == $keyValue or 'Off' == $keyValue);
+        $check = ('' == $keyValue || '0' == $keyValue || 'off' == $keyValue || 'Off' == $keyValue);
     } elseif ('on' == strtolower($expected)) {
-        $check = ('1' == $keyValue or 'on' == $keyValue or 'On' == $keyValue);
-    } elseif ('<' == $expected[0] or '>' == $expected[0]) {
+        $check = ('1' == $keyValue || 'on' == $keyValue || 'On' == $keyValue);
+    } elseif ('<' == $expected[0] || '>' == $expected[0]) {
         $check = check_comparator_int_phpini($keyValue, $expected);
     } else {
         $check = strtolower($expected) === strtolower($keyValue);
@@ -315,6 +254,7 @@ function get_php_configuration_checks(): array
         if (false === $keyValue) {
             $errMessage = 'Option do not exist.';
         }
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
             'check' => $check,
@@ -335,6 +275,7 @@ function get_loaded_extensions_symfony_checks(): array
 
     foreach ($symfonyRequirements as $item) {
         $check = extension_loaded($item);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $item,
             'check' => $check,
@@ -356,6 +297,7 @@ function get_loaded_extensions_faros_checks(): array
             continue;
         } // if begin by _, then we don't want it to be tested.
         $check = extension_loaded($item);
+        passed_failed_count($check);
         $checks[] = [
             'prerequis' => $item,
             'check' => $check,
@@ -367,7 +309,17 @@ function get_loaded_extensions_faros_checks(): array
     return $checks;
 }
 
-$html = <<<HTML
+if ('fpm' === $SAPI) {
+    // $lephareKeysCheck = getLephareKeysCheck();
+    $callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
+    $phpVersionCheck = get_php_version_check($PHP_VERSION);
+    $binariesChecks = get_binaries_check();
+    $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
+    $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
+    $phpConfigurationChecks = get_php_configuration_checks();
+    $documentRootCheck = get_document_root_check();
+
+    $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -383,8 +335,12 @@ $html = <<<HTML
                 <div class="col-sm">
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
+        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests: {$totalTest}</div>
+        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent: {$failedTest}</div>
+        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent: {$passedTest}</div>
+
 HTML;
-$mainChecks = <<<'HTML'
+    $mainChecks = <<<'HTML'
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -396,40 +352,36 @@ $mainChecks = <<<'HTML'
             <tbody>
 HTML;
 
-/*
-$lephareKeysCheck = getLephareKeysCheck();
-$mainChecks .= <<<HTML
-<tr>
-    <td>{$lephareKeysCheck['prerequis']}</td>
-    <td class="table-{$lephareKeysCheck['bsClass']}">{$lephareKeysCheck['checkLabel']} {$lephareKeysCheck['errorMessage']}</td>
-</tr>
-HTML;
- */
+    /*$mainChecks .= <<<HTML
+    <tr>
+        <td>{$lephareKeysCheck['prerequis']}</td>
+        <td class="table-{$lephareKeysCheck['bsClass']}">{$lephareKeysCheck['checkLabel']} {$lephareKeysCheck['errorMessage']}</td>
+    </tr>
+    HTML;
+     */
 
-$callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
-$mainChecks .= <<<HTML
+    $mainChecks .= <<<HTML
 <tr>
     <td>{$callItselfCheck['prerequis']}</td>
     <td class="table-{$callItselfCheck['bsClass']}">{$callItselfCheck['checkLabel']} {$callItselfCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-$phpVersionCheck = get_php_version_check($PHP_VERSION);
-$mainChecks .= <<<HTML
+    $mainChecks .= <<<HTML
 <tr>
     <td>{$phpVersionCheck['prerequis']}</td>
     <td class="table-{$phpVersionCheck['bsClass']}">{$phpVersionCheck['checkLabel']} {$phpVersionCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-$mainChecks .= <<<'HTML'
+    $mainChecks .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $mainChecks;
+    $html .= $mainChecks;
 
-$binariesChecksTable = <<<'HTML'
+    $binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -439,28 +391,28 @@ $binariesChecksTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$binariesChecks = get_binaries_check();
-foreach ($binariesChecks as $binaryCheck) {
-    $binariesChecksTable .= <<<HTML
+
+    foreach ($binariesChecks as $binaryCheck) {
+        $binariesChecksTable .= <<<HTML
 <tr>
     <td>{$binaryCheck['prerequis']}</td>
     <td class="table-{$binaryCheck['bsClass']}">{$binaryCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$binariesChecksTable .= <<<'HTML'
+    }
+    $binariesChecksTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $binariesChecksTable;
+    $html .= $binariesChecksTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration PHP</h2>
 <h3>Extensions <a href="https://faros.lephare.com/configuration#extensions" target="_blank">#</a></h3>
 HTML;
 
-$symfonyExtensionsTable = <<<'HTML'
+    $symfonyExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -470,23 +422,23 @@ $symfonyExtensionsTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
-foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
-    $symfonyExtensionsTable .= <<<HTML
+
+    foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
+        $symfonyExtensionsTable .= <<<HTML
 <tr>
     <td>{$loadedExtensionsCheck['prerequis']}</td>
     <td class="table-{$loadedExtensionsCheck['bsClass']}">{$loadedExtensionsCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$symfonyExtensionsTable .= <<<'HTML'
+    }
+    $symfonyExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $symfonyExtensionsTable;
+    $html .= $symfonyExtensionsTable;
 
-$farosExtensionsTable = <<<'HTML'
+    $farosExtensionsTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -496,27 +448,27 @@ $farosExtensionsTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
-foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
-    $farosExtensionsTable .= <<<HTML
+
+    foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
+        $farosExtensionsTable .= <<<HTML
 <tr>
     <td>{$loadedExtensionsCheck['prerequis']}</td>
     <td class="table-{$loadedExtensionsCheck['bsClass']}">{$loadedExtensionsCheck['checkLabel']}</td>
 </tr>
 HTML;
-}
-$farosExtensionsTable .= <<<'HTML'
+    }
+    $farosExtensionsTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $farosExtensionsTable;
+    $html .= $farosExtensionsTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h3 style="margin-top: 24px">php.ini <a href="https://faros.lephare.com/configuration#phpini" target="_blank">#</a></h3>
 HTML;
 
-$phpConfigurationCheckTable = <<<'HTML'
+    $phpConfigurationCheckTable = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -526,29 +478,28 @@ $phpConfigurationCheckTable = <<<'HTML'
             </thead>
             <tbody>
 HTML;
-$phpConfigurationChecks = get_php_configuration_checks();
-foreach ($phpConfigurationChecks as $check) {
-    $phpConfigurationCheckTable .= <<<HTML
+
+    foreach ($phpConfigurationChecks as $check) {
+        $phpConfigurationCheckTable .= <<<HTML
 <tr>
     <td>{$check['prerequis']}</td>
     <td class="table-{$check['bsClass']}">{$check['checkLabel']} {$check['errorMessage']}</td>
 </tr>
 HTML;
-}
-$phpConfigurationCheckTable .= <<<'HTML'
+    }
+    $phpConfigurationCheckTable .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-$html .= $phpConfigurationCheckTable;
+    $html .= $phpConfigurationCheckTable;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
 <h2 style="margin-top: 32px">Configuration Apache <a href="https://faros.lephare.com/configuration#configuration-apache" target="_blank">#</a></h2>
 HTML;
 
-$documentRootCheck = get_document_root_check();
-// $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
-$apacheChecks = <<<'HTML'
+    // $sslHttp2Check = get_ssl_http2_check($URL, $USERNAME, $PASSWORD);
+    $apacheChecks = <<<'HTML'
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -560,27 +511,27 @@ $apacheChecks = <<<'HTML'
 
 HTML;
 
-$apacheChecks .= <<<HTML
+    $apacheChecks .= <<<HTML
 <tr>
     <td>{$documentRootCheck['prerequis']}</td>
     <td class="table-{$documentRootCheck['bsClass']}">{$documentRootCheck['checkLabel']} {$documentRootCheck['errorMessage']}</td>
 </tr>
 HTML;
 
-/*
-<tr>
-    <td>{$sslHttp2Check['prerequis']}</td>
-    <td class="table-{$sslHttp2Check['bsClass']}">{$sslHttp2Check['checkLabel']} {$sslHttp2Check['errorMessage']}</td>
-</tr>
-*/
+    /*
+    <tr>
+        <td>{$sslHttp2Check['prerequis']}</td>
+        <td class="table-{$sslHttp2Check['bsClass']}">{$sslHttp2Check['checkLabel']} {$sslHttp2Check['errorMessage']}</td>
+    </tr>
+    */
 
-$apacheChecks .= <<<'HTML'
+    $apacheChecks .= <<<'HTML'
 
 HTML;
 
-$html .= $apacheChecks;
+    $html .= $apacheChecks;
 
-$html .= <<<'HTML'
+    $html .= <<<'HTML'
                 </div>
             </div>
         </div>
@@ -588,5 +539,65 @@ $html .= <<<'HTML'
 </body>
 </html>
 HTML;
+    echo $html;
+} else {
+    echo "CLI version testing\n\n";
 
-echo $html;
+    function ok_ko(string $args): void
+    {
+        if ('OK' === $args) {
+            echo "\033[0;32mpassed\033[0m ";
+        } else {
+            echo "\033[0;31mfailed\033[0m ";
+        }
+    }
+    function show_error(string $error): void
+    {
+        if ('' !== $error) {
+            echo "\n\033[0;31mactual : ".$error."\033[0m\n\n";
+        } else {
+            echo "\n";
+        }
+    }
+
+    $phpVersionCheck = get_php_version_check($PHP_VERSION);
+    echo 'php version check :'."\n\n";
+    echo $phpVersionCheck['prerequis'].' ';
+    ok_ko($phpVersionCheck['checkLabel']);
+    show_error($phpVersionCheck['errorMessage']);
+
+    $binariesChecks = get_binaries_check();
+    echo "\nbinary check :\n\n";
+    foreach ($binariesChecks as $binaryCheck) {
+        echo $binaryCheck['prerequis'].' ';
+        ok_ko($binaryCheck['checkLabel']);
+        echo "\n";
+    }
+
+    echo "\n\npré-requis Symfony :\n\n";
+    $loadedExtensionsSymfonyChecks = get_loaded_extensions_symfony_checks();
+    foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
+        echo $loadedExtensionsCheck['prerequis'].' ';
+        ok_ko($loadedExtensionsCheck['checkLabel']);
+        echo "\n";
+    }
+
+    echo "\n\nextension supplémentaire :\n\n";
+    $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
+    foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
+        echo $loadedExtensionsCheck['prerequis'].' ';
+        echo ok_ko($loadedExtensionsCheck['checkLabel'])."\n";
+    }
+
+    echo "\n\nsettings :\n\n";
+    $phpConfigurationChecks = get_php_configuration_checks();
+    foreach ($phpConfigurationChecks as $check) {
+        echo $check['prerequis'].' ';
+        ok_ko($check['checkLabel']).' ';
+        show_error($check['errorMessage']);
+    }
+
+    echo "\ntotal test: ".$totalTest."\n";
+    echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
+    echo "\033[0;31mtotal failed : ".$failedTest."\033[0m \n";
+}

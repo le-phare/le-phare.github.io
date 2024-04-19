@@ -1,16 +1,18 @@
-
-
 # Pré-requis hébergements
 
 Ce site présente les configurations nécessaires à l’hébergement des projets réalisés au Phare.
 
-## Installation
+![Test depuis un site](images/web_check.png)
 
-Prérequis : ruby, bundle, [jekyll](https://jekyllrb.com/docs/installation/)
+![Test depuis une ligne de commande](images/cli_check.png)
 
-- bundle config set --local path 'vendor/bundle'
-- bundle install
-- bundle exec jekyll serve
+![Total des résultats dans la ligne de commande](images/cli_check_total.png)
+
+## Utilisation
+
+```shell
+docker compose up -d
+```
 
 ## Déploiement
 

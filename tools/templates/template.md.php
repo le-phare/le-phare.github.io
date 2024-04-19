@@ -10,7 +10,7 @@ nav_order: <?php echo $versionData->order_in_list; ?>
 parent: Versions
 permalink: docs/versions/<?php echo $versionData->version; ?>.html
 
---- 
+---
 <div class="callout callout-info" markdown="span">
 Pour être sûr que la machine est bien configurée --> tout doit être en vert sur le script PHP, toutes les checkbox sur ce document cochées.
 </div>
@@ -49,7 +49,7 @@ Nous exigeons au minimum :
 	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 	chmod 0600 ~/.ssh/authorized_keys
 
-<input type="checkbox"/> La liste des adresses ips à autoriser : 
+<input type="checkbox"/> La liste des adresses ips à autoriser :
 <?php
   foreach ($versionData->ip_to_authorize as $ip) {
       echo '* '.$ip." \n";
@@ -79,7 +79,7 @@ Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs 
 
 ### Extensions
 
-Pré-requis pour Symfony 6.x
+Pré-requis pour Symfony 7.x
 
 <?php
   foreach ($versionData->symfony_requirements as $requirement) {
@@ -104,7 +104,7 @@ Extensions supplémentaires pour nos applications
 <?php
   foreach ($versionData->settings as $key => $value) {
       if ('_' != substr($key, 0, 1)) {
-          if ('<' == $value[0] or '>' == $value[0]) {
+          if ('<' == $value[0] || '>' == $value[0]) {
               if ('=' == $value[1]) {
                   $value = substr($value, 2);
               } else {
@@ -153,3 +153,7 @@ Chaque vhost doit être accessible en HTTPS et HTTP/2.
   margin: 0; /* Supprime la marge du texte à l'intérieur du callout */
 }
 </style>
+
+## Configuration PostgreSQL
+
+L'utilisateur doit avoir les privilèges "CREATE" sur le schéma public.
