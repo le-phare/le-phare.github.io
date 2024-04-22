@@ -113,11 +113,10 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     ];
 }
 
-function get_locale_check(): array
+function check_locale($currentLocale, $type):array
 {
     global $versionData;
     $locales = $versionData->locales;
-    $currentLocale = locale_get_default();
     $check = false;
     foreach ($locales as $locale){
         if (strpos($currentLocale, $locale) !== false){
@@ -126,13 +125,26 @@ function get_locale_check(): array
     }
     passed_failed_count($check);
     return [
-        'prerequis' => 'Locale',
+        'prerequis' => 'Locale '.$type,
         'check' => $check,
         'bsClass' => true === $check ? 'success' : 'danger',
         'checkLabel' => true === $check ? 'OK' : 'KO',
     ];
 }
 
+function get_locale_check(): array
+{
+    $currentLocale = locale_get_default();
+    return check_locale($currentLocale, "php config");
+}
+
+function get_locale_check_pdo():array
+{
+    $query = 'SHOW LC_COLLATE';
+    $pdo = new PDO("pgsql:host=localhost;port=5415;dbname=postgres", 'postgres', 'root');
+    $result = $pdo->query($query);
+    return check_locale($result->fetchColumn(), "postgreSQL");
+}
 
 function get_bs_class(bool $check): string
 {
@@ -340,6 +352,7 @@ if ('fpm' === $SAPI) {
     $phpConfigurationChecks = get_php_configuration_checks();
     $documentRootCheck = get_document_root_check();
     $localeCheck = get_locale_check();
+    $localePDOCheck = get_locale_check_pdo();
 
     $html = <<<HTML
 <!DOCTYPE html>
@@ -403,7 +416,7 @@ HTML;
 
     $html .= $mainChecks;
 
-    $mainChecks = <<<'HTML'
+    $PDOChecks = <<<'HTML'
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -415,19 +428,28 @@ HTML;
             <tbody>
 HTML;
 
-    $mainChecks .= <<<HTML
-    <td>{$localeCheck['prerequis']}</td>
-    <td class="table-{$localeCheck['bsClass']}">{$localeCheck['checkLabel']}</td>
+    $PDOChecks .= <<<HTML
+    <tr>
+        <td>{$localeCheck['prerequis']}</td>
+        <td class="table-{$localeCheck['bsClass']}">{$localeCheck['checkLabel']}</td>
+    </tr>
 HTML;
 
-    $mainChecks .= <<<'HTML'
+    $PDOChecks .= <<<HTML
+    <tr>
+        <td>{$localePDOCheck['prerequis']}</td>
+        <td class="table-{$localePDOCheck['bsClass']}">{$localePDOCheck['checkLabel']}</td>
+    </tr>
+HTML;
+
+    $PDOChecks .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
 
 
-    $html .= $mainChecks;
+    $html .= $PDOChecks;
 
     $binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
@@ -647,6 +669,10 @@ HTML;
     $localeCheck = get_locale_check();
     echo $localeCheck['prerequis'].' ';
     ok_ko($localeCheck['checkLabel']);
+
+    $localePDOCheck = get_locale_check_pdo();
+    echo $localePDOCheck['prerequis'].' ';
+    ok_ko($localePDOCheck['checkLabel']);
 
     echo "\n\ntotal test: ".$totalTest."\n";
     echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
