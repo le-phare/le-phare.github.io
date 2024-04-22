@@ -44,7 +44,7 @@ Nous exigeons au minimum :
 
 ## Authentification SSH
 
-<input type="checkbox"/> La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : [https://faros.lephare.com/lephare.keys].
+<input type="checkbox"/> La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : [https://faros.lephare.com/lephare.keys](https://faros.lephare.com/lephare.keys).
 
 	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
 	chmod 0600 ~/.ssh/authorized_keys
