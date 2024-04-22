@@ -21,6 +21,12 @@ $versionData = json_decode('{
         "pg_dump (utilis\u00e9 par lephare/ansible-deploy)",
         "rsync"
     ],
+    "locales": [
+        "fr_FR",
+        "fr-FR",
+        "en_US",
+        "en-US"
+    ],
     "version": "2023.04",
     "fullVersionName": "2023.04",
     "apache_version": 2.4,
@@ -93,6 +99,13 @@ if (null === $versionData) {
     echo 'injected json read is null';
     exit(84);
 }
+
+// Mettez vos identifiants pgsql ici
+$dbHost = '';
+$dbServerName = '';
+$dbUser = '';
+$dbPassword = '';
+$dbPort = '';
 
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 
@@ -198,6 +211,73 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
         'checkLabel' => $check ? 'OK' : 'KO',
         'errorMessage' => $check ? '' : $httpCode,
     ];
+}
+
+function check_locale(string $currentLocale, string $type, ?string $error = null): array
+{
+    global $versionData;
+    $locales = $versionData->locales;
+    $check = false;
+    foreach ($locales as $locale) {
+        if (str_contains($currentLocale, $locale)) {
+            $check = true;
+        }
+    }
+    passed_failed_count($check);
+
+    return [
+        'prerequis' => 'Locale '.$type,
+        'check' => $check,
+        'bsClass' => true === $check ? 'success' : 'danger',
+        'checkLabel' => true === $check ? 'OK' : 'KO',
+        'errorMessage' => $check ? '' : $error];
+}
+
+function get_locale_check(): array
+{
+    $currentLocale = locale_get_default();
+
+    return check_locale($currentLocale, 'php config');
+}
+
+function get_locale_check_pdo(): array
+{
+    global $dbHost;
+    global $dbServerName;
+    global $dbUser;
+    global $dbPassword;
+    global $dbPort;
+    $query = 'SHOW LC_COLLATE';
+    try {
+        $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbServerName", "$dbUser", "$dbPassword");
+    } catch (PDOException $e) {
+        return check_locale('', 'postgreSQL', $e->getMessage());
+    }
+    if (isset($pdo)) {
+        $result = $pdo->query($query);
+
+        return check_locale($result->fetchColumn(), 'postgreSQL');
+    }
+
+    return check_locale('', 'postgreSQL', 'unknown error');
+}
+
+function get_locale_check_server_HTTP(): array
+{
+    $serverLocale = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+
+    return check_locale($serverLocale, 'server HTTP');
+}
+
+function get_locale_check_server(): array
+{
+    $data = strstr(shell_exec('locale'), "\n", true);
+    if (false === $data) {
+        echo 'invalid permission';
+        exit;
+    }
+
+    return check_locale($data, 'server');
 }
 
 function get_bs_class(bool $check): string
@@ -405,6 +485,9 @@ if ('fpm' === $SAPI) {
     $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
     $phpConfigurationChecks = get_php_configuration_checks();
     $documentRootCheck = get_document_root_check();
+    $localeCheck = get_locale_check();
+    $localePDOCheck = get_locale_check_pdo();
+    $localeServerCheck = get_locale_check_server_HTTP();
 
     $html = <<<HTML
 <!DOCTYPE html>
@@ -467,6 +550,46 @@ HTML;
 HTML;
 
     $html .= $mainChecks;
+
+    $localesCheck = <<<'HTML'
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Locales</th>
+                    <th>OK ?</th>
+                </tr>
+            </thead>
+            <tbody>
+HTML;
+
+    $localesCheck .= <<<HTML
+    <tr>
+        <td>{$localeCheck['prerequis']}</td>
+        <td class="table-{$localeCheck['bsClass']}">{$localeCheck['checkLabel']}</td>
+    </tr>
+HTML;
+
+    $localesCheck .= <<<HTML
+    <tr>
+        <td>{$localePDOCheck['prerequis']}</td>
+        <td class="table-{$localePDOCheck['bsClass']}">{$localePDOCheck['checkLabel']}</td>
+    </tr>
+HTML;
+
+    $localesCheck .= <<<HTML
+    <tr>
+        <td>{$localeServerCheck['prerequis']}</td>
+        <td class="table-{$localeServerCheck['bsClass']}">{$localeServerCheck['checkLabel']}</td>
+    </tr>
+HTML;
+
+    $localesCheck .= <<<'HTML'
+</tbody>
+        </table>
+HTML;
+
+    $html .= $localesCheck;
 
     $binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
@@ -570,7 +693,7 @@ HTML;
         $phpConfigurationCheckTable .= <<<HTML
 <tr>
     <td>{$check['prerequis']}</td>
-    <td class="table-{$check['bsClass']}">{$check['checkLabel']} {$check['errorMessage']}</td>
+    <td class="table-{$check['bsClass']}"> {$check['checkLabel']} {$check['errorMessage']}</td>
 </tr>
 HTML;
     }
@@ -633,15 +756,15 @@ HTML;
     function ok_ko(string $args): void
     {
         if ('OK' === $args) {
-            echo "\033[0;32mpassed\033[0m ";
+            echo "\033[0;32mpassed\033[0m\n";
         } else {
-            echo "\033[0;31mfailed\033[0m ";
+            echo "\033[0;31mfailed\033[0m\n";
         }
     }
     function show_error(string $error): void
     {
         if ('' !== $error) {
-            echo "\n\033[0;31mactual : ".$error."\033[0m\n\n";
+            echo "\033[0;31mactual : ".$error."\033[0m\n\n";
         } else {
             echo "\n";
         }
@@ -658,7 +781,6 @@ HTML;
     foreach ($binariesChecks as $binaryCheck) {
         echo $binaryCheck['prerequis'].' ';
         ok_ko($binaryCheck['checkLabel']);
-        echo "\n";
     }
 
     echo "\n\npré-requis Symfony :\n\n";
@@ -666,14 +788,13 @@ HTML;
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'].' ';
         ok_ko($loadedExtensionsCheck['checkLabel']);
-        echo "\n";
     }
 
     echo "\n\nextension supplémentaire :\n\n";
     $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
     foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'].' ';
-        echo ok_ko($loadedExtensionsCheck['checkLabel'])."\n";
+        ok_ko($loadedExtensionsCheck['checkLabel']);
     }
 
     echo "\n\nsettings :\n\n";
@@ -684,7 +805,21 @@ HTML;
         show_error($check['errorMessage']);
     }
 
-    echo "\ntotal test: ".$totalTest."\n";
+    echo "\nlocale check :\n\n";
+    $localeCheck = get_locale_check();
+    echo $localeCheck['prerequis'].' ';
+    ok_ko($localeCheck['checkLabel']);
+
+    $localePDOCheck = get_locale_check_pdo();
+    echo $localePDOCheck['prerequis'].' ';
+    ok_ko($localePDOCheck['checkLabel']);
+    echo $localePDOCheck['errorMessage']."\n";
+
+    $localeServerCheck = get_locale_check_server();
+    echo $localeServerCheck['prerequis'].' ';
+    ok_ko($localeServerCheck['checkLabel']);
+
+    echo "\n\ntotal test: ".$totalTest."\n";
     echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
     echo "\033[0;31mtotal failed : ".$failedTest."\033[0m \n";
 }
