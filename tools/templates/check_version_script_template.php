@@ -7,6 +7,13 @@ if (null === $versionData) {
     exit(84);
 }
 
+// Mettez vos identifiants pgsql ici
+$dbHost = '';
+$dbServerName = '';
+$dbUser = '';
+$dbPassword = '';
+$dbPort = '';
+
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 
 $SAPI = 'fpm';
@@ -113,37 +120,71 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     ];
 }
 
-function check_locale($currentLocale, $type):array
+function check_locale(string $currentLocale, string $type, ?string $error = null): array
 {
     global $versionData;
     $locales = $versionData->locales;
     $check = false;
-    foreach ($locales as $locale){
-        if (strpos($currentLocale, $locale) !== false){
+    foreach ($locales as $locale) {
+        if (str_contains($currentLocale, $locale)) {
             $check = true;
         }
     }
     passed_failed_count($check);
+
     return [
         'prerequis' => 'Locale '.$type,
         'check' => $check,
         'bsClass' => true === $check ? 'success' : 'danger',
         'checkLabel' => true === $check ? 'OK' : 'KO',
-    ];
+        'errorMessage' => $check ? '' : $error];
 }
 
 function get_locale_check(): array
 {
     $currentLocale = locale_get_default();
-    return check_locale($currentLocale, "php config");
+
+    return check_locale($currentLocale, 'php config');
 }
 
-function get_locale_check_pdo():array
+function get_locale_check_pdo(): array
 {
+    global $dbHost;
+    global $dbServerName;
+    global $dbUser;
+    global $dbPassword;
+    global $dbPort;
     $query = 'SHOW LC_COLLATE';
-    $pdo = new PDO("pgsql:host=localhost;port=5415;dbname=postgres", 'postgres', 'root');
-    $result = $pdo->query($query);
-    return check_locale($result->fetchColumn(), "postgreSQL");
+    try {
+        $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbServerName", "$dbUser", "$dbPassword");
+    } catch (PDOException $e) {
+        return check_locale('', 'postgreSQL', $e->getMessage());
+    }
+    if (isset($pdo)) {
+        $result = $pdo->query($query);
+
+        return check_locale($result->fetchColumn(), 'postgreSQL');
+    }
+
+    return check_locale('', 'postgreSQL', 'unknown error');
+}
+
+function get_locale_check_server_HTTP(): array
+{
+    $serverLocale = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+
+    return check_locale($serverLocale, 'server HTTP');
+}
+
+function get_locale_check_server(): array
+{
+    $data = strstr(shell_exec('locale'), "\n", true);
+    if (false === $data) {
+        echo 'invalid permission';
+        exit;
+    }
+
+    return check_locale($data, 'server');
 }
 
 function get_bs_class(bool $check): string
@@ -353,6 +394,7 @@ if ('fpm' === $SAPI) {
     $documentRootCheck = get_document_root_check();
     $localeCheck = get_locale_check();
     $localePDOCheck = get_locale_check_pdo();
+    $localeServerCheck = get_locale_check_server_HTTP();
 
     $html = <<<HTML
 <!DOCTYPE html>
@@ -416,7 +458,7 @@ HTML;
 
     $html .= $mainChecks;
 
-    $PDOChecks = <<<'HTML'
+    $localesCheck = <<<'HTML'
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -428,28 +470,33 @@ HTML;
             <tbody>
 HTML;
 
-    $PDOChecks .= <<<HTML
+    $localesCheck .= <<<HTML
     <tr>
         <td>{$localeCheck['prerequis']}</td>
         <td class="table-{$localeCheck['bsClass']}">{$localeCheck['checkLabel']}</td>
     </tr>
 HTML;
 
-    $PDOChecks .= <<<HTML
+    $localesCheck .= <<<HTML
     <tr>
         <td>{$localePDOCheck['prerequis']}</td>
         <td class="table-{$localePDOCheck['bsClass']}">{$localePDOCheck['checkLabel']}</td>
     </tr>
 HTML;
 
-    $PDOChecks .= <<<'HTML'
+    $localesCheck .= <<<HTML
+    <tr>
+        <td>{$localeServerCheck['prerequis']}</td>
+        <td class="table-{$localeServerCheck['bsClass']}">{$localeServerCheck['checkLabel']}</td>
+    </tr>
+HTML;
+
+    $localesCheck .= <<<'HTML'
 </tbody>
         </table>
 HTML;
 
-
-
-    $html .= $PDOChecks;
+    $html .= $localesCheck;
 
     $binariesChecksTable = <<<'HTML'
         <table class="table table-bordered table-striped">
@@ -673,6 +720,11 @@ HTML;
     $localePDOCheck = get_locale_check_pdo();
     echo $localePDOCheck['prerequis'].' ';
     ok_ko($localePDOCheck['checkLabel']);
+    echo $localePDOCheck['errorMessage']."\n";
+
+    $localeServerCheck = get_locale_check_server();
+    echo $localeServerCheck['prerequis'].' ';
+    ok_ko($localeServerCheck['checkLabel']);
 
     echo "\n\ntotal test: ".$totalTest."\n";
     echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
