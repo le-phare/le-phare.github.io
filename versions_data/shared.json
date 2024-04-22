@@ -18,5 +18,9 @@
             "git-lfs",
             "pg_dump (utilisé par lephare/ansible-deploy)",
             "rsync"
-        ]
+        ],
+    "locales": [
+      "fr_FR",
+      "en_US"
+    ]
 }

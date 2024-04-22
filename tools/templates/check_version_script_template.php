@@ -113,6 +113,27 @@ function get_call_itself_check(string $url, ?string $username, ?string $password
     ];
 }
 
+function get_locale_check(): array
+{
+    global $versionData;
+    $locales = $versionData->locales;
+    $currentLocale = locale_get_default();
+    $check = false;
+    foreach ($locales as $locale){
+        if (strpos($currentLocale, $locale) !== false){
+            $check = true;
+        }
+    }
+    passed_failed_count($check);
+    return [
+        'prerequis' => 'Locale',
+        'check' => $check,
+        'bsClass' => true === $check ? 'success' : 'danger',
+        'checkLabel' => true === $check ? 'OK' : 'KO',
+    ];
+}
+
+
 function get_bs_class(bool $check): string
 {
     return true === $check ? 'success' : 'danger';
@@ -318,6 +339,7 @@ if ('fpm' === $SAPI) {
     $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
     $phpConfigurationChecks = get_php_configuration_checks();
     $documentRootCheck = get_document_root_check();
+    $localeCheck = get_locale_check();
 
     $html = <<<HTML
 <!DOCTYPE html>
@@ -378,6 +400,32 @@ HTML;
 </tbody>
         </table>
 HTML;
+
+    $html .= $mainChecks;
+
+    $mainChecks = <<<'HTML'
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Locales</th>
+                    <th>OK ?</th>
+                </tr>
+            </thead>
+            <tbody>
+HTML;
+
+    $mainChecks .= <<<HTML
+    <td>{$localeCheck['prerequis']}</td>
+    <td class="table-{$localeCheck['bsClass']}">{$localeCheck['checkLabel']}</td>
+HTML;
+
+    $mainChecks .= <<<'HTML'
+</tbody>
+        </table>
+HTML;
+
+
 
     $html .= $mainChecks;
 
@@ -483,7 +531,7 @@ HTML;
         $phpConfigurationCheckTable .= <<<HTML
 <tr>
     <td>{$check['prerequis']}</td>
-    <td class="table-{$check['bsClass']}">{$check['checkLabel']} {$check['errorMessage']}</td>
+    <td class="table-{$check['bsClass']}"> {$check['checkLabel']} {$check['errorMessage']}</td>
 </tr>
 HTML;
     }
@@ -546,15 +594,15 @@ HTML;
     function ok_ko(string $args): void
     {
         if ('OK' === $args) {
-            echo "\033[0;32mpassed\033[0m ";
+            echo "\033[0;32mpassed\033[0m\n";
         } else {
-            echo "\033[0;31mfailed\033[0m ";
+            echo "\033[0;31mfailed\033[0m\n";
         }
     }
     function show_error(string $error): void
     {
         if ('' !== $error) {
-            echo "\n\033[0;31mactual : ".$error."\033[0m\n\n";
+            echo "\033[0;31mactual : ".$error."\033[0m\n\n";
         } else {
             echo "\n";
         }
@@ -571,7 +619,6 @@ HTML;
     foreach ($binariesChecks as $binaryCheck) {
         echo $binaryCheck['prerequis'].' ';
         ok_ko($binaryCheck['checkLabel']);
-        echo "\n";
     }
 
     echo "\n\npré-requis Symfony :\n\n";
@@ -579,14 +626,13 @@ HTML;
     foreach ($loadedExtensionsSymfonyChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'].' ';
         ok_ko($loadedExtensionsCheck['checkLabel']);
-        echo "\n";
     }
 
     echo "\n\nextension supplémentaire :\n\n";
     $loadedExtensionsFarosChecks = get_loaded_extensions_faros_checks();
     foreach ($loadedExtensionsFarosChecks as $loadedExtensionsCheck) {
         echo $loadedExtensionsCheck['prerequis'].' ';
-        echo ok_ko($loadedExtensionsCheck['checkLabel'])."\n";
+        ok_ko($loadedExtensionsCheck['checkLabel']);
     }
 
     echo "\n\nsettings :\n\n";
@@ -597,7 +643,12 @@ HTML;
         show_error($check['errorMessage']);
     }
 
-    echo "\ntotal test: ".$totalTest."\n";
+    echo "\nlocale check :\n\n";
+    $localeCheck = get_locale_check();
+    echo $localeCheck['prerequis'].' ';
+    ok_ko($localeCheck['checkLabel']);
+
+    echo "\n\ntotal test: ".$totalTest."\n";
     echo "\033[0;32mtotal passed : ".$passedTest."\033[0m \n";
     echo "\033[0;31mtotal failed : ".$failedTest."\033[0m \n";
 }
