@@ -4,3 +4,4 @@ vendor/
 .jekyll-metadata
 .php-cs-fixer.cache
 /tmp-phpqa/*
+/docs/generated
