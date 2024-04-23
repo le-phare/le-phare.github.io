@@ -25,6 +25,7 @@ Pour être sûr que la machine est bien configurée --> tout doit être en vert 
 
 <input type="checkbox"/> Le script [check_<?php echo $versionData->version; ?>.php](../versions_tests_scripts/check_<?php echo $versionData->version; ?>.php) est à disposition pour check une bonne partie des prérequis.
 Tous les voyants devraient être verts, attention cependant il est possible d'avoir de faux négatifs (par exemple si la mémoire configurée est supérieure à celle requise).
+[Tutoriel pour lancer les tests](../../check-tutorial)
 
 ## La stack de base
 - <input type="checkbox"/> Debian <?php echo $versionData->debian_version; ?>
