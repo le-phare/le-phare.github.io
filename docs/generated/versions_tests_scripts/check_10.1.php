@@ -23,9 +23,7 @@ $versionData = json_decode('{
     ],
     "locales": [
         "fr_FR",
-        "fr-FR",
-        "en_US",
-        "en-US"
+        "en_US"
     ],
     "version": "10.1",
     "fullVersionName": "10.1 (2021.03)",
@@ -100,12 +98,12 @@ if (null === $versionData) {
     exit(84);
 }
 
-// Mettez vos identifiants pgsql ici
-$dbHost = '';
-$dbServerName = '';
-$dbUser = '';
-$dbPassword = '';
-$dbPort = '';
+// CHANGE_ME
+$dbHost = 'localhost'; // CHANGE
+$dbServerName = 'your_database_name'; // CHANGE
+$dbUser = 'your_username'; // CHANGE
+$dbPassword = 'your_password'; // CHANGE
+$dbPort = '5432'; // CHANGE
 
 $FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
 
@@ -219,7 +217,7 @@ function check_locale(string $currentLocale, string $type, ?string $error = null
     $locales = $versionData->locales;
     $check = false;
     foreach ($locales as $locale) {
-        if (str_contains($currentLocale, $locale)) {
+        if (strpos($currentLocale, $locale) !== false){
             $check = true;
         }
     }
@@ -240,13 +238,14 @@ function get_locale_check(): array
     return check_locale($currentLocale, 'php config');
 }
 
-function get_locale_check_pdo(): array
+function get_locale_check_pdo(
+    string $dbHost,
+    string $dbServerName,
+    string $dbUser,
+    string $dbPassword,
+    string $dbPort
+): array
 {
-    global $dbHost;
-    global $dbServerName;
-    global $dbUser;
-    global $dbPassword;
-    global $dbPort;
     $query = 'SHOW LC_COLLATE';
     try {
         $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbServerName", "$dbUser", "$dbPassword");
@@ -260,13 +259,6 @@ function get_locale_check_pdo(): array
     }
 
     return check_locale('', 'postgreSQL', 'unknown error');
-}
-
-function get_locale_check_server_HTTP(): array
-{
-    $serverLocale = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-
-    return check_locale($serverLocale, 'server HTTP');
 }
 
 function get_locale_check_server(): array
@@ -476,6 +468,8 @@ function get_loaded_extensions_faros_checks(): array
     return $checks;
 }
 
+$localePDOCheck = get_locale_check_pdo($dbHost, $dbServerName, $dbUser, $dbPassword, $dbPort);
+
 if ('fpm' === $SAPI) {
     // $lephareKeysCheck = getLephareKeysCheck();
     $callItselfCheck = get_call_itself_check($URL, $USERNAME, $PASSWORD);
@@ -486,8 +480,6 @@ if ('fpm' === $SAPI) {
     $phpConfigurationChecks = get_php_configuration_checks();
     $documentRootCheck = get_document_root_check();
     $localeCheck = get_locale_check();
-    $localePDOCheck = get_locale_check_pdo();
-    $localeServerCheck = get_locale_check_server_HTTP();
 
     $html = <<<HTML
 <!DOCTYPE html>
@@ -574,13 +566,6 @@ HTML;
     <tr>
         <td>{$localePDOCheck['prerequis']}</td>
         <td class="table-{$localePDOCheck['bsClass']}">{$localePDOCheck['checkLabel']}</td>
-    </tr>
-HTML;
-
-    $localesCheck .= <<<HTML
-    <tr>
-        <td>{$localeServerCheck['prerequis']}</td>
-        <td class="table-{$localeServerCheck['bsClass']}">{$localeServerCheck['checkLabel']}</td>
     </tr>
 HTML;
 
@@ -810,7 +795,6 @@ HTML;
     echo $localeCheck['prerequis'].' ';
     ok_ko($localeCheck['checkLabel']);
 
-    $localePDOCheck = get_locale_check_pdo();
     echo $localePDOCheck['prerequis'].' ';
     ok_ko($localePDOCheck['checkLabel']);
     echo $localePDOCheck['errorMessage']."\n";

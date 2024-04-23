@@ -5,15 +5,29 @@ nav_order: 5
 permalink: /check-tutorial
 ---
 
-# Lancement des tests
+# Introduction
 
-Les fichiers de test possèdent deux versions qui permettent de vérifier différentes configurations de PHP : une en ligne de commande (CLI) et une autre depuis un serveur web (FPM).
+Pour garantir le bon fonctionnement de notre application dans différentes configurations PHP, nous fournissons deux versions de fichiers de test : une pour une exécution en ligne de commande (CLI) et une autre pour un déploiement via un serveur web (FPM).
 
-Il ne faut pas oublier de modifier vos codes PostgreSQL dans le fichier de tests pour que ce test fonctionne. De même, il faudra lancer la base de données.
 
-## Lancement des tests depuis une ligne de commande
+## Avant de lancer les tests
 
-Le lancement des tests en CLI vont vérifier la configuration de l'installation, plus précisément une configuration de votre PHP qui sera faite pour les lignes de commandes.
+Avant de lancer les tests, assurez-vous de modifier vos codes PostgreSQL dans le fichier de tests pour refléter votre configuration. De plus, assurez-vous que la base de données est active et accessible.
+
+Voici un exemple de zone à éditer dans le fichier de test pour configurer la connexion à la base de données PostgreSQL :
+
+```php
+// Modifier ces informations pour correspondre à votre configuration PostgreSQL
+$dbHost = 'localhost';
+$dbServerName = '5432';
+$dbUser = 'votre_nom_utilisateur';
+$dbPassword = 'votre_mot_de_passe';
+$dbPort = 'nom_de_votre_base_de_données';
+```
+
+## Lancer les tests depuis une ligne de commande
+
+Les tests en CLI vérifient la configuration de l'installation, plus précisément une configuration de votre PHP qui sera faite pour les lignes de commandes.
 
 ### Exécution
 
@@ -25,18 +39,19 @@ php votre_fichier
 
 Voici la forme des résultats que vous allez obtenir avec le lancement de la commande.
 
-![Test depuis une ligne de commande](static/images/cli_check.png)
+[![asciicast](https://asciinema.org/a/90q17bv4Ov2bn8DXp6WpLySIS.svg)](https://asciinema.org/a/90q17bv4Ov2bn8DXp6WpLySIS)
 
-![Total des résultats dans la ligne de commande](static/images/cli_check_total.png)
+## Lancer les tests depuis le serveur web
 
-## Lancement des tests depuis un site internet
-
-Depuis le site internet, il y aura des tests de configuration qui seront les mêmes que pour la ligne de commande, mais avec d'autres tests qui vérifieront la configuration Apache de votre installation.
+Depuis le serveur web, une partie des tests sont les mêmes que pour la ligne de commande, une autre vérifie la configuration Apache de votre installation.
 
 ### Exécution
 
 Affichez votre fichier de tests depuis votre serveur web.
 
+```
+http://localhost:8080/tests/check.php
+```
 ### Résultats attendus
 
 Voici la forme des résultats que vous allez obtenir depuis votre serveur web.
