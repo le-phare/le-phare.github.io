@@ -80,7 +80,7 @@ Créer un user séparé qui a uniquement accès en lecture aux fichiers de logs 
 
 ### Extensions
 
-Pré-requis pour Symfony 7.x
+Pré-requis pour Symfony 7.x. These extensions are enabled by default.
 
 <?php
   foreach ($versionData->symfony_requirements as $requirement) {
