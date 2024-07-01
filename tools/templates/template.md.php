@@ -47,8 +47,8 @@ Nous exigeons au minimum :
 
 <input type="checkbox"/> La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : [https://faros.lephare.com/lephare.keys](https://faros.lephare.com/lephare.keys).
 
-	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
-	chmod 0600 ~/.ssh/authorized_keys
+    curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
+    chmod 0600 ~/.ssh/authorized_keys
 
 <input type="checkbox"/> La liste des adresses ips à autoriser :
 <?php
@@ -97,7 +97,7 @@ Extensions supplémentaires pour nos applications
       if ('_' == $requirement[0]) {
           $requirement = substr($requirement, 1);
       }
-      echo '* '.$requirement." \n";
+      echo '* '.$requirement."\n";
   }
 ?>
 
@@ -112,9 +112,9 @@ Extensions supplémentaires pour nos applications
                   $value = substr($value, 1);
               }
           }
-          echo "\t".$key.' = '.$value."\n";
+          echo '    '.$key.' = '.$value."\n";
       } else {
-          echo "\t".$value."\n";
+          echo '    '.$value."\n";
       }
   }
 ?>
@@ -127,9 +127,9 @@ Chaque vhost doit être accessible en HTTPS et HTTP/2.
 
 ### <input type="checkbox"/> Configuration vhost
 
-	DocumentRoot <deploy_dir>/current/public/
-	Options FollowSymLinks
-	Protocols h2 http/1.1
+    DocumentRoot <deploy_dir>/current/public/
+    Options FollowSymLinks
+    Protocols h2 http/1.1
 
 ### Modules
 
