@@ -62,13 +62,13 @@ $versionData = json_decode('{
         "post_max_size": "33M",
         "sys_temp_dir": "/var/tmp",
         "upload_tmp_dir": "/var/tmp",
-        "_comment1": "\n\n\t# Les sessions sont stock\u00e9es dans memcached -->",
+        "_comment1": "\n\n    # Les sessions sont stock\u00e9es dans memcached -->",
         "session.save_handler": "memcached",
         "session.save_path": "localhost:11211",
         "memcached.sess_lock_wait_min": "150",
         "memcached.sess_lock_wait_max": "150",
         "memcached.sess_lock_retries": "800",
-        "_comment2": "\n\n\t# Optimisation opcache -->",
+        "_comment2": "\n\n    # Optimisation opcache -->",
         "opcache.revalidate_freq": "0",
         "opcache.validate_timestamps": "0",
         "opcache.max_accelerated_files": "20000",
@@ -77,7 +77,7 @@ $versionData = json_decode('{
         "short_open_tag": "Off",
         "memory_limit": "128M",
         "opcache.enable": "1",
-        "_comment3": "\n\n\t# Realpath cache -->",
+        "_comment3": "\n\n    # Realpath cache -->",
         "realpath_cache_size": "4096K",
         "realpath_cache_ttl": "60"
     },
@@ -98,13 +98,14 @@ if (null === $versionData) {
 }
 
 // CHANGE_ME
+// @phpstan-ignore deadCode.unreachable
 $dbHost = 'localhost'; // CHANGE
 $dbServerName = 'your_database_name'; // CHANGE
 $dbUser = 'your_username'; // CHANGE
 $dbPassword = 'your_password'; // CHANGE
 $dbPort = '5432'; // CHANGE
 
-$FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
+$FAROS_VERSION = $versionData->version; // 0.6
 
 $SAPI = 'fpm';
 if ('cli' === \PHP_SAPI) {
@@ -216,7 +217,7 @@ function check_locale(string $currentLocale, string $type, ?string $error = null
     $locales = $versionData->locales;
     $check = false;
     foreach ($locales as $locale) {
-        if (strpos($currentLocale, $locale) !== false){
+        if (str_contains($currentLocale, $locale)) {
             $check = true;
         }
     }
@@ -242,9 +243,8 @@ function get_locale_check_pdo(
     string $dbServerName,
     string $dbUser,
     string $dbPassword,
-    string $dbPort
-): array
-{
+    string $dbPort,
+): array {
     $query = 'SHOW LC_COLLATE';
     try {
         $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbServerName", "$dbUser", "$dbPassword");

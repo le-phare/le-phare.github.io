@@ -1,6 +1,6 @@
-<?php if (!$versionData) {
+<?php if (!isset($versionData) || !$versionData) {
     exit(84);
-} // 0.6 // @phpstan-ignore-line?>
+} // 0.6?>
 ---
 layout: default
 title: <?php echo $versionData->fullVersionName; ?>
@@ -47,8 +47,8 @@ Nous exigeons au minimum :
 
 <input type="checkbox"/> La liste des clés publiques des utilisateurs du Phare est disponible à l'adresse suivante : [https://faros.lephare.com/lephare.keys](https://faros.lephare.com/lephare.keys).
 
-	curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
-	chmod 0600 ~/.ssh/authorized_keys
+    curl -sL https://faros.lephare.com/lephare.keys >> ~/.ssh/authorized_keys
+    chmod 0600 ~/.ssh/authorized_keys
 
 <input type="checkbox"/> La liste des adresses ips à autoriser :
 <?php
@@ -97,7 +97,7 @@ Extensions supplémentaires pour nos applications
       if ('_' == $requirement[0]) {
           $requirement = substr($requirement, 1);
       }
-      echo '* '.$requirement." \n";
+      echo '* '.$requirement."\n";
   }
 ?>
 
@@ -112,9 +112,9 @@ Extensions supplémentaires pour nos applications
                   $value = substr($value, 1);
               }
           }
-          echo "\t".$key.' = '.$value."\n";
+          echo '    '.$key.' = '.$value."\n";
       } else {
-          echo "\t".$value."\n";
+          echo '    '.$value."\n";
       }
   }
 ?>
@@ -127,17 +127,59 @@ Chaque vhost doit être accessible en HTTPS et HTTP/2.
 
 ### <input type="checkbox"/> Configuration vhost
 
-	DocumentRoot <deploy_dir>/current/public/
-	Options FollowSymLinks
-	Protocols h2 http/1.1
+    DocumentRoot <deploy_dir>/current/public/
+    Options FollowSymLinks
+    Protocols h2 http/1.1
 
 ### Modules
 
 - <input type="checkbox"/> mod_rewrite On
 - <input type="checkbox"/> mod_headers On
 - <input type="checkbox"/> mod_expires On
-- <input type="checkbox"/> mod_deflate On
+- <input type="checkbox"/> mod_brotli On
 
+### Compression des médias
+
+    <IfModule mod_brotli.c>
+        <IfModule mod_filter.c>
+            AddOutputFilterByType BROTLI_COMPRESS "application/atom+xml" \
+            "application/javascript" \
+            "application/json" \
+            "application/ld+json" \
+            "application/manifest+json" \
+            "application/rdf+xml" \
+            "application/rss+xml" \
+            "application/schema+json" \
+            "application/geo+json" \
+            "application/vnd.ms-fontobject" \
+            "application/wasm" \
+            "application/x-font-ttf" \
+            "application/x-javascript" \
+            "application/x-web-app-manifest+json" \
+            "application/xhtml+xml" \
+            "application/xml" \
+            "font/eot" \
+            "font/opentype" \
+            "font/otf" \
+            "font/ttf" \
+            "image/bmp" \
+            "image/svg+xml" \
+            "image/vnd.microsoft.icon" \
+            "text/cache-manifest" \
+            "text/calendar" \
+            "text/css" \
+            "text/html" \
+            "text/javascript" \
+            "text/plain" \
+            "text/markdown" \
+            "text/vcard" \
+            "text/vnd.rim.location.xloc" \
+            "text/vtt" \
+            "text/x-component" \
+            "text/x-cross-domain-policy" \
+            "text/xml"
+        </IfModule>
+    </IfModule>
 
 <style>
 .callout.callout-info {
