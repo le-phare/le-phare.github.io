@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2024-07-05
+* Ajout de [l'extension Apache Brotli](https://httpd.apache.org/docs/current/mod/mod_brotli.html) aux prérequis
+* Compression des fichiers textuels avec Brotli dans Apache
+
 ### 2024-04-16
 
 * Ajout de la version 2024.04 (Symfony 7, PHP 8.3, timezone UTC)
