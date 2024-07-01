@@ -119,6 +119,20 @@ Extensions supplémentaires pour nos applications
   }
 ?>
 
+### PHP-FPM
+
+```
+pm = dynamic
+pm.max_children         (RAM disponible pour PHP / process size)
+pm.start_servers        (cpu cores * 4)
+pm.min_spare_servers    (cpu cores * 2)
+pm.max_spare_servers    (cpu cores * 4)
+pm.max_requests         200 # O by default, avoid potential memory leak.
+```
+
+See [PHP-FPM documentation](https://www.php.net/manual/en/install.fpm.configuration.php)
+
+
 ## Configuration Apache
 
 ### <input type="checkbox"/> SSL & HTTP/2
