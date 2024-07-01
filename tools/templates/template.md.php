@@ -1,6 +1,6 @@
-<?php if (!$versionData) {
+<?php if (!isset($versionData) || !$versionData) {
     exit(84);
-} // 0.6 // @phpstan-ignore-line?>
+} // 0.6?>
 ---
 layout: default
 title: <?php echo $versionData->fullVersionName; ?>

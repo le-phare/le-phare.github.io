@@ -1,11 +1,24 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-function php-cs-fixer() {
-    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project ghcr.io/php-cs-fixer/php-cs-fixer:3-php8.3 fix -v   tools/
+_docker_run()
+{
+    if [ "$(uname -s)" != "Darwin" ]; then
+        docker run --rm -it -u "$(id -u):$(id -g)" "$@"
+    else
+        docker run --rm -it "$@"
+    fi
 }
 
-function phpstan() {
-    docker run --init -it --rm -v "$(pwd):/project" -v "$(pwd)/tmp-phpqa:/tmp" -w /project jakzal/phpqa phpstan analyse --level=7 tools/
+php() {
+    _docker_run -v "$PWD:/project" -w /project lephare/php:8.3 php "$@"
 }
 
-echo php-cs-fixer phpstan php
+php_cs_fixer() {
+    _docker_run -v "$(pwd):/project" -w /project ghcr.io/php-cs-fixer/php-cs-fixer:3-php8.3 fix -v tools/
+}
+
+phpstan() {
+    _docker_run -v "$(pwd):/project" -w /project ghcr.io/phpstan/phpstan:1-php8.3 analyse "$@"
+}
+
+echo php php_cs_fixer phpstan
