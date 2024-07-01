@@ -1,6 +1,8 @@
+.idea/
 _site/
 vendor/
+
+/phpstan.neon
 .sass-cache
 .jekyll-metadata
 .php-cs-fixer.cache
-/tmp-phpqa/*

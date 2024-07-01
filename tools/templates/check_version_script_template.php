@@ -8,13 +8,14 @@ if (null === $versionData) {
 }
 
 // CHANGE_ME
+// @phpstan-ignore deadCode.unreachable
 $dbHost = 'localhost'; // CHANGE
 $dbServerName = 'your_database_name'; // CHANGE
 $dbUser = 'your_username'; // CHANGE
 $dbPassword = 'your_password'; // CHANGE
 $dbPort = '5432'; // CHANGE
 
-$FAROS_VERSION = $versionData->version; // 0.6 // @phpstan-ignore-line
+$FAROS_VERSION = $versionData->version; // 0.6
 
 $SAPI = 'fpm';
 if ('cli' === \PHP_SAPI) {
@@ -126,7 +127,7 @@ function check_locale(string $currentLocale, string $type, ?string $error = null
     $locales = $versionData->locales;
     $check = false;
     foreach ($locales as $locale) {
-        if (strpos($currentLocale, $locale) !== false){
+        if (str_contains($currentLocale, $locale)) {
             $check = true;
         }
     }
@@ -152,9 +153,8 @@ function get_locale_check_pdo(
     string $dbServerName,
     string $dbUser,
     string $dbPassword,
-    string $dbPort
-): array
-{
+    string $dbPort,
+): array {
     $query = 'SHOW LC_COLLATE';
     try {
         $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbServerName", "$dbUser", "$dbPassword");

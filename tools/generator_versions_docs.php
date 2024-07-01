@@ -1,13 +1,15 @@
 <?php
 
-const FOLDER_VERSIONS_PATH = '../versions_data/';
-const VERSIONS_PAGES_SITE_FOLDER = '../docs/generated/versions_pages/';
-const VERSIONS_SCRIPTS_FOLDER = '../docs/generated/versions_tests_scripts/';
-const TEMPLATES_FOLDER = './templates/';
+define('FOLDER_VERSIONS_PATH', realpath(__DIR__.'/../versions_data'));
+define('VERSIONS_PAGES_SITE_FOLDER', realpath(__DIR__.'/../docs/generated/versions_pages'));
+define('VERSIONS_SCRIPTS_FOLDER', realpath(__DIR__.'/../docs/generated/versions_tests_scripts'));
+define('TEMPLATES_FOLDER', realpath(__DIR__.'/templates'));
 
-/**
- * @param array<mixed, mixed> $json
- */
+if ((false === FOLDER_VERSIONS_PATH) || (false === VERSIONS_PAGES_SITE_FOLDER) || (false === VERSIONS_SCRIPTS_FOLDER) || (false === TEMPLATES_FOLDER)) {
+    echo 'Could not find required folders. Check that you are running this PHP script from the root folder of the project (not inside `tools/`).';
+    exit(84);
+}
+
 function templateManage(string $templateContent, array $json): string
 {
     $search = [];
@@ -21,13 +23,10 @@ function templateManage(string $templateContent, array $json): string
     return str_replace($search, $fill, $templateContent);
 }
 
-/**
- * @return array<mixed, mixed>
- */
 function getDataFromVersionfile(string $filePath, bool $directPath): array
 {
     if (!$directPath) {
-        $filePath = FOLDER_VERSIONS_PATH.$filePath;
+        $filePath = FOLDER_VERSIONS_PATH.'/'.$filePath;
     }
     $fileContent = file_get_contents($filePath);
     if (!$fileContent) {
@@ -37,9 +36,6 @@ function getDataFromVersionfile(string $filePath, bool $directPath): array
     return json_decode($fileContent, true);
 }
 
-/**
- * @param array<mixed, mixed> $versionJson
- */
 function handleVersionfileJson(array $versionJson): void
 {
     $fullJson = array_merge_recursive(getDataFromVersionfile('shared.json', false), $versionJson);
@@ -47,26 +43,20 @@ function handleVersionfileJson(array $versionJson): void
     generateNewVersionsFiles($fullJson);
 }
 
-/**
- * @param array<mixed, mixed> $json
- */
 function generateMarkdownFile(array $json, string $newfilePath): void
 {
     echo ' * Generating markdown file : '.$newfilePath."\n";
     $versionData = (object) $json;
     ob_start();
-    require './templates/template.md.php';
+    require TEMPLATES_FOLDER.'/template.md.php';
     $content = ob_get_clean();
     file_put_contents($newfilePath, $content);
 }
 
-/**
- * @param array<mixed, mixed> $json
- */
 function generatePhpcheckFile(array $json, string $newfilePath): void
 {
     echo ' * Generating php check script : '.$newfilePath."\n";
-    $template = file_get_contents(TEMPLATES_FOLDER.'check_version_script_template.php');
+    $template = file_get_contents(TEMPLATES_FOLDER.'/check_version_script_template.php');
     if (false === $template) {
         return;
     }
@@ -74,13 +64,10 @@ function generatePhpcheckFile(array $json, string $newfilePath): void
     file_put_contents($newfilePath, $filledContent);
 }
 
-/**
- * @param array<mixed, mixed> $fullJson
- */
-function generateNewVersionsFiles(mixed $fullJson): void // .md & php
+function generateNewVersionsFiles(array $fullJson): void // .md & php
 {
-    $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER.'check_'.$fullJson['version'].'.php';
-    $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER.$fullJson['version'].'.md';
+    $phpscriptFilepath = VERSIONS_SCRIPTS_FOLDER.'/check_'.$fullJson['version'].'.php';
+    $markdownFilepath = VERSIONS_PAGES_SITE_FOLDER.'/'.$fullJson['version'].'.md';
 
     echo "\033[92mFAROS VERSION ".$fullJson['version']." --> Generating files....\033[0m\n";
     generateMarkdownFile($fullJson, $markdownFilepath);
