@@ -14,12 +14,12 @@ $versionData = json_decode('{
         "/usr/bin/git"
     ],
     "binaries_to_display": [
-        "Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)",
         "curl",
         "git",
         "git-lfs",
         "pg_dump (utilis\u00e9 par lephare/ansible-deploy)",
-        "rsync"
+        "rsync",
+        "Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)"
     ],
     "locales": [
         "fr_FR",

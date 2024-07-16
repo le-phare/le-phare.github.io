@@ -63,5 +63,8 @@
         "session",
         "tokenizer"
     ],
-    "URL": "https://acme.fr"
+    "URL": "https://acme.fr",
+    "binaries_to_display": [
+      "Python 3.5 - 3.11, pré-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)"
+    ]
 }
