@@ -34,6 +34,7 @@ Le déploiement est automatisé avec Github Pages.
 
 * Créer un nouveau fichier json, la version de faros est stockée dans la clé "version", n'hésitez pas à vous baser sur les json existants.
 * Penser à modifier l'url dans index.md de la dernière version !
+* edit order_in_list in all json files
 
 ### Modifier une version
 
