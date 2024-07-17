@@ -22,7 +22,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ### 2024-07-16
 
-* Ajout de la version 2024.07 (Python version)
+* Ajout de la version 2024.07 (version de Python entre 3.7 et 3.12)
 
 ### 2024-07-05
 * Ajout de [l'extension Apache Brotli](https://httpd.apache.org/docs/current/mod/mod_brotli.html) aux prérequis
