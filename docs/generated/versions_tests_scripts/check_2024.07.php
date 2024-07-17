@@ -26,7 +26,7 @@ $versionData = json_decode('{
         "en_US"
     ],
     "version": "2024.07",
-    "fullVersionName": "2024.04",
+    "fullVersionName": "2024.07",
     "apache_version": 2.4,
     "debian_version": 12,
     "faros_requirements": [
