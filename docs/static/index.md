@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2024-07-19
+
+* version 2024.07: upgrade PostgreSQL vers la version 16
+
 ### 2024-07-16
 
 * Ajout de la version 2024.07 (version de Python entre 3.7 et 3.12)
