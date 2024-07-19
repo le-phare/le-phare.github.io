@@ -50,7 +50,7 @@ $versionData = json_decode('{
     ],
     "ht_access_password": "EDIT_ME",
     "ht_access_username": "EDIT_ME",
-    "order_in_list": 5,
+    "order_in_list": 6,
     "pgsql_version": 13,
     "php_version": 8.1,
     "settings": {
