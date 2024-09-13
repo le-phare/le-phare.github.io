@@ -29,3 +29,4 @@ permalink: /docs/config/network.html
 - faros.lephare.com
 - hc-ping.com
 - api.pwnedpasswords.com
+- download.adminerevo.org
