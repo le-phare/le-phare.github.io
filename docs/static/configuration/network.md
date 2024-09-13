@@ -17,6 +17,7 @@ permalink: /docs/config/network.html
 
 - github.com ([About GitHub's IP addresses](https://help.github.com/en/articles/about-githubs-ip-addresses))
 - raw.githubusercontent.com
+- gordalina.github.io
 - api.github.com
 - codeload.github.com
 - gitlab.com
