@@ -311,17 +311,22 @@ function get_php_configuration_checks(): array
 
     foreach ($settings as $key => $expected) {
         $keyValue = ini_get($key);
+
         if ('_' == substr($key, 0, 1)) {
             continue;
         }
+
         $check = check_value_phpini($keyValue, $expected);
         $errMessage = $keyValue;
+
         if ('' == $keyValue) {
-            $errMessage = 'Value is null.';
+            $errMessage = 'La valeur est nulle.';
         }
+
         if (false === $keyValue) {
-            $errMessage = 'Option do not exist.';
+            $errMessage = 'L\'option n\'existe pas.';
         }
+
         passed_failed_count($check);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
@@ -406,9 +411,9 @@ if ('fpm' === $SAPI) {
                 <div class="col-sm">
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
-        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests: {$totalTest}</div>
-        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent: {$failedTest}</div>
-        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent: {$passedTest}</div>
+        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests : {$totalTest}</div>
+        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent : {$failedTest}</div>
+        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent : {$passedTest}</div>
 
 HTML;
     $mainChecks = <<<'HTML'
