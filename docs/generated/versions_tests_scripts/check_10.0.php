@@ -31,7 +31,7 @@ $versionData = json_decode('{
     "debian_version": 10,
     "faros_requirements": [
         "_opcache - not tested by check_script",
-        "_pcntl - not tested by check_script",
+        "_pcntl - enabled by default in Debian package - not tested by check_script",
         "apcu",
         "curl",
         "exif",
