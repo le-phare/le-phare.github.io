@@ -25,6 +25,116 @@ $versionData = json_decode('{
         "fr_FR",
         "en_US"
     ],
+    "functions_enabled": [
+        {
+            "function": "pcntl_alarm",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_async_signals",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_errno",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_exec",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_fork",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_get_last_error",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_getpriority",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_rfork",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_setpriority",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal_dispatch",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal_get_handler",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigprocmask",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigtimedwait",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigwaitinfo",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_strerror",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_unshare",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wait",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_waitid",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_waitpid",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wexitstatus",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifexited",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifsignaled",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifstopped",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wstopsig",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wtermsig",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "proc_open",
+            "why": "you may enable this if you use Composer"
+        }
+    ],
     "version": "9.0",
     "fullVersionName": "9.0 (2019.03)",
     "apache_version": 2.4,
@@ -261,6 +371,16 @@ function get_locale_check_pdo(
     return check_locale('', 'postgreSQL', 'unknown error');
 }
 
+function is_enabled(string $function): bool {
+    $disabledFunctions =  ini_get('disable_functions');
+    if ($disabledFunctions) {
+        $array = explode(",", $disabledFunctions);
+        $array = array_map('trim', $array);
+        return !in_array($function, $array);
+    }
+    return true;
+}
+
 function get_locale_check_server(): array
 {
     $data = strstr(shell_exec('locale'), "\n", true);
@@ -402,17 +522,22 @@ function get_php_configuration_checks(): array
 
     foreach ($settings as $key => $expected) {
         $keyValue = ini_get($key);
+
         if ('_' == substr($key, 0, 1)) {
             continue;
         }
+
         $check = check_value_phpini($keyValue, $expected);
         $errMessage = $keyValue;
+
         if ('' == $keyValue) {
-            $errMessage = 'Value is null.';
+            $errMessage = 'La valeur est nulle.';
         }
+
         if (false === $keyValue) {
-            $errMessage = 'Option do not exist.';
+            $errMessage = 'L\'option n\'existe pas.';
         }
+
         passed_failed_count($check);
         $checks[] = [
             'prerequis' => $key.' = '.$expected,
@@ -420,6 +545,24 @@ function get_php_configuration_checks(): array
             'bsClass' => true === $check ? 'success' : 'danger',
             'checkLabel' => true === $check ? 'OK' : 'KO',
             'errorMessage' => true === $check ? '' : $errMessage,
+        ];
+    }
+
+    if ('cli' !== \PHP_SAPI) {
+        return $checks;
+    }
+
+    $functionsEnabled = $versionData->functions_enabled;
+    foreach ($functionsEnabled as $functionEnabled) {
+        $functionName = $functionEnabled->function;
+        $enabled = is_enabled($functionName);
+        passed_failed_count($enabled);
+        $checks[] = [
+            'prerequis' => 'function ' . $functionName . ' is enabled.',
+            'check' => $enabled,
+            'bsClass' => true === $enabled ? 'success' : 'warning',
+            'checkLabel' => true === $enabled ? 'OK' : 'KO',
+            'errorMessage' => true === $enabled ? '' : $functionEnabled->why,
         ];
     }
 
@@ -497,9 +640,9 @@ if ('fpm' === $SAPI) {
                 <div class="col-sm">
         <h1>Test compatibilité Faros {$FAROS_VERSION}</h1>
         <div style="padding: 8px"><a href="https://faros.lephare.com/docs/versions/{$FAROS_VERSION}.html" target="_blank">Lien vers les prérequis</a></div>
-        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests: {$totalTest}</div>
-        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent: {$failedTest}</div>
-        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent: {$passedTest}</div>
+        <div class="alert alert-dark d-inline-block" role="alert" style="font-size: 14px;">Total des tests : {$totalTest}</div>
+        <div class="alert alert-danger d-inline-block" role="alert" style="font-size: 14px;">Tests qui échouent : {$failedTest}</div>
+        <div class="alert alert-success d-inline-block" role="alert" style="font-size: 14px;">Tests qui passent : {$passedTest}</div>
 
 HTML;
     $mainChecks = <<<'HTML'
