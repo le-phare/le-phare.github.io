@@ -170,6 +170,16 @@ function get_locale_check_pdo(
     return check_locale('', 'postgreSQL', 'unknown error');
 }
 
+function is_enabled(string $function): bool {
+    $disabledFunctions =  ini_get('disable_functions');
+    if ($disabledFunctions) {
+        $array = explode(",", $disabledFunctions);
+        $array = array_map('trim', $array);
+        return !in_array($function, $array);
+    }
+    return true;
+}
+
 function get_locale_check_server(): array
 {
     $data = strstr(shell_exec('locale'), "\n", true);
@@ -334,6 +344,24 @@ function get_php_configuration_checks(): array
             'bsClass' => true === $check ? 'success' : 'danger',
             'checkLabel' => true === $check ? 'OK' : 'KO',
             'errorMessage' => true === $check ? '' : $errMessage,
+        ];
+    }
+
+    if ('cli' !== \PHP_SAPI) {
+        return $checks;
+    }
+
+    $functionsEnabled = $versionData->functions_enabled;
+    foreach ($functionsEnabled as $functionEnabled) {
+        $functionName = $functionEnabled->function;
+        $enabled = is_enabled($functionName);
+        passed_failed_count($enabled);
+        $checks[] = [
+            'prerequis' => 'La fonction ' . $functionName . ' est activée.',
+            'check' => $enabled,
+            'bsClass' => true === $enabled ? 'success' : 'warning',
+            'checkLabel' => true === $enabled ? 'OK' : 'KO',
+            'errorMessage' => true === $enabled ? '' : $functionEnabled->why,
         ];
     }
 
