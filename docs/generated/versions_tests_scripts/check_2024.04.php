@@ -447,7 +447,7 @@ function get_php_configuration_checks(): array
         $enabled = is_enabled($functionName);
         passed_failed_count($enabled);
         $checks[] = [
-            'prerequis' => 'function ' . $functionName . ' is enabled.',
+            'prerequis' => 'La fonction ' . $functionName . ' est activée.',
             'check' => $enabled,
             'bsClass' => true === $enabled ? 'success' : 'warning',
             'checkLabel' => true === $enabled ? 'OK' : 'KO',
