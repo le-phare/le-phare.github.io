@@ -7,7 +7,12 @@ permalink: /check-tutorial
 
 # Introduction
 
-Pour garantir le bon fonctionnement de notre application dans différentes configurations PHP, nous fournissons deux versions de fichiers de test : une pour une exécution en ligne de commande (CLI) et une autre pour un déploiement via un serveur web (FPM).
+Pour garantir le bon fonctionnement de notre application, nous fournissons un même fichier de test à exécuter dans deux contextes : 
+
+- CLI : pour une exécution en ligne de commande; exemple: `php public/check_2024.07.php`
+- FPM : via un serveur web (APACHE/PHP-FPM); exemple: "https://monapp.com/check_2024.07.php"
+
+<em>Ces deux contextes correpondent à deux SAPI, qui ont chacun leur propre configuration PHP.</em>
 
 
 ## Avant de lancer les tests
