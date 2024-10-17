@@ -25,7 +25,7 @@
   "functions_enabled": [
     {
       "function": "pcntl_alarm",
-      "why": "you may enable this if you use symfony/messenger"
+      "why": "Requis pour symfony/messenger"
     },
     {
       "function": "pcntl_async_signals",
@@ -129,7 +129,7 @@
     },
     {
       "function": "proc_open",
-      "why": "you may enable this if you use Composer"
+      "why": "Requis pour Composer"
     }
   ]
 }
