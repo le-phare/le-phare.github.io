@@ -1,0 +1,180 @@
+{
+  "version": "2024.10",
+  "fullVersionName": "2024.10",
+  "apache_version": 2.4,
+  "debian_version": 12,
+  "faros_requirements": [
+    "_opcache - not tested by check_script",
+    "_pcntl - not tested by check_script",
+    "apcu",
+    "curl",
+    "exif",
+    "gd",
+    "imagick",
+    "intl",
+    "mbstring",
+    "memcached",
+    "pdo",
+    "pdo_pgsql",
+    "pgsql",
+    "posix",
+    "soap",
+    "xml",
+    "zip"
+  ],
+  "ht_access_password": "EDIT_ME",
+  "ht_access_username": "EDIT_ME",
+  "order_in_list": 1,
+  "pgsql_version": 16,
+  "php_version": 8.3,
+  "settings": {
+    "display_errors": "Off",
+    "display_startup_errors": "Off",
+    "session.auto_start": "off",
+    "date.timezone": "UTC",
+    "upload_max_filesize": "32M",
+    "post_max_size": "33M",
+    "sys_temp_dir": "/var/tmp",
+    "upload_tmp_dir": "/var/tmp",
+    "_comment1": "\n\n\t# Les sessions sont stockées dans memcached -->",
+    "session.save_handler": "memcached",
+    "session.save_path": "localhost:11211",
+    "memcached.sess_lock_wait_min": "150",
+    "memcached.sess_lock_wait_max": "150",
+    "memcached.sess_lock_retries": "800",
+    "_comment2": "\n\n\t# Optimisation opcache -->",
+    "opcache.revalidate_freq": "0",
+    "opcache.validate_timestamps": "0",
+    "opcache.max_accelerated_files": "20000",
+    "opcache.memory_consumption": "<=256",
+    "opcache.interned_strings_buffer": "16",
+    "short_open_tag": "Off",
+    "memory_limit": "128M",
+    "opcache.enable": "1",
+    "_comment3": "\n\n\t# Realpath cache -->",
+    "realpath_cache_size": "4096K",
+    "realpath_cache_ttl": "60"
+  },
+  "symfony_requirements": [
+    "SimpleXML",
+    "ctype",
+    "iconv",
+    "pcre",
+    "session",
+    "tokenizer"
+  ],
+  "URL": "https://acme.fr",
+  "binaries_to_display": [
+    "Python 3.7 - 3.12, pré-requis pour [managed node Ansible](https://github.com/le-phare/ansible-deploy?tab=readme-ov-file#support-matrix)"
+  ],
+  "functions_enabled": [
+    {
+      "function": "pcntl_alarm",
+      "why": "Requis pour symfony/messenger"
+    },
+    {
+      "function": "pcntl_async_signals",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_errno",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_exec",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_fork",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_get_last_error",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_getpriority",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_rfork",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_setpriority",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_signal",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_signal_dispatch",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_signal_get_handler",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_sigprocmask",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_sigtimedwait",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_sigwaitinfo",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_strerror",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_unshare",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wait",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_waitid",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_waitpid",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wexitstatus",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wifexited",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wifsignaled",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wifstopped",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wstopsig",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "pcntl_wtermsig",
+      "why": "you may enable this if you use symfony/messenger"
+    },
+    {
+      "function": "proc_open",
+      "why": "Requis pour Composer"
+    }
+  ]
+}

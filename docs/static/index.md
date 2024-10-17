@@ -20,6 +20,10 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ## Changements
 
+### 2024-10-17
+
+* version 2024.10 : ajout des fonctions à ne pas désactiver.
+
 ### 2024-07-19
 
 * version 2024.07: upgrade PostgreSQL vers la version 16
