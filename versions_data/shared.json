@@ -129,7 +129,7 @@
     },
     {
       "function": "proc_open",
-      "why": "you may enable this if you use Composer"
+      "why": "Requis pour Composer"
     }
   ]
 }
