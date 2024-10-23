@@ -22,7 +22,7 @@ Ce site présente les configurations nécessaires à l'hébergement des projets 
 
 ### 2024-10-17
 
-* version 2024.10 : ajout des fonctions à ne pas désactiver.
+* version 2024.10 : ajout des fonctions PHP à ne pas désactiver.
 
 ### 2024-07-19
 
