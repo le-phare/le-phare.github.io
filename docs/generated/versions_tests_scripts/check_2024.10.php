@@ -19,16 +19,16 @@ $versionData = json_decode('{
         "git-lfs",
         "pg_dump (utilis\u00e9 par lephare/ansible-deploy)",
         "rsync",
-        "Python 3.5 - 3.11, pr\u00e9-requis pour [managed node Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)"
+        "Python 3.7 - 3.12, pr\u00e9-requis pour [managed node Ansible](https://github.com/le-phare/ansible-deploy?tab=readme-ov-file#support-matrix)"
     ],
     "locales": [
         "fr_FR",
         "en_US"
     ],
-    "version": "2023.04",
-    "fullVersionName": "2023.04",
+    "version": "2024.10",
+    "fullVersionName": "2024.10",
     "apache_version": 2.4,
-    "debian_version": 11.6,
+    "debian_version": 12,
     "faros_requirements": [
         "_opcache - not tested by check_script",
         "_pcntl - not tested by check_script",
@@ -50,25 +50,25 @@ $versionData = json_decode('{
     ],
     "ht_access_password": "EDIT_ME",
     "ht_access_username": "EDIT_ME",
-    "order_in_list": 4,
-    "pgsql_version": 14,
-    "php_version": 8.2,
+    "order_in_list": 1,
+    "pgsql_version": 16,
+    "php_version": 8.3,
     "settings": {
         "display_errors": "Off",
         "display_startup_errors": "Off",
         "session.auto_start": "off",
-        "date.timezone": "Europe/Paris",
+        "date.timezone": "UTC",
         "upload_max_filesize": "32M",
         "post_max_size": "33M",
         "sys_temp_dir": "/var/tmp",
         "upload_tmp_dir": "/var/tmp",
-        "_comment1": "\n\n    # Les sessions sont stock\u00e9es dans memcached -->",
+        "_comment1": "\n\n\t# Les sessions sont stock\u00e9es dans memcached -->",
         "session.save_handler": "memcached",
         "session.save_path": "localhost:11211",
         "memcached.sess_lock_wait_min": "150",
         "memcached.sess_lock_wait_max": "150",
         "memcached.sess_lock_retries": "800",
-        "_comment2": "\n\n    # Optimisation opcache -->",
+        "_comment2": "\n\n\t# Optimisation opcache -->",
         "opcache.revalidate_freq": "0",
         "opcache.validate_timestamps": "0",
         "opcache.max_accelerated_files": "20000",
@@ -77,7 +77,7 @@ $versionData = json_decode('{
         "short_open_tag": "Off",
         "memory_limit": "128M",
         "opcache.enable": "1",
-        "_comment3": "\n\n    # Realpath cache -->",
+        "_comment3": "\n\n\t# Realpath cache -->",
         "realpath_cache_size": "4096K",
         "realpath_cache_ttl": "60"
     },
@@ -85,12 +85,121 @@ $versionData = json_decode('{
         "SimpleXML",
         "ctype",
         "iconv",
-        "json",
         "pcre",
         "session",
         "tokenizer"
     ],
-    "URL": "https://acme.fr"
+    "URL": "https://acme.fr",
+    "functions_enabled": [
+        {
+            "function": "pcntl_alarm",
+            "why": "Requis pour symfony/messenger"
+        },
+        {
+            "function": "pcntl_async_signals",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_errno",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_exec",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_fork",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_get_last_error",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_getpriority",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_rfork",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_setpriority",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal_dispatch",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_signal_get_handler",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigprocmask",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigtimedwait",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_sigwaitinfo",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_strerror",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_unshare",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wait",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_waitid",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_waitpid",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wexitstatus",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifexited",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifsignaled",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wifstopped",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wstopsig",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "pcntl_wtermsig",
+            "why": "you may enable this if you use symfony/messenger"
+        },
+        {
+            "function": "proc_open",
+            "why": "Requis pour Composer"
+        }
+    ]
 }'); // injected by the generator php script, homemade php template manager
 // DEBUT ZONE A EDITER *************************************************************************************************
 if (null === $versionData) {
